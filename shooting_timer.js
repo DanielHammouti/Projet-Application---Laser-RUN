@@ -1,29 +1,35 @@
 // Configuration du temps de tir (en secondes)
-const SHOOTING_TIME = 10; // 1:30 en secondes
+const SHOOTING_TIME = 3; // 1:30 en secondes
 
 let shootingTimer;
 let timeLeft = SHOOTING_TIME;
 
 function startShootingTimer() {
-    // Arrêter le chronomètre principal
-    if (typeof resetChronometer === 'function') {
-        resetChronometer();
-    }
+    // Sauvegarder le temps total actuel avant de commencer le décompte
+    const currentTotalTime = localStorage.getItem('elapsedTime') || '0';
+    localStorage.setItem('previousTotalTime', currentTotalTime);
     
-    // Réinitialiser le temps
+    // Mettre en pause le chronomètre principal
+    localStorage.setItem('isRunning', 'false');
+    
+    // Réinitialiser le temps de tir
     timeLeft = SHOOTING_TIME;
     updateShootingDisplay();
     
     // Démarrer le décompte
     shootingTimer = setInterval(() => {
-        timeLeft--;
-        updateShootingDisplay();
-        
         if (timeLeft <= 0) {
             clearInterval(shootingTimer);
+            // Restaurer le temps total avant la redirection
+            localStorage.setItem('elapsedTime', localStorage.getItem('previousTotalTime'));
+            localStorage.setItem('isRunning', 'true');
             // Rediriger vers la page run
             window.location.href = 'run_page.html';
+            return;
         }
+        
+        timeLeft--;
+        updateShootingDisplay();
     }, 1000);
 }
 

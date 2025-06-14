@@ -43,7 +43,15 @@ function initializeChronometer() {
     // Si nous sommes sur la page d'accueil, réinitialiser le chronomètre
     if (window.location.pathname.endsWith('home.html')) {
         resetChronometer();
-    } else if (localStorage.getItem('isRunning') === 'true') {
+    } 
+    // Si nous sommes sur la page de tir, ne pas démarrer le chronomètre
+    else if (window.location.pathname.endsWith('shots_page.html')) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        updateDisplay();
+    }
+    // Sur les autres pages, continuer normalement
+    else if (localStorage.getItem('isRunning') === 'true') {
         startChronometer();
     } else {
         updateDisplay();
