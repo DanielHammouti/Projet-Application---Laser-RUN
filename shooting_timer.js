@@ -21,15 +21,16 @@ function createFinishButton() {
     const finishButton = document.createElement('button');
     finishButton.textContent = 'Marquer - Confirmer fin de course';
     finishButton.style.padding = '10px 20px';
-    finishButton.style.backgroundColor = '#000';
+    finishButton.style.backgroundColor = '#608969';
     finishButton.style.color = '#fff';
     finishButton.style.border = 'none';
     finishButton.style.borderRadius = '5px';
     finishButton.style.cursor = 'pointer';
     finishButton.style.fontFamily = 'Inter-Regular';
-    finishButton.style.fontSize = '16px';
+    finishButton.style.fontSize = '18px';
     finishButton.style.width = '80%';
     finishButton.style.maxWidth = '300px';
+    finishButton.style.marginTop = '50px';
     
     finishButton.onclick = () => {
         window.location.href = 'mark_page.html';
