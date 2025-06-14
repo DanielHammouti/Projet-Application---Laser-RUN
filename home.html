@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="global.css" />
     <link rel="stylesheet" href="styleguide.css" />
     <link rel="stylesheet" href="style_home.css" />
+    <script src="chronometer.js"></script>
   </head>
   <body>
     <div class="home-page">
@@ -14,12 +15,12 @@
           <a href="settings_page.html" class="button_settings">
                 <img class="parametres" src="img/parametres.png" alt="Paramètres" /></a>
           <div class="text-rectangle-noir">
-            <div class="text-rectangle-noir">Temps Total<br />00 : 00</div>
+            <div class="text-rectangle-noir">Temps Total<br />00 : 00 : 00</div>
           </div>
         </div>
         <div class="separation-line"> </div>
         <div class="position-cercle">
-            <a href="run_page.html" class="button-circle">
+            <a href="run_page.html" class="button-circle" onclick="startChronometer()">
                 <div class="ellipse"></div>
                 <div class="text">DEBUT</div>
             </a>
