@@ -29,9 +29,8 @@ function updateDisplay() {
     const elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
     const seconds = Math.floor((elapsedTime / 1000) % 60);
     const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
-    const hours = Math.floor(elapsedTime / (1000 * 60 * 60));
 
-    const timeString = `${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+    const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
     
     const timeDisplay = document.querySelector('.text-rectangle-noir');
     if (timeDisplay) {
