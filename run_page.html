@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="style_run.css" />
     <script src="chronometer.js"></script>
     <script src="run_timer.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const timeDisplay = document.querySelector('.text-rectangle-noir');
+        if (timeDisplay) {
+          const elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
+          const seconds = Math.floor((elapsedTime / 1000) % 60);
+          const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
+          const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+          timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
+        }
+      });
+    </script>
   </head>
   <body>
     <div class="home-page">
