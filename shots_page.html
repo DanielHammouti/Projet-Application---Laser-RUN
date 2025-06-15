@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style_shots.css" />
     <script src="chronometer.js"></script>
     <script src="shooting_timer.js"></script>
+    <script src="shoot.js"></script>
   </head>
   <body>
     <div class="home-page">
@@ -24,55 +25,30 @@
         
             <div class="temps-tirs">Temps pour tirer<br />00 : 00</div>
             <div class="tirs">
+              <template id="ligne-tir-template">
                 <div class="ligne-tir">
-                    <div class="titre">Tir n°1</div>
-                    <input type="radio" name="tir1" id="tir1-yes" class="check check-vert">
-                    <label for="tir1-yes">✔</label>
+                  <div class="titre">Tir n°<span class="num"></span></div>
 
-                    <input type="radio" name="tir1" id="tir1-no" class="check check-rouge">
-                    <label for="tir1-no">✘</label>
+                  <input type="radio" name="" id="" class="check check-vert">
+                  <label class="label-yes">✔</label>
+
+                  <input type="radio" name="" id="" class="check check-rouge">
+                  <label class="label-no">✘</label>
                 </div>
-
-                <div class="ligne-tir">
-                    <div class="titre">Tir n°2</div>
-                    <input type="radio" name="tir2" id="tir2-yes" class="check check-vert">
-                    <label for="tir2-yes">✔</label>
-
-                    <input type="radio" name="tir2" id="tir2-no" class="check check-rouge">
-                    <label for="tir2-no">✘</label>
-                </div>
-
-                <div class="ligne-tir">
-                    <div class="titre">Tir n°3</div>
-                    <input type="radio" name="tir3" id="tir3-yes" class="check check-vert">
-                    <label for="tir3-yes">✔</label>
-
-                    <input type="radio" name="tir3" id="tir3-no" class="check check-rouge">
-                    <label for="tir3-no">✘</label>
-                </div>
-
-                <div class="ligne-tir">
-                    <div class="titre">Tir n°4</div>
-                    <input type="radio" name="tir4" id="tir4-yes" class="check check-vert">
-                    <label for="tir4-yes">✔</label>
-
-                    <input type="radio" name="tir4" id="tir4-no" class="check check-rouge">
-                    <label for="tir4-no">✘</label>
-                </div>
-
-                <div class="ligne-tir">
-                    <div class="titre">Tir n°5</div>
-                    <input type="radio" name="tir5" id="tir5-yes" class="check check-vert">
-                    <label for="tir5-yes">✔</label>
-
-                    <input type="radio" name="tir5" id="tir5-no" class="check check-rouge">
-                    <label for="tir5-no">✘</label>
-
-                </div>
-                </div>
+              </template>
+            </div>
 
         </div>
-<a href="statistic_page.html" class="statistique-wrapper">
+
+        <div id="popupOverlay" class="overlay">
+          <div class="popup">
+            <h2>5 Jumping Jacks</h2>
+            <img  src="img/JUMPING JACK GIF.gif"/>
+            <button class="btn" onclick="closePopup()">Fait</button>
+          </div>
+        </div>
+
+        <a href="statistic_page.html" class="statistique-wrapper">
                 <img class="img" src="img/parametres.png" alt="Statistiques" /></a>
         
         <a href="statistic_page.html" class="button-wrapper">
@@ -93,5 +69,8 @@
         </div>
         </a>
     </div>
+
+     
+  
   </body>
 </html>
