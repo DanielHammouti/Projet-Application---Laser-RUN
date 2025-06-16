@@ -1,0 +1,18 @@
+# === Environnement de développement ===
+.vscode/
+.DS_Store
+
+# === Fichiers sensibles ===
+.env
+
+# === Vendor Composer ===
+/vendor/
+
+# === Caches ou fichiers temporaires ===
+*.log
+*.cache
+
+# === IDEs ===
+.idea/
+*.swp
+*.swo
