@@ -20,68 +20,71 @@ const showLoginLink = document.getElementById('show-login');
 const loginFormContainer = document.getElementById('login-form');
 const registerFormContainer = document.getElementById('register-form');
 
-console.log('Formulaires trouvés:', {
-    loginForm: !!loginForm,
-    registerForm: !!registerForm,
-    showRegisterLink: !!showRegisterLink,
-    showLoginLink: !!showLoginLink
-});
+// Vérifier si nous sommes sur la page d'authentification
+if (loginForm && registerForm && showRegisterLink && showLoginLink) {
+    console.log('Formulaires trouvés:', {
+        loginForm: !!loginForm,
+        registerForm: !!registerForm,
+        showRegisterLink: !!showRegisterLink,
+        showLoginLink: !!showLoginLink
+    });
 
-// Gestion de l'affichage des formulaires
-showRegisterLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    console.log('Clic sur le lien d\'inscription');
-    loginFormContainer.style.display = 'none';
-    registerFormContainer.style.display = 'block';
-});
+    // Gestion de l'affichage des formulaires
+    showRegisterLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Clic sur le lien d\'inscription');
+        loginFormContainer.style.display = 'none';
+        registerFormContainer.style.display = 'block';
+    });
 
-showLoginLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    console.log('Clic sur le lien de connexion');
-    registerFormContainer.style.display = 'none';
-    loginFormContainer.style.display = 'block';
-});
+    showLoginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Clic sur le lien de connexion');
+        registerFormContainer.style.display = 'none';
+        loginFormContainer.style.display = 'block';
+    });
 
-// Gestion de la connexion
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    console.log('Tentative de connexion');
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+    // Gestion de la connexion
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('Tentative de connexion');
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
 
-    try {
-        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-        console.log('Connexion réussie:', userCredential.user.email);
-        window.location.href = 'index.html';
-    } catch (error) {
-        console.error('Erreur de connexion:', error);
-        alert('Erreur de connexion : ' + error.message);
-    }
-});
+        try {
+            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+            console.log('Connexion réussie:', userCredential.user.email);
+            window.location.href = 'index.html';
+        } catch (error) {
+            console.error('Erreur de connexion:', error);
+            alert('Erreur de connexion : ' + error.message);
+        }
+    });
 
-// Gestion de l'inscription
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    console.log('Tentative d\'inscription');
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-    const confirmPassword = document.getElementById('register-confirm-password').value;
+    // Gestion de l'inscription
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('Tentative d\'inscription');
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
 
-    if (password !== confirmPassword) {
-        console.error('Les mots de passe ne correspondent pas');
-        alert('Les mots de passe ne correspondent pas');
-        return;
-    }
+        if (password !== confirmPassword) {
+            console.error('Les mots de passe ne correspondent pas');
+            alert('Les mots de passe ne correspondent pas');
+            return;
+        }
 
-    try {
-        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-        console.log('Inscription réussie:', userCredential.user.email);
-        window.location.href = 'index.html';
-    } catch (error) {
-        console.error('Erreur d\'inscription:', error);
-        alert('Erreur d\'inscription : ' + error.message);
-    }
-});
+        try {
+            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            console.log('Inscription réussie:', userCredential.user.email);
+            window.location.href = 'index.html';
+        } catch (error) {
+            console.error('Erreur d\'inscription:', error);
+            alert('Erreur d\'inscription : ' + error.message);
+        }
+    });
+}
 
 // Vérification de l'état de connexion
 firebase.auth().onAuthStateChanged((user) => {

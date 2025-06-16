@@ -66,7 +66,7 @@ a {
   top: 9px;
   left: 50%;
   transform: translateX(-50%);
-  object-fit: contain; /* Garde l’image entière visible sans déformation */
+  object-fit: contain; /* Garde l'image entière visible sans déformation */
 }
 
 
@@ -137,4 +137,76 @@ a {
   height: 100%;
   
   cursor: pointer;
+}
+
+.compte-wrapper {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.compte-wrapper .img {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.button-compte {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Style pour le menu déroulant du compte */
+.compte-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    padding: 8px 0;
+    min-width: 150px;
+}
+
+.compte-wrapper:hover .compte-menu {
+    display: block;
+}
+
+.compte-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    color: #333;
+}
+
+.compte-menu button:hover {
+    background-color: #f5f5f5;
+}
+
+.deconnexion-section {
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.deconnexion-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+}
+
+.deconnexion-button:hover {
+    background-color: #c82333;
 }
