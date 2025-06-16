@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS "User" (
     groupe VARCHAR(100),
     classe VARCHAR(100),
     prof BOOLEAN,
-    langue VARCHAR(100)
+    langue VARCHAR(100),
+    sexe VARCHAR(100)
 );
 
 -- Création de la table Session
