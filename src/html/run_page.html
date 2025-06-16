@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/styleguide.css" />
     <link rel="stylesheet" href="../css/style_run.css" />
-    <script src="../js/chronometer.js"></script>
-    <script src="../js/run_timer.js"></script>
+    
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const timeDisplay = document.querySelector('.text-rectangle-noir');
@@ -16,7 +15,8 @@
           const seconds = Math.floor((elapsedTime / 1000) % 60);
           const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
           const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
-          timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
+          const label = window.getTranslation('temps_total');
+          timeDisplay.innerHTML = `${label} <br />${currentTimeString}`;
         }
       });
     </script>
@@ -28,13 +28,11 @@
           <a href="settings_page.html" class="button_settings">
                 <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
           <div class="text-rectangle-noir">
-            <div class="text-rectangle-noir" id="temps_total" >Temps Total<br />00 : 00</div>
+            
           </div>
         </div>
         <div class="separation-line"></div>
-        
-        <div class="temps-tour" id="temps_tour">Temps du tour<br />00 : 00</div>
-        
+        <div class="temps-tour"></div>      
         <div class="position-cercle">
             <a href="shots_page.html" class="button-circle">
                 <div class="ellipse"></div>
@@ -63,5 +61,9 @@
         </a>
       </div>
     </div>
+    
   </body>
+  <script src="../js/langue.js" ></script>
+  <script src="../js/chronometer.js"></script>
+  <script src="../js/run_timer.js"></script>
 </html>
