@@ -24,6 +24,11 @@
 
 }
 
+.resultat-note,
+.resultat-details {
+  font-family: "Inter-Bold", Helvetica, Arial, sans-serif;
+}
+
 .resultat-note {
   display: block;
   text-align: center;

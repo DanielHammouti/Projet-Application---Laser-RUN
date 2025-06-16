@@ -1,4 +1,3 @@
-
 .rectangle {
   position: relative;
   width: 320px;
@@ -59,4 +58,10 @@
   letter-spacing: 0;
   line-height: normal;
   
+}
+
+.resultat-tir,
+.temps-total,
+.resultat-note {
+  font-family: "Inter-Bold", Helvetica, Arial, sans-serif;
 }

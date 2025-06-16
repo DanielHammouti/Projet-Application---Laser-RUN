@@ -1,5 +1,5 @@
 // Configuration du temps de tir (en secondes)
-const SHOOTING_TIME = 3; // 1:30 en secondes
+const SHOOTING_TIME = 10; // 1:30 en secondes
 
 let shootingTimer;
 let timeLeft = SHOOTING_TIME;
