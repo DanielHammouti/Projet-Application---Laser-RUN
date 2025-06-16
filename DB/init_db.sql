@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "Performance" (
     id_perf SERIAL PRIMARY KEY,
     TempsTot REAL,
     PourcentageTirReussi REAL,
-    Meneur VARCHAR(100),
+    Meneur BOOLEAN,
     id_session INTEGER REFERENCES "Session"(id_session),
     id_tir INTEGER,
     id_course INTEGER
