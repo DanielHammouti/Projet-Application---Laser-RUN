@@ -33,6 +33,9 @@ function createFinishButton() {
     finishButton.style.marginTop = '50px';
     
     finishButton.onclick = () => {
+        // Sauvegarder le temps total final
+        const finalTime = localStorage.getItem('elapsedTime');
+        localStorage.setItem('finalTotalTime', finalTime);
         window.location.href = '../html/mark_page.html';
     };
     

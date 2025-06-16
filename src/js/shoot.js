@@ -77,5 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('session2Hits');
         localStorage.removeItem('session3Hits');
         localStorage.removeItem('shootingPercentage');
+        localStorage.removeItem('finalTotalTime'); // Réinitialiser aussi le temps final
     }
 });

@@ -15,6 +15,16 @@
           const percentage = localStorage.getItem('shootingPercentage') || 0;
           shootingDisplay.textContent = `Résultat tirs ${Math.round(percentage)}%`;
         }
+
+        // Afficher le temps total final
+        const timeDisplay = document.querySelector('.temps-total');
+        if (timeDisplay) {
+          const finalTime = parseInt(localStorage.getItem('finalTotalTime')) || 0;
+          const minutes = Math.floor((finalTime / (1000 * 60))); // Conversion en minutes
+          const seconds = Math.floor((finalTime / 1000) % 60); // Reste en secondes
+          const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+          timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
+        }
       });
     </script>
   </head>
