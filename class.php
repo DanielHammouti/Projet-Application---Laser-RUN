@@ -1,5 +1,5 @@
 <?php
-    $title = "Accueil";
+    $title = "Class";
     require ('header.php');
 ?>
 
