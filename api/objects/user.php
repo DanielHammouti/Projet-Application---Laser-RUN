@@ -75,4 +75,24 @@ class User{
         $stmt->execute();
         return $stmt->rowCount() > 0;
     }
+
+    function setId($id){
+        $this->id = $id;
+    }
+
+    function setNom($nom){
+        $this->nom = $nom;
+    }
+
+    function setPrenom($prenom){
+        $this->prenom = $prenom;
+    }
+
+    function setGroupe($groupe){
+        $this->groupe = $groupe;
+    }
+
+    function setClasse($classe){
+        $this->classe = $classe;
+    }
 }
