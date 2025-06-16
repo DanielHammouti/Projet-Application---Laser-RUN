@@ -98,3 +98,25 @@
   background-color: #608969;
 
 }
+
+
+.bouton_valide{
+  position: relative;
+  background-color: #608969;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5%;
+}
+
+.center-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10px;
+  margin-top: 40px
+}
