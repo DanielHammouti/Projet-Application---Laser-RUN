@@ -1,11 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php'; // chemin corrigé vers la racine du projet
+require_once __DIR__ . '/../../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../'); // chemin corrigé vers la racine du projet
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
 
-class Database{
+class Database {
     private $host;
     private $db_name;
     private $username;
@@ -21,32 +21,22 @@ class Database{
         $this->port = $_ENV['DB_PORT'];
     }
 
-    public function getConnection(){
+    public function getConnection() {
         $this->conn = null;
-        try{
-            $connectionString = "host={$this->host} port={$this->port} dbname={$this->db_name} user={$this->username} password={$this->password}";
-            $this->conn = pg_connect($connectionString);
-            
-            if (!$this->conn) {
-                throw new Exception("Impossible de se connecter à la base de données PostgreSQL");
-            }
-            
-            echo "Connexion à PostgreSQL réussie !";
+        try {
+            $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->db_name}";
+            $this->conn = new PDO($dsn, $this->username, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $this->conn;
-        } catch(Exception $exception){
-            echo "Erreur de connexion : " . $exception->getMessage();
-            return false;
+        } catch(PDOException $exception) {
+            throw new Exception("Erreur de connexion : " . $exception->getMessage());
         }
+    }
+
+    public function isAlreadyConnected() {
+        return ($this->conn instanceof PDO);
     }
 }
 
 $database = new Database();
-$connection = $database->getConnection();
-
-if ($connection) {
-    echo "\nConnexion établie avec succès !";
-} else {
-    echo "\nÉchec de la connexion.";
-}
-
 ?>

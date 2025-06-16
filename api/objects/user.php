@@ -1,0 +1,78 @@
+<?php
+
+class User{
+
+    private $conn;
+    private $table = "User";
+
+
+    private $id;
+    private $nom;
+    private $prenom;
+    private $groupe;
+    private $classe;
+
+    public function __construct($db){
+        $this->conn = $db;
+    }
+
+    function read(){
+        $sql = "SELECT * FROM \"$this->table\" ORDER BY id_user DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function read_single(){
+        $sql = "SELECT * FROM \"$this->table\" WHERE id_user = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function create(){
+        if($this->isAlreadyExist()){
+            return false;
+        }
+
+        $sql = "INSERT INTO \"$this->table\" (nom, prenom, groupe, classe) VALUES (:nom, :prenom, :groupe, :classe)";
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':nom', $this->nom);
+        $stmt->bindParam(':prenom', $this->prenom);
+        $stmt->bindParam(':groupe', $this->groupe);
+        $stmt->bindParam(':classe', $this->classe);
+
+        return $stmt->execute();
+    }
+    
+    function update(){
+        $sql = "UPDATE \"$this->table\" SET nom = :nom, prenom = :prenom, groupe = :groupe, classe = :classe WHERE id_user = :id";
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':nom', $this->nom);
+        $stmt->bindParam(':prenom', $this->prenom);
+        $stmt->bindParam(':groupe', $this->groupe);
+        $stmt->bindParam(':classe', $this->classe);
+        $stmt->bindParam(':id', $this->id);
+
+        return $stmt->execute();
+    }
+
+    function delete(){
+        $sql = "DELETE FROM \"$this->table\" WHERE id_user = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        return $stmt->execute();
+    }
+
+    function isAlreadyExist(){
+        $sql = "SELECT * FROM \"$this->table\" WHERE nom = :nom AND prenom = :prenom";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':nom', $this->nom);
+        $stmt->bindParam(':prenom', $this->prenom);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+    }
+}
