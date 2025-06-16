@@ -11,6 +11,7 @@ class User{
     private $prenom;
     private $groupe;
     private $classe;
+    private $sexe;
 
     public function __construct($db){
         $this->conn = $db;
@@ -36,34 +37,15 @@ class User{
             return false;
         }
 
-        $sql = "INSERT INTO \"$this->table\" (nom, prenom, groupe, classe) VALUES (:nom, :prenom, :groupe, :classe)";
+        $sql = "INSERT INTO \"$this->table\" (nom, prenom, groupe, classe, sexe) VALUES (:nom, :prenom, :groupe, :classe, :sexe)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':nom', $this->nom);
         $stmt->bindParam(':prenom', $this->prenom);
         $stmt->bindParam(':groupe', $this->groupe);
         $stmt->bindParam(':classe', $this->classe);
+        $stmt->bindParam(':sexe', $this->sexe);
 
-        return $stmt->execute();
-    }
-    
-    function update(){
-        $sql = "UPDATE \"$this->table\" SET nom = :nom, prenom = :prenom, groupe = :groupe, classe = :classe WHERE id_user = :id";
-        $stmt = $this->conn->prepare($sql);
-
-        $stmt->bindParam(':nom', $this->nom);
-        $stmt->bindParam(':prenom', $this->prenom);
-        $stmt->bindParam(':groupe', $this->groupe);
-        $stmt->bindParam(':classe', $this->classe);
-        $stmt->bindParam(':id', $this->id);
-
-        return $stmt->execute();
-    }
-
-    function delete(){
-        $sql = "DELETE FROM \"$this->table\" WHERE id_user = :id";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }
 
@@ -94,5 +76,9 @@ class User{
 
     function setClasse($classe){
         $this->classe = $classe;
+    }
+
+    function setSexe($sexe){
+        $this->sexe = $sexe;
     }
 }

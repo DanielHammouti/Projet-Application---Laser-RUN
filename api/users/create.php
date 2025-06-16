@@ -13,7 +13,7 @@ try{
 
     $user = new User($database->conn);
 
-    if(!isset($_GET['id']) || !isset($_GET['nom']) || !isset($_GET['prenom']) || !isset($_GET['groupe']) || !isset($_GET['classe'])){
+    if(!isset($_GET['id']) || !isset($_GET['nom']) || !isset($_GET['prenom']) || !isset($_GET['groupe']) || !isset($_GET['classe']) || !isset($_GET['sexe'])){
         throw new Exception("Les données sont invalides");
     }
 
@@ -22,6 +22,7 @@ try{
     $user->setPrenom($_GET['prenom']);
     $user->setGroupe($_GET['groupe']);
     $user->setClasse($_GET['classe']);
+    $user->setSexe($_GET['sexe']);
 
     if($user->create()){
         http_response_code(201);

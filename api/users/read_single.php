@@ -31,7 +31,8 @@ try{
                 "nom" => $row['nom'],
                 "prenom" => $row['prenom'],
                 "groupe" => $row['groupe'],
-                "classe" => $row['classe']
+                "classe" => $row['classe'],
+                "sexe" => $row['sexe']
             );
             array_push($user_arr["user"], $user_item);
         }
