@@ -4,99 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sélection des Pourcentages</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <style>
-        .percentage-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .percentage-option {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            width: 100%;
-            padding: 15px;
-            background-color: #f5f5f5;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .percentage-option:hover {
-            background-color: #e0e0e0;
-        }
-
-        .percentage-option input[type="radio"] {
-            margin-right: 10px;
-        }
-
-        .percentage-option label {
-            font-size: 18px;
-            color: #333;
-        }
-
-        .confirm-button {
-            padding: 10px 20px;
-            background-color: #608969;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 80%;
-            max-width: 300px;
-        }
-
-        .confirm-button:hover {
-            background-color: #4c6d54;
-        }
-
-        .title {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/styleguide.css">
+    <link rel="stylesheet" href="../css/style_mark.css">
+    <link rel="stylesheet" href="../css/style_percentage.css">
 </head>
 <body>
-    <div class="percentage-container">
-        <h1 class="title">Sélectionnez la répartition des points</h1>
-        
-        <div class="percentage-option">
-            <input type="radio" id="option1" name="percentage" value="50" checked>
-            <label for="option1">Course : 50% - Tir : 50%</label>
+    <div class="home-page">
+      <div class="div">
+        <div class="rectangle-noir">
+          <a href="settings_page.html" class="button_settings">
+            <img class="parametres" src="../img/parametres.png" alt="Paramètres" />
+          </a>
+          <div class="text-rectangle-noir">Temps Total<br />-- : --</div>
         </div>
-        
-        <div class="percentage-option">
-            <input type="radio" id="option2" name="percentage" value="60">
-            <label for="option2">Course : 60% - Tir : 40%</label>
+        <div class="rectangle-vert">
+          <div class="resultat-tir">Tir Réussi : --%</div>
         </div>
-        
-        <div class="percentage-option">
-            <input type="radio" id="option3" name="percentage" value="40">
-            <label for="option3">Course : 40% - Tir : 60%</label>
+        <div class="percentage-container">
+            <div class="title">Choisissez la répartition des points</div>
+            <div class="percentage-option">
+                <input type="radio" id="option1" name="percentage" value="50" checked>
+                <label for="option1">Course : 50% - Tir : 50%</label>
+            </div>
+            <div class="percentage-option">
+                <input type="radio" id="option2" name="percentage" value="60">
+                <label for="option2">Course : 60% - Tir : 40%</label>
+            </div>
+            <div class="percentage-option">
+                <input type="radio" id="option3" name="percentage" value="40">
+                <label for="option3">Course : 40% - Tir : 60%</label>
+            </div>
+            <button class="confirm-button" onclick="savePercentageAndContinue()">Confirmer</button>
         </div>
-
-        <button class="confirm-button" onclick="savePercentageAndContinue()">Confirmer</button>
+        <!-- Boutons de navigation en bas de page, structure identique à mark_page.html -->
+        <a href="statistic_page.html" class="statistique-wrapper">
+          <img class="img" src="../img/statistique.png" alt="Statistiques" />
+        </a>
+        <a href="index.html" class="accueil-wrapper">
+          <img class="img" src="../img/accueil.png" alt="Accueil" />
+        </a>
+        <a href="history_page.html" class="historique-wrapper">
+          <img class="img" src="../img/historique.png" alt="Historique" />
+        </a>
+      </div>
     </div>
-
-    <script>
-        function savePercentageAndContinue() {
-            const selectedOption = document.querySelector('input[name="percentage"]:checked');
-            const runningPercentage = parseInt(selectedOption.value);
-            const shootingPercentage = 100 - runningPercentage;
-            
-            localStorage.setItem('runningPercentage', runningPercentage);
-            localStorage.setItem('shootingPercentage', shootingPercentage);
-            
-            window.location.href = 'mark_page.html';
-        }
-    </script>
+    <script src="../js/percentage_page.js"></script>
 </body>
 </html> 

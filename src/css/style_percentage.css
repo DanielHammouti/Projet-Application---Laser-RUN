@@ -1,0 +1,61 @@
+/* Styles spécifiques à la page de sélection des pourcentages */
+
+.percentage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 10px 10px 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+}
+.percentage-option {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    padding: 18px 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 500;
+    border: 2px solid #608969;
+    transition: background 0.2s;
+}
+.percentage-option:hover {
+    background-color: #e0e0e0;
+}
+.percentage-option input[type="radio"] {
+    margin-right: 10px;
+}
+.percentage-option label {
+    font-size: 1.1em;
+    color: #333;
+    cursor: pointer;
+}
+.confirm-button {
+    padding: 12px 30px;
+    background-color: #608969;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 30px;
+    width: 80%;
+    max-width: 300px;
+    transition: background 0.2s;
+}
+.confirm-button:hover {
+    background-color: #4c6d54;
+}
+.title {
+    text-align: center;
+    color: #000;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+} 

@@ -9,27 +9,6 @@
     <script src="../js/chronometer.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const timeDisplay = document.querySelector('.text-rectangle-noir');
-        if (timeDisplay) {
-          const elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
-          const seconds = Math.floor((elapsedTime / 1000) % 60);
-          const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
-          const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
-          timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
-        }
-
-        const shootingDisplay = document.querySelector('.resultat-tir');
-        if (shootingDisplay) {
-          const percentage = localStorage.getItem('shootingPercentage') || 0;
-          shootingDisplay.textContent = `Résultat tirs ${Math.round(percentage)}%`;
-        }
-
-        const gradeDisplay = document.querySelector('.resultat-note');
-        if (gradeDisplay) {
-          const finalGrade = localStorage.getItem('finalGrade') || 0;
-          gradeDisplay.innerHTML = `Vous avez obtenu <br> la note de ${finalGrade}/20`;
-        }
-
         // Récupérer les notes brutes
         const rawRunningGrade = parseFloat(localStorage.getItem('rawRunningGrade')) || 0;
         const rawShootingGrade = parseFloat(localStorage.getItem('rawShootingGrade')) || 0;
@@ -56,20 +35,19 @@
         
         // Mettre à jour l'affichage
         document.querySelector('.text-rectangle-noir').innerHTML = `Temps Total<br />${timeString}`;
-        document.querySelector('.resultat-tir').textContent = `${shootingSuccessRate.toFixed(1)}%`;
+        document.querySelector('.resultat-tir').textContent = `Tir Réussi : ${shootingSuccessRate.toFixed(1)}%`;
         document.querySelector('.resultat-note').innerHTML = `Vous avez obtenu <br> la note de <br> ${finalGrade.toFixed(1)}/20`;
         
-        // Afficher les pourcentages utilisés et les notes détaillées
-        const percentagesInfo = document.createElement('div');
-        percentagesInfo.style.textAlign = 'center';
-        percentagesInfo.style.marginTop = '20px';
-        percentagesInfo.innerHTML = `
-            <p>Répartition des points :</p>
-            <p>Course : ${runningPercentage}% - Tir : ${shootingPercentage}%</p>
-            <p>Note course : ${rawRunningGrade}/10 (${runningPoints.toFixed(1)}/20)</p>
-            <p>Note tir : ${rawShootingGrade}/10 (${shootingPoints.toFixed(1)}/20)</p>
+        // Afficher les pourcentages utilisés et les notes détaillées dans le bloc dédié
+        const details = `
+            <div style="margin-top: 24px; text-align: center; font-size: 1.1em;">
+                <p>Répartition des points :</p>
+                <p>Course : ${runningPercentage}% - Tir : ${shootingPercentage}%</p>
+                <p>Note course : ${rawRunningGrade}/10 (${runningPoints.toFixed(1)}/20)</p>
+                <p>Note tir : ${rawShootingGrade}/10 (${shootingPoints.toFixed(1)}/20)</p>
+            </div>
         `;
-        document.querySelector('.resultat-note').after(percentagesInfo);
+        document.querySelector('.resultat-details').innerHTML = details;
       });
     </script>
   </head>
@@ -77,36 +55,29 @@
     <div class="home-page">
       <div class="div">
         <div class="rectangle-noir">
-            <a href="settings_page.html" class="button_settings">
-                <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
-          <div class="text-rectangle-noir">
-            <div class="text-rectangle-noir">Temps Total<br />00 : 00</div>
-          </div>
+          <a href="settings_page.html" class="button_settings">
+            <img class="parametres" src="../img/parametres.png" alt="Paramètres" />
+          </a>
+          <div class="text-rectangle-noir">Temps Total<br />00 : 00</div>
         </div>
         <div class="rectangle-vert">
-            <div class="resultat-tir">Résultat tirs XX%</div>
+          <div class="resultat-tir">Tir Réussi : XX%</div>
         </div>
-      <div class="resultat-note">Vous avez obtenu <br> la note de XX/20</div>
-       <a href="statistic_page.html" class="statistique-wrapper">
-                <img class="img" src="../img/parametres.png" alt="Statistiques" /></a>
+        <div class="resultat-note">Vous avez obtenu <br> la note de XX/20</div>
+        <div class="resultat-details"></div>
         
-        <a href="statistic_page.html" class="button-wrapper">
-        <div class="statistique-wrapper">
-          <img class="img" src="../img/statistique.png" />
-        </div>
+        <a href="statistic_page.html" class="statistique-wrapper">
+          <img class="img" src="../img/statistique.png" alt="Statistiques" />
         </a>
 
-        <a href="index.html" class="button-wrapper">
-        <div class="accueil-wrapper">
-          <img class="img" src="../img/accueil.png" />
-        </div>
+        <a href="index.html" class="accueil-wrapper">
+          <img class="img" src="../img/accueil.png" alt="Accueil" />
         </a>
 
-        <a href="history_page.html" class="button-wrapper">
-        <div class="historique-wrapper">
-          <img class="img" src="../img/historique.png" />
-        </div>
+        <a href="history_page.html" class="historique-wrapper">
+          <img class="img" src="../img/historique.png" alt="Historique" />
         </a>
+      </div>
     </div>
   </body>
 </html>
