@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="../css/styleguide.css" />
     <link rel="stylesheet" href="../css/style_history.css" />
     <script src="../js/chronometer.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Afficher le pourcentage de tirs réussis
+        const shootingDisplay = document.querySelector('.resultat-tir');
+        if (shootingDisplay) {
+          const percentage = localStorage.getItem('shootingPercentage') || 0;
+          shootingDisplay.textContent = `Résultat tirs ${Math.round(percentage)}%`;
+        }
+      });
+    </script>
   </head>
   <body>
     <div class="home-page">

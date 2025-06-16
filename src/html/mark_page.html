@@ -17,6 +17,12 @@
           const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
           timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
         }
+
+        const shootingDisplay = document.querySelector('.resultat-tir');
+        if (shootingDisplay) {
+          const percentage = localStorage.getItem('shootingPercentage') || 0;
+          shootingDisplay.textContent = `Résultat tirs ${Math.round(percentage)}%`;
+        }
       });
     </script>
   </head>
