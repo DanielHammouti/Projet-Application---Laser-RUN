@@ -89,6 +89,13 @@
   </body>
   <script src="../js/langue.js" ></script>
   <script>
+    // Synchroniser la sélection du menu déroulant avec la langue actuelle
+    document.addEventListener('DOMContentLoaded', function() {
+      const langueSelect = document.getElementById('langue');
+      const currentLang = localStorage.getItem('selectedLanguage') || 'fr';
+      langueSelect.value = currentLang;
+    });
+
     document.getElementById('bouton_valide').addEventListener('click', function() {
       const selectedLang = document.getElementById('langue').value;
       setLanguage(selectedLang);
