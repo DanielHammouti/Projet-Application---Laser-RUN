@@ -54,7 +54,7 @@ function getNav($lien, $title){
         <?php
             echo getNav("/accueil.php", 'Accueil');
             echo getNav("/note.php", 'Note');
-            echo getNav("/class.php", 'Classe');
+            echo getNav("/classe.php", 'Classe');
         ?>
       </ul>
       <form class="d-flex" role="search">
