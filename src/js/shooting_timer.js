@@ -6,9 +6,8 @@ let timeLeft = SHOOTING_TIME;
 
 // Fonction pour créer le bouton de fin de course
 function createFinishButton() {
-    // Trouver le conteneur des tirs
-    const shotsContainer = document.querySelector('.tirs');
-    if (!shotsContainer) {
+    const tirsContainer = document.querySelector('.tirs');
+    if (!tirsContainer) {
         return;
     }
 
@@ -31,16 +30,89 @@ function createFinishButton() {
     finishButton.style.width = '80%';
     finishButton.style.maxWidth = '300px';
     finishButton.style.marginTop = '50px';
+    finishButton.classList.add('finish-button');
     
     finishButton.onclick = () => {
         // Sauvegarder le temps total final
         const finalTime = localStorage.getItem('elapsedTime');
         localStorage.setItem('finalTotalTime', finalTime);
+        
+        // Calculer et sauvegarder la note finale
+        calculateFinalGrade();
+        
         window.location.href = '../html/mark_page.html';
     };
     
     buttonContainer.appendChild(finishButton);
-    shotsContainer.appendChild(buttonContainer);
+    tirsContainer.appendChild(buttonContainer);
+}
+
+function calculateFinalGrade() {
+    // Récupérer le pourcentage de tirs réussis
+    const shootingPercentage = parseFloat(localStorage.getItem('shootingPercentage')) || 0;
+    
+    // Récupérer le temps total en secondes
+    const finalTime = parseInt(localStorage.getItem('finalTotalTime')) || 0;
+    const totalTimeInSeconds = finalTime / 1000;
+    
+    // Récupérer la distance (400m ou 600m)
+    const distance = localStorage.getItem('selectedDistance') || '400';
+    
+    // Récupérer le sexe
+    const gender = localStorage.getItem('selectedGender') || 'Homme';
+
+    // Calculer la note de tir (sur 10)
+    let shootingGrade = 0;
+    if (shootingPercentage >= 90) shootingGrade = 10;
+    else if (shootingPercentage >= 80) shootingGrade = 8;
+    else if (shootingPercentage >= 70) shootingGrade = 6;
+    else if (shootingPercentage >= 60) shootingGrade = 4;
+    else if (shootingPercentage >= 50) shootingGrade = 2;
+    else shootingGrade = 0;
+
+    // Calculer la note de course (sur 10)
+    let runningGrade = 0;
+    if (distance === '400') {
+        if (gender === 'Homme') {
+            if (totalTimeInSeconds <= 90) runningGrade = 10;
+            else if (totalTimeInSeconds <= 100) runningGrade = 8;
+            else if (totalTimeInSeconds <= 110) runningGrade = 6;
+            else if (totalTimeInSeconds <= 120) runningGrade = 4;
+            else if (totalTimeInSeconds <= 130) runningGrade = 2;
+            else runningGrade = 0;
+        } else { // Femme
+            if (totalTimeInSeconds <= 110) runningGrade = 10;
+            else if (totalTimeInSeconds <= 120) runningGrade = 8;
+            else if (totalTimeInSeconds <= 130) runningGrade = 6;
+            else if (totalTimeInSeconds <= 140) runningGrade = 4;
+            else if (totalTimeInSeconds <= 150) runningGrade = 2;
+            else runningGrade = 0;
+        }
+    } else { // 600m
+        if (gender === 'Homme') {
+            if (totalTimeInSeconds <= 140) runningGrade = 10;
+            else if (totalTimeInSeconds <= 150) runningGrade = 8;
+            else if (totalTimeInSeconds <= 160) runningGrade = 6;
+            else if (totalTimeInSeconds <= 170) runningGrade = 4;
+            else if (totalTimeInSeconds <= 180) runningGrade = 2;
+            else runningGrade = 0;
+        } else { // Femme
+            if (totalTimeInSeconds <= 160) runningGrade = 10;
+            else if (totalTimeInSeconds <= 170) runningGrade = 8;
+            else if (totalTimeInSeconds <= 180) runningGrade = 6;
+            else if (totalTimeInSeconds <= 190) runningGrade = 4;
+            else if (totalTimeInSeconds <= 200) runningGrade = 2;
+            else runningGrade = 0;
+        }
+    }
+
+    // Calculer la note finale sur 20
+    const finalGrade = shootingGrade + runningGrade;
+    
+    // Sauvegarder la note
+    localStorage.setItem('finalGrade', finalGrade);
+    
+    return finalGrade;
 }
 
 function startShootingTimer() {

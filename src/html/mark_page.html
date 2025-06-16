@@ -23,6 +23,12 @@
           const percentage = localStorage.getItem('shootingPercentage') || 0;
           shootingDisplay.textContent = `Résultat tirs ${Math.round(percentage)}%`;
         }
+
+        const gradeDisplay = document.querySelector('.resultat-note');
+        if (gradeDisplay) {
+          const finalGrade = localStorage.getItem('finalGrade') || 0;
+          gradeDisplay.innerHTML = `Vous avez obtenu <br> la note de ${finalGrade}/20`;
+        }
       });
     </script>
   </head>

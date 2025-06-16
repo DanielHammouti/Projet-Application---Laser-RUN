@@ -25,6 +25,13 @@
           const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
           timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
         }
+
+        // Afficher la note finale
+        const gradeDisplay = document.querySelector('.resultat-note');
+        if (gradeDisplay) {
+          const finalGrade = localStorage.getItem('finalGrade') || 0;
+          gradeDisplay.innerHTML = `Vous avez obtenu <br> la note de <br> ${finalGrade}/20`;
+        }
       });
     </script>
   </head>
