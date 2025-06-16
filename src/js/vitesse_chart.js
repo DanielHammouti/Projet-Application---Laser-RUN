@@ -2,8 +2,6 @@
 // tableau = [{distance: 400, temps_course: 75}, ...] (temps en secondes)
 function create_graph(tableau) {
   // Toujours 3 phases
-  const defaultLabels = ['Phase 1', 'Phase 2', 'Phase 3'];
-  // Compléter le tableau si besoin
   while (tableau.length < 3) {
     tableau.push({ distance: 0, temps: 0 });
   }
@@ -15,19 +13,11 @@ function create_graph(tableau) {
     cumuls.push(total);
   }
   // Calcul des vitesses (km/h) pour chaque phase
-  // On place la vitesse de la phase sur l'intervalle correspondant
-  let vitesses = [];
-  for (let i = 0; i < tableau.length; i++) {
-    const v = (tableau[i].temps > 0) ? (tableau[i].distance / tableau[i].temps) * 3.6 : 0;
-    vitesses.push(v); // début de phase
-    vitesses.push(v); // fin de phase
-  }
-  // Labels = temps cumulé (un point au début et à la fin de chaque phase)
-  let labels = [];
-  for (let i = 0; i < cumuls.length - 1; i++) {
-    labels.push(cumuls[i].toFixed(1));
-    labels.push(cumuls[i+1].toFixed(1));
-  }
+  const vitesses = tableau.map(d => (d.temps > 0 ? (d.distance / d.temps) * 3.6 : 0));
+
+  // Construction des points : (0, v1), (t1, v2), (t1+t2, v3), (t1+t2+t3, v3)
+  let labels = [cumuls[0].toFixed(1), cumuls[1].toFixed(1), cumuls[2].toFixed(1), cumuls[3].toFixed(1)];
+  let data = [vitesses[0], vitesses[1], vitesses[2], vitesses[2]];
 
   const ctx = document.getElementById('vitesseCourbe').getContext('2d');
   new Chart(ctx, {
@@ -35,12 +25,12 @@ function create_graph(tableau) {
     data: {
       labels: labels,
       datasets: [{
-        label: 'Vitesse (km/h)',
-        data: vitesses,
+        label: 'Vitesse moyenne (km/h)',
+        data: data,
         borderColor: '#608969',
         backgroundColor: 'rgba(96,137,105,0.08)',
         fill: true,
-        tension: 0,
+        tension: 0.2,
         pointRadius: 4,
         pointBackgroundColor: '#608969',
       }]
@@ -49,11 +39,12 @@ function create_graph(tableau) {
       responsive: true,
       plugins: {
         legend: { display: false },
-        title: { display: true, text: 'Vitesse instantanée en fonction du temps (km/h)'}
+        title: { display: true, text: 'Vitesse moyenne en fonction du temps (km/h)'}
       },
       scales: {
         x: {
-          title: { display: true, text: 'Temps cumulé (s)' }
+          title: { display: true, text: 'Temps cumulé (s)' },
+          min: 0
         },
         y: {
           title: { display: true, text: 'Vitesse (km/h)' },

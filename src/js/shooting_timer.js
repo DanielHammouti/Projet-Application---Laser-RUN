@@ -34,8 +34,15 @@ function createFinishButton() {
     
     finishButton.onclick = () => {
         // Sauvegarder le temps total final
-        const finalTime = localStorage.getItem('elapsedTime');
+        const finalTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
         localStorage.setItem('finalTotalTime', finalTime);
+
+        // Correction : enregistrer la durée de la dernière phase
+        const phase1 = parseInt(localStorage.getItem('phase1Time')) || 0;
+        const phase2 = parseInt(localStorage.getItem('phase2Time')) || 0;
+        const phase3 = finalTime - phase1 - phase2;
+        localStorage.setItem('phase3Time', phase3 > 0 ? phase3.toString() : '1');
+        console.log('Enregistrement phase3Time:', phase3, 'ms');
         
         // Calculer et sauvegarder les notes brutes
         calculateRawGrades();
@@ -112,10 +119,14 @@ function startShootingTimer() {
     localStorage.setItem('shootingSessions', newSessionCount.toString());
 
     // Enregistrer le temps de la phase précédente (sauf pour la toute première phase)
-    if (shootingSessions > 0 && shootingSessions <= 3) {
+    if (shootingSessions > 1 && shootingSessions <= 3) {
         // phase1Time, phase2Time, phase3Time
         const lastPhaseTime = currentTotalTime - (parseInt(localStorage.getItem('phaseTotalBefore'+shootingSessions)) || 0);
-        localStorage.setItem('phase' + shootingSessions + 'Time', lastPhaseTime.toString());
+        // Correction : ne jamais enregistrer de temps <= 0
+        const phaseTime = lastPhaseTime > 0 ? lastPhaseTime : 1;
+        localStorage.setItem('phase' + shootingSessions + 'Time', phaseTime.toString());
+        // Debug
+        console.log('Enregistrement phase' + shootingSessions + 'Time:', phaseTime, 'ms');
     }
     // Sauvegarder le temps total avant cette phase pour la prochaine
     localStorage.setItem('phaseTotalBefore' + (newSessionCount), currentTotalTime.toString());
