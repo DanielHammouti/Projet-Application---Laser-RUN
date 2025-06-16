@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/styleguide.css" />
+    <link rel="stylesheet" href="../css/style_mark.css" />
+    <script src="../js/chronometer.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const timeDisplay = document.querySelector('.text-rectangle-noir');
+        if (timeDisplay) {
+          const elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
+          const seconds = Math.floor((elapsedTime / 1000) % 60);
+          const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
+          const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+          timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="home-page">
+      <div class="div">
+        <div class="rectangle-noir">
+            <a href="settings_page.html" class="button_settings">
+                <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
+          <div class="text-rectangle-noir">
+            <div class="text-rectangle-noir">Temps Total<br />00 : 00</div>
+          </div>
+        </div>
+        <div class="rectangle-vert">
+            <div class="resultat-tir">Résultat tirs XX%</div>
+        </div>
+      <div class="resultat-note">Vous avez obtenu <br> la note de 16/20</div>
+       <a href="statistic_page.html" class="statistique-wrapper">
+                <img class="img" src="../img/parametres.png" alt="Statistiques" /></a>
+        
+        <a href="statistic_page.html" class="button-wrapper">
+        <div class="statistique-wrapper">
+          <img class="img" src="../img/statistique.png" />
+        </div>
+        </a>
+
+        <a href="index.html" class="button-wrapper">
+        <div class="accueil-wrapper">
+          <img class="img" src="../img/accueil.png" />
+        </div>
+        </a>
+
+        <a href="history_page.html" class="button-wrapper">
+        <div class="historique-wrapper">
+          <img class="img" src="../img/historique.png" />
+        </div>
+        </a>
+    </div>
+  </body>
+</html>
