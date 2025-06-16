@@ -65,9 +65,6 @@ function calculateRawGrades() {
     const finalTime = parseInt(localStorage.getItem('finalTotalTime')) || 0;
     const totalTimeInSeconds = finalTime / 1000;
     
-    // Récupérer la distance (400m ou 600m)
-    const distance = localStorage.getItem('selectedDistance') || '400';
-    
     // Récupérer le sexe
     const gender = localStorage.getItem('selectedGender') || 'Homme';
 
@@ -80,40 +77,22 @@ function calculateRawGrades() {
     else if (shootingSuccessRate >= 50) shootingGrade = 2;
     else shootingGrade = 0;
 
-    // Calculer la note de course (sur 10)
+    // Calculer la note de course (sur 10) pour 1200m
     let runningGrade = 0;
-    if (distance === '400') {
-        if (gender === 'Homme') {
-            if (totalTimeInSeconds <= 90) runningGrade = 10;
-            else if (totalTimeInSeconds <= 100) runningGrade = 8;
-            else if (totalTimeInSeconds <= 110) runningGrade = 6;
-            else if (totalTimeInSeconds <= 120) runningGrade = 4;
-            else if (totalTimeInSeconds <= 130) runningGrade = 2;
-            else runningGrade = 0;
-        } else { // Femme
-            if (totalTimeInSeconds <= 110) runningGrade = 10;
-            else if (totalTimeInSeconds <= 120) runningGrade = 8;
-            else if (totalTimeInSeconds <= 130) runningGrade = 6;
-            else if (totalTimeInSeconds <= 140) runningGrade = 4;
-            else if (totalTimeInSeconds <= 150) runningGrade = 2;
-            else runningGrade = 0;
-        }
-    } else { // 600m
-        if (gender === 'Homme') {
-            if (totalTimeInSeconds <= 140) runningGrade = 10;
-            else if (totalTimeInSeconds <= 150) runningGrade = 8;
-            else if (totalTimeInSeconds <= 160) runningGrade = 6;
-            else if (totalTimeInSeconds <= 170) runningGrade = 4;
-            else if (totalTimeInSeconds <= 180) runningGrade = 2;
-            else runningGrade = 0;
-        } else { // Femme
-            if (totalTimeInSeconds <= 160) runningGrade = 10;
-            else if (totalTimeInSeconds <= 170) runningGrade = 8;
-            else if (totalTimeInSeconds <= 180) runningGrade = 6;
-            else if (totalTimeInSeconds <= 190) runningGrade = 4;
-            else if (totalTimeInSeconds <= 200) runningGrade = 2;
-            else runningGrade = 0;
-        }
+    if (gender === 'Homme') {
+        if (totalTimeInSeconds <= 270) runningGrade = 10; // 4min30
+        else if (totalTimeInSeconds <= 300) runningGrade = 8; // 5min00
+        else if (totalTimeInSeconds <= 330) runningGrade = 6; // 5min30
+        else if (totalTimeInSeconds <= 360) runningGrade = 4; // 6min00
+        else if (totalTimeInSeconds <= 390) runningGrade = 2; // 6min30
+        else runningGrade = 0;
+    } else { // Femme
+        if (totalTimeInSeconds <= 330) runningGrade = 10; // 5min30
+        else if (totalTimeInSeconds <= 360) runningGrade = 8; // 6min00
+        else if (totalTimeInSeconds <= 390) runningGrade = 6; // 6min30
+        else if (totalTimeInSeconds <= 420) runningGrade = 4; // 7min00
+        else if (totalTimeInSeconds <= 450) runningGrade = 2; // 7min30
+        else runningGrade = 0;
     }
 
     // Sauvegarder les notes brutes et le pourcentage de réussite au tir

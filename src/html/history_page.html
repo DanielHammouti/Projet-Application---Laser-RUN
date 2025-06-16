@@ -12,8 +12,8 @@
         // Afficher le pourcentage de tirs réussis
         const shootingDisplay = document.querySelector('.resultat-tir');
         if (shootingDisplay) {
-          const percentage = localStorage.getItem('shootingPercentage') || 0;
-          shootingDisplay.textContent = `Résultat tirs ${Math.round(percentage)}%`;
+          const shootingSuccessRate = parseFloat(localStorage.getItem('shootingSuccessRate')) || 0;
+          shootingDisplay.textContent = `Tir Réussi : ${shootingSuccessRate.toFixed(1)}%`;
         }
 
         // Afficher le temps total final
@@ -52,7 +52,7 @@
                 <div class="resultat-note">Vous avez obtenu <br> la note de <br> 16 / 20</div>
         </div>
 
-        <div class="resultat-tir">Résultat tirs XX%</div>
+        <div class="resultat-tir">Tir Réussi : XX%</div>
         <div class="temps-total">Temps Total<br />00 : 00 : 00</div>
         
         

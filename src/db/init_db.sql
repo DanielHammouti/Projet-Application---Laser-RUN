@@ -13,16 +13,16 @@ CREATE TABLE IF NOT EXISTS "User" (
 -- Création de la table Session
 CREATE TABLE IF NOT EXISTS "Session" (
     id_session SERIAL PRIMARY KEY,
-    dateHeure TIMESTAMP NOT NULL,
+    dateheure TIMESTAMP NOT NULL,
     id_user INTEGER REFERENCES "User"(id_user)
 );
 
 -- Création de la table Performance
 CREATE TABLE IF NOT EXISTS "Performance" (
     id_perf SERIAL PRIMARY KEY,
-    TempsTot REAL,
-    PourcentageTirReussi REAL,
-    Meneur BOOLEAN,
+    tempstot REAL,
+    pourcentagetirreussi REAL,
+    meneur BOOLEAN,
     id_session INTEGER REFERENCES "Session"(id_session),
     id_tir INTEGER,
     id_course INTEGER
