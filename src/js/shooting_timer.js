@@ -103,16 +103,25 @@ function calculateRawGrades() {
 
 function startShootingTimer() {
     // Sauvegarder le temps total actuel avant de commencer le décompte
-    const currentTotalTime = localStorage.getItem('elapsedTime') || '0';
-    localStorage.setItem('previousTotalTime', currentTotalTime);
-    
-    // Mettre en pause le chronomètre principal
-    localStorage.setItem('isRunning', 'false');
+    const currentTotalTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+    localStorage.setItem('previousTotalTime', currentTotalTime.toString());
     
     // Incrémenter le compteur de sessions de tir
     const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
     const newSessionCount = shootingSessions + 1;
     localStorage.setItem('shootingSessions', newSessionCount.toString());
+
+    // Enregistrer le temps de la phase précédente (sauf pour la toute première phase)
+    if (shootingSessions > 0 && shootingSessions <= 3) {
+        // phase1Time, phase2Time, phase3Time
+        const lastPhaseTime = currentTotalTime - (parseInt(localStorage.getItem('phaseTotalBefore'+shootingSessions)) || 0);
+        localStorage.setItem('phase' + shootingSessions + 'Time', lastPhaseTime.toString());
+    }
+    // Sauvegarder le temps total avant cette phase pour la prochaine
+    localStorage.setItem('phaseTotalBefore' + (newSessionCount), currentTotalTime.toString());
+
+    // Mettre en pause le chronomètre principal
+    localStorage.setItem('isRunning', 'false');
     
     // Si c'est la troisième session, ajouter le bouton de fin de course et ne pas démarrer le décompte
     if (newSessionCount === 3) {

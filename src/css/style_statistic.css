@@ -19,3 +19,16 @@
     margin-bottom: 30px;
 
 }
+
+.home-page .div {
+  padding-bottom: 90px;
+}
+
+#vitesseCourbe {
+  display: block;
+  margin: 0 auto 100px auto;
+  background: #fff;
+  max-width: 800px;
+  width: 100%;
+  height: 400px;
+}
