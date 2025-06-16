@@ -1,5 +1,5 @@
 // Configuration du temps de tir (en secondes)
-const SHOOTING_TIME = 20; // 1:30 en secondes
+const SHOOTING_TIME = 3; // 1:30 en secondes
 
 let shootingTimer;
 let timeLeft = SHOOTING_TIME;
@@ -33,7 +33,7 @@ function createFinishButton() {
     finishButton.style.marginTop = '50px';
     
     finishButton.onclick = () => {
-        window.location.href = 'mark_page.html';
+        window.location.href = '../html/mark_page.html';
     };
     
     buttonContainer.appendChild(finishButton);
@@ -76,7 +76,7 @@ function startShootingTimer() {
             localStorage.setItem('elapsedTime', localStorage.getItem('previousTotalTime'));
             localStorage.setItem('isRunning', 'true');
             // Rediriger vers la page run
-            window.location.href = 'run_page.html';
+            window.location.href = '../html/run_page.html';
             return;
         }
         

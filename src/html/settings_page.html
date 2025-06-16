@@ -15,7 +15,7 @@
             <a href="../html/settings_page.html" class="button_settings">
                 <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
           <div class="text-rectangle-noir">
-            <div class="text-rectangle-noir">Paramètres</div>
+            <div class="text-rectangle-noir" id = "titre_param">Paramètres</div>
           </div>
         </div>
         <div class="separation-line"></div>
@@ -51,9 +51,9 @@
 
         <div class="ligne-select">
             <div class="text">Langue</div>
-                <select name="langue" id="langue">
-                    <option value="francais">Français</option>
-                    <option value="english">English</option>
+                <select name="langue" id="langue" onchange="setLanguage(this.value)">
+                    <option value="fr">Français</option>
+                    <option value="en">English</option>
                 </select>
         </div>
 
