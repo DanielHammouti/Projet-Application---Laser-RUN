@@ -37,19 +37,29 @@ function createFinishButton() {
         const finalTime = localStorage.getItem('elapsedTime');
         localStorage.setItem('finalTotalTime', finalTime);
         
-        // Calculer et sauvegarder la note finale
-        calculateFinalGrade();
+        // Calculer et sauvegarder les notes brutes
+        calculateRawGrades();
         
-        window.location.href = '../html/mark_page.html';
+        // Rediriger vers la page de sélection des pourcentages
+        window.location.href = '../html/percentage_page.html';
     };
     
     buttonContainer.appendChild(finishButton);
     tirsContainer.appendChild(buttonContainer);
 }
 
-function calculateFinalGrade() {
-    // Récupérer le pourcentage de tirs réussis
-    const shootingPercentage = parseFloat(localStorage.getItem('shootingPercentage')) || 0;
+function calculateRawGrades() {
+    // Récupérer le pourcentage de tirs réussis (attention à ne pas utiliser la variable de répartition)
+    const totalShots = 15; // 3 sessions de 5 tirs
+    let successfulShots = 0;
+    
+    // Compter les tirs réussis de toutes les sessions
+    for (let session = 1; session <= 3; session++) {
+        successfulShots += parseInt(localStorage.getItem(`session${session}Hits`) || 0);
+    }
+    
+    // Calculer le pourcentage de réussite
+    const shootingSuccessRate = (successfulShots / totalShots) * 100;
     
     // Récupérer le temps total en secondes
     const finalTime = parseInt(localStorage.getItem('finalTotalTime')) || 0;
@@ -63,11 +73,11 @@ function calculateFinalGrade() {
 
     // Calculer la note de tir (sur 10)
     let shootingGrade = 0;
-    if (shootingPercentage >= 90) shootingGrade = 10;
-    else if (shootingPercentage >= 80) shootingGrade = 8;
-    else if (shootingPercentage >= 70) shootingGrade = 6;
-    else if (shootingPercentage >= 60) shootingGrade = 4;
-    else if (shootingPercentage >= 50) shootingGrade = 2;
+    if (shootingSuccessRate >= 90) shootingGrade = 10;
+    else if (shootingSuccessRate >= 80) shootingGrade = 8;
+    else if (shootingSuccessRate >= 70) shootingGrade = 6;
+    else if (shootingSuccessRate >= 60) shootingGrade = 4;
+    else if (shootingSuccessRate >= 50) shootingGrade = 2;
     else shootingGrade = 0;
 
     // Calculer la note de course (sur 10)
@@ -106,13 +116,10 @@ function calculateFinalGrade() {
         }
     }
 
-    // Calculer la note finale sur 20
-    const finalGrade = shootingGrade + runningGrade;
-    
-    // Sauvegarder la note
-    localStorage.setItem('finalGrade', finalGrade);
-    
-    return finalGrade;
+    // Sauvegarder les notes brutes et le pourcentage de réussite au tir
+    localStorage.setItem('rawRunningGrade', runningGrade);
+    localStorage.setItem('rawShootingGrade', shootingGrade);
+    localStorage.setItem('shootingSuccessRate', shootingSuccessRate);
 }
 
 function startShootingTimer() {

@@ -29,6 +29,47 @@
           const finalGrade = localStorage.getItem('finalGrade') || 0;
           gradeDisplay.innerHTML = `Vous avez obtenu <br> la note de ${finalGrade}/20`;
         }
+
+        // Récupérer les notes brutes
+        const rawRunningGrade = parseFloat(localStorage.getItem('rawRunningGrade')) || 0;
+        const rawShootingGrade = parseFloat(localStorage.getItem('rawShootingGrade')) || 0;
+        
+        // Récupérer les pourcentages de répartition
+        const runningPercentage = parseFloat(localStorage.getItem('runningPercentage')) || 50;
+        const shootingPercentage = 100 - runningPercentage;
+        
+        // Calculer la note finale sur 20
+        const runningPoints = (rawRunningGrade * runningPercentage) / 100 * 2; // Convertir en note sur 20
+        const shootingPoints = (rawShootingGrade * shootingPercentage) / 100 * 2; // Convertir en note sur 20
+        const finalGrade = runningPoints + shootingPoints;
+        
+        localStorage.setItem('finalGrade', finalGrade);
+
+        // Afficher les résultats
+        const finalTime = parseInt(localStorage.getItem('finalTotalTime')) || 0;
+        const minutes = Math.floor((finalTime / (1000 * 60)));
+        const seconds = Math.floor((finalTime / 1000) % 60);
+        const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+        
+        // Récupérer le pourcentage de réussite au tir
+        const shootingSuccessRate = parseFloat(localStorage.getItem('shootingSuccessRate')) || 0;
+        
+        // Mettre à jour l'affichage
+        document.querySelector('.text-rectangle-noir').innerHTML = `Temps Total<br />${timeString}`;
+        document.querySelector('.resultat-tir').textContent = `${shootingSuccessRate.toFixed(1)}%`;
+        document.querySelector('.resultat-note').innerHTML = `Vous avez obtenu <br> la note de <br> ${finalGrade.toFixed(1)}/20`;
+        
+        // Afficher les pourcentages utilisés et les notes détaillées
+        const percentagesInfo = document.createElement('div');
+        percentagesInfo.style.textAlign = 'center';
+        percentagesInfo.style.marginTop = '20px';
+        percentagesInfo.innerHTML = `
+            <p>Répartition des points :</p>
+            <p>Course : ${runningPercentage}% - Tir : ${shootingPercentage}%</p>
+            <p>Note course : ${rawRunningGrade}/10 (${runningPoints.toFixed(1)}/20)</p>
+            <p>Note tir : ${rawShootingGrade}/10 (${shootingPoints.toFixed(1)}/20)</p>
+        `;
+        document.querySelector('.resultat-note').after(percentagesInfo);
       });
     </script>
   </head>
@@ -45,7 +86,7 @@
         <div class="rectangle-vert">
             <div class="resultat-tir">Résultat tirs XX%</div>
         </div>
-      <div class="resultat-note">Vous avez obtenu <br> la note de 16/20</div>
+      <div class="resultat-note">Vous avez obtenu <br> la note de XX/20</div>
        <a href="statistic_page.html" class="statistique-wrapper">
                 <img class="img" src="../img/parametres.png" alt="Statistiques" /></a>
         
