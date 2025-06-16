@@ -28,6 +28,10 @@ function updateChronometer() {
 }
 
 function updateDisplay() {
+    const excludedPages = ['settings_page.html', 'statistic_page.html', 'history_page.html' ];
+    const currentPage = window.location.pathname.split('html/').pop();
+
+    if (excludedPages.includes(currentPage)) return;
     const elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
     const seconds = Math.floor((elapsedTime / 1000) % 60);
     const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);

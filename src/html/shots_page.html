@@ -18,16 +18,16 @@
           <a href="settings_page.html" class="button_settings">
                 <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
           <div class="text-rectangle-noir">
-            <div class="text-rectangle-noir">Temps Total<br />00 : 00</div>
+            <div class="text-rectangle-noir" id="temps_total">Temps Total<br />00 : 00</div>
           </div>
         </div>
         <div class="separation-line">
         
-            <div class="temps-tirs">Temps pour tirer<br />00 : 00</div>
+            <div class="temps-tirs" id="temps_tir">Temps pour tirer<br />00 : 00</div>
             <div class="tirs">
               <template id="ligne-tir-template">
                 <div class="ligne-tir">
-                  <div class="titre">Tir n°<span class="num"></span></div>
+                  <div class="titre" id="tir">Tir n°<span class="num"></span></div>
 
                   <input type="radio" name="" id="" class="check check-vert">
                   <label class="label-yes">✔</label>
@@ -42,7 +42,7 @@
 
         <div id="popupOverlay" class="overlay">
           <div class="popup">
-            <h2>5 Jumping Jacks</h2>
+            <h2 id="jumping_jack">5 Jumping Jacks</h2>
             <img  src="../img/JUMPING JACK GIF.gif"/>
             <button class="btn" onclick="closePopup()">Fait</button>
           </div>

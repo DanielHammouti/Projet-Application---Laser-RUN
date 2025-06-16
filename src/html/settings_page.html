@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/styleguide.css" />
     <link rel="stylesheet" href="../css/style_settings.css" />
     <script src="../js/chronometer.js"></script>
+    
   </head>
   <body>
     <div class="home-page">
@@ -15,20 +16,20 @@
             <a href="../html/settings_page.html" class="button_settings">
                 <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
           <div class="text-rectangle-noir">
-            <div class="text-rectangle-noir" id = "titre_param">Paramètres</div>
+            <div class="text-rectangle-noir" id="titre_param">Paramètres</div>
           </div>
         </div>
         <div class="separation-line"></div>
         <div class="ligne-select">
-            <div class="text">Sexe</div>
+            <div class="text" id="sexe_type">Sexe</div>
                 <select name="sexe" id="sexe">
-                    <option value="Homme">Homme</option>
-                    <option value="Femme">Femme</option>
+                    <option value="Homme" id="homme">Homme</option>
+                    <option value="Femme" id="femme">Femme</option>
                 </select>
         </div>
 
         <div class="separation-line-settings"></div>
-        <div class="text">Meneur d'allure</div>
+        <div class="text" id="meneur_label">Meneur d'allure</div>
         <div class="ligne-meneur">
                 <input type="radio" name="meneur" id="meneur-yes" class="check check-vert">
                 <label for="meneur-yes">✔</label>
@@ -40,7 +41,7 @@
         <div class="separation-line-settings"></div>
 
         <div class="ligne-select">
-            <div class="text">Course</div>
+            <div class="text" id="course_label">Course</div>
                 <select name="course" id="course">
                     <option value="400">400m</option>
                     <option value="600m">600m</option>
@@ -50,15 +51,15 @@
         <div class="separation-line-settings"></div>
 
         <div class="ligne-select">
-            <div class="text">Langue</div>
-                <select name="langue" id="langue" onchange="setLanguage(this.value)">
-                    <option value="fr">Français</option>
-                    <option value="en">English</option>
+            <div class="text" id="langue_label">Langue</div>
+                <select name="langue" id="langue">
+                    <option value="fr" id="fr">Français</option>
+                    <option value="en" id="en">English</option>
                 </select>
         </div>
 
         <div class="center-page">
-          <button class="bouton_valide"> Valider </button> 
+          <button class="bouton_valide" id="bouton_valide">Valider</button>
         </div>
         
         <a href="statistic_page.html" class="statistique-wrapper">
@@ -83,5 +84,7 @@
         </a>
       </div>
     </div>
+
+    <script src="../js/langue.js" ></script>
   </body>
 </html>
