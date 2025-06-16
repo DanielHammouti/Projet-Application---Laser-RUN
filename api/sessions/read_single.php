@@ -2,8 +2,6 @@
 
 include_once '../config/database.php';
 include_once '../objects/session.php';
-include_once '../objects/user.php';
-
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -14,18 +12,19 @@ try{
     }
 
     $session = new Session($database->conn);
-
-    if(!isset($_GET['id_user'])){
-        throw new Exception("L'identifiant de l'utilisateur est requis");
+    if(!isset($_GET['id_user']) || !isset($_GET['id_session'])){
+        throw new Exception("L'identifiant de l'utilisateur et de la session sont requis");
     }
 
     $session->setIdUser($_GET['id_user']);
-    $stmt = $session->read();
-    $num = $stmt->rowCount();
+    $session->setIdSession($_GET['id_session']);
 
+    $stmt = $session->read_single();
+    $num = $stmt->rowCount();
+    
     if($num > 0){
         $session_arr = array();
-        $session_arr["sessions"] = array();
+        $session_arr["session"] = array();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             $session_item = array(
@@ -38,7 +37,7 @@ try{
                 "nb_tirs" => $row['nb_tirs'],
                 "meneur" => $row['meneur']
             );
-            array_push($session_arr["sessions"], $session_item);
+            array_push($session_arr["session"], $session_item);
         }
 
         http_response_code(200);
@@ -50,7 +49,7 @@ try{
 }catch(Exception $e){
     http_response_code(500);
     echo json_encode(array(
-        "message" => "Erreur lors de la lecture des sessions",
+        "message" => "Erreur lors de la lecture de la session",
         "error" => $e->getMessage()
     ));
 }

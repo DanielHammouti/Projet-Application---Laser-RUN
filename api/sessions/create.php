@@ -14,7 +14,7 @@ try {
 
     $session = new Session($database->conn);
 
-    if(!isset($_GET['id_user'])){
+    if(!isset($_GET['id_user']) || !isset($_GET['six']) || !isset($_GET['quatre']) || !isset($_GET['deux']) || !isset($_GET['nb_tirs']) || !isset($_GET['meneur'])){
         throw new Exception("L'identifiant de l'utilisateur est requis");
     }
 
@@ -28,6 +28,11 @@ try {
 
     $session->setIdUser($_GET['id_user']);
     $session->setDateHeure(date('Y-m-d H:i:s'));
+    $session->setSix($_GET['six']);
+    $session->setQuatre($_GET['quatre']);
+    $session->setDeux($_GET['deux']);
+    $session->setNbTirs($_GET['nb_tirs']);
+    $session->setMeneur($_GET['meneur']);
 
     if($session->create()){
         http_response_code(201);
