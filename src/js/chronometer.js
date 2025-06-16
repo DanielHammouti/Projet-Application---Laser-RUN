@@ -45,11 +45,11 @@ function getCurrentTimeString() {
 
 function initializeChronometer() {
     // Si nous sommes sur la page d'accueil, réinitialiser le chronomètre
-    if (window.location.pathname.endsWith('home.html')) {
+    if (window.location.pathname.endsWith('html/index.html')) {
         resetChronometer();
     } 
     // Si nous sommes sur la page de tir, ne pas démarrer le chronomètre
-    else if (window.location.pathname.endsWith('shots_page.html')) {
+    else if (window.location.pathname.endsWith('html/shots_page.html')) {
         clearInterval(timerInterval);
         isRunning = false;
         updateDisplay();
