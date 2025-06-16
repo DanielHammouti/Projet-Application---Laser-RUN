@@ -15,10 +15,11 @@ $groupes = [
 ];
 ?>
 
+
 <div class="container my-4">
   <h2>Gestion des groupes d'EPS</h2>
-  <a href="ajouter_groupe.php" class="btn btn-success mb-3">Ajouter un groupe</a>
-  <table class="table table-bordered">
+  <button id="ajouterGroupeBtn" class="btn btn-success mb-3">Ajouter un groupe</button>
+  <table class="table table-bordered" id="tableGroupes">
     <thead>
       <tr>
         <th>Nom du groupe</th>
@@ -32,7 +33,6 @@ $groupes = [
         <td><?= htmlspecialchars($groupe['nom']) ?></td>
         <td><?= $groupe['eleves'] ?></td>
         <td>
-          <a href="voir_groupe.php?id=<?= $groupe['id'] ?>" class="btn btn-info btn-sm">Voir</a>
           <a href="modifier_groupe.php?id=<?= $groupe['id'] ?>" class="btn btn-warning btn-sm">Modifier</a>
           <a href="supprimer_groupe.php?id=<?= $groupe['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer ce groupe ?');">Supprimer</a>
         </td>
@@ -41,36 +41,48 @@ $groupes = [
     </tbody>
   </table>
 </div>
-<div class="container my-4">
-  <h3>Liste des élèves par groupe</h3>
-  <div class="row">
-    <?php
-    // Exemple de données d'élèves par groupe (à remplacer par votre logique)
-    $elevesParGroupe = [
-      1 => ['Alice', 'Bob', 'Charlie'],
-      2 => ['David', 'Emma', 'Fanny'],
-      3 => ['Gilles', 'Hugo', 'Inès'],
-    ];
-    foreach ($groupes as $groupe): ?>
-      <div class="col-md-4 mb-3">
-        <div class="card">
-          <div class="card-header">
-            <?= htmlspecialchars($groupe['nom']) ?>
-          </div>
-          <ul class="list-group list-group-flush">
-            <?php if (!empty($elevesParGroupe[$groupe['id']])): ?>
-              <?php foreach ($elevesParGroupe[$groupe['id']] as $eleve): ?>
-                <li class="list-group-item"><?= htmlspecialchars($eleve) ?></li>
-              <?php endforeach; ?>
-            <?php else: ?>
-              <li class="list-group-item text-muted">Aucun élève</li>
-            <?php endif; ?>
-          </ul>
-        </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
-</div>
+<script>
+document.getElementById('ajouterGroupeBtn').addEventListener('click', function() {
+  const tbody = document.getElementById('tableGroupes').querySelector('tbody');
+  const newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <td><input type="text" class="form-control" placeholder="Nom du groupe"></td>
+    <td><input type="number" class="form-control" min="0" value="0"></td>
+    <td>
+      <button class="btn btn-success btn-sm valider">Valider</button>
+      <button class="btn btn-danger btn-sm supprimer">Supprimer</button>
+    </td>
+  `;
+  tbody.appendChild(newRow);
+
+  // Bouton supprimer pour la nouvelle ligne
+  newRow.querySelector('.supprimer').addEventListener('click', function() {
+    newRow.remove();
+  });
+
+  // Bouton valider pour transformer la ligne
+  newRow.querySelector('.valider').addEventListener('click', function() {
+    const nom = newRow.querySelector('input[type="text"]').value.trim();
+    const nb = newRow.querySelector('input[type="number"]').value;
+    if (!nom) {
+      alert("Veuillez saisir un nom de groupe.");
+      return;
+    }
+    newRow.innerHTML = `
+      <td>${nom}</td>
+      <td>${nb}</td>
+      <td>
+        <a href="#" class="btn btn-warning btn-sm">Modifier</a>
+        <button class="btn btn-danger btn-sm supprimer">Supprimer</button>
+      </td>
+    `;
+    // Réactiver le bouton supprimer sur la nouvelle ligne
+    newRow.querySelector('.supprimer').addEventListener('click', function() {
+      newRow.remove();
+    });
+  });
+});
+</script>
 
 
 <?php

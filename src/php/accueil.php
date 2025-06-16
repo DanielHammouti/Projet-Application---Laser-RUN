@@ -10,7 +10,8 @@
   </p>
   <hr>
   <a href="classe.php" class="btn btn-primary m-2">Gérer les élèves</a>
-  <a href="note.php" class="btn btn-secondary m-2">Voir les notes</a>
+  <a href="note.php" class="btn btn-success">Voir les notes</a>
+  <a href="../html/index.html" class="btn btn-secondary m-2">Retoruner sur la page non admin</a>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {

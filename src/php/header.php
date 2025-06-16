@@ -52,11 +52,12 @@ function getNav($lien, $title){
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <?php
-            echo getNav("/accueil.php", 'Accueil');
-            echo getNav("/note.php", 'Note');
-            echo getNav("/classe.php", 'Classe');
+            echo getNav("../php/accueil.php", 'Accueil');
+            echo getNav("../php/note.php", 'Note');
+            echo getNav("../php/classe.php", 'Classe');
         ?>
       </ul>
+      <a class="navbar-brand btn btn-outline-primary me-2" href="../html/index.html">Vision étudiante</a>
     </div>
   </div>
 </nav>
