@@ -88,4 +88,10 @@
     
   </body>
   <script src="../js/langue.js" ></script>
+  <script>
+    document.getElementById('bouton_valide').addEventListener('click', function() {
+      const selectedLang = document.getElementById('langue').value;
+      setLanguage(selectedLang);
+    });
+  </script>
 </html>

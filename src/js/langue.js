@@ -58,7 +58,8 @@ const translations = {
 const userLang = navigator.language || navigator.userLanguage;
 const langCode = userLang.split('-')[0];
 const supportedLangs = ["fr", "en"];
-window.currentLang = supportedLangs.includes(langCode) ? langCode : "en";
+// Charger la langue depuis le localStorage ou utiliser la langue par défaut
+window.currentLang = localStorage.getItem('selectedLanguage') || (supportedLangs.includes(langCode) ? langCode : "en");
 
 window.getTranslation = function(key) {
   if (!translations[window.currentLang]) return key;
@@ -68,6 +69,8 @@ window.getTranslation = function(key) {
 function setLanguage(lang) {
   if (!supportedLangs.includes(lang)) return;
   window.currentLang = lang;
+  // Sauvegarder la langue dans le localStorage
+  localStorage.setItem('selectedLanguage', lang);
 
   const t = translations[lang];
   const ids = {
