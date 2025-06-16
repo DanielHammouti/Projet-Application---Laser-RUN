@@ -3,11 +3,11 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="global.css" />
-    <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="style_run.css" />
-    <script src="chronometer.js"></script>
-    <script src="run_timer.js"></script>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/styleguide.css" />
+    <link rel="stylesheet" href="../css/style_run.css" />
+    <script src="../js/chronometer.js"></script>
+    <script src="../js/run_timer.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const timeDisplay = document.querySelector('.text-rectangle-noir');
@@ -26,7 +26,7 @@
       <div class="div">
         <div class="rectangle-noir">
           <a href="settings_page.html" class="button_settings">
-                <img class="parametres" src="img/parametres.png" alt="Paramètres" /></a>
+                <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
           <div class="text-rectangle-noir">
             <div class="text-rectangle-noir">Temps Total<br />00 : 00</div>
           </div>
@@ -42,26 +42,32 @@
             </a>
         </div>
         <a href="statistic_page.html" class="statistique-wrapper">
-                <img class="img" src="img/parametres.png" alt="Statistiques" /></a>
+                <img class="img" src="../img/parametres.png" alt="Statistiques" /></a>
         
         <a href="statistic_page.html" class="button-wrapper">
         <div class="statistique-wrapper">
-          <img class="img" src="img/statistique.png" />
+          <img class="img" src="../img/statistique.png" />
         </div>
         </a>
 
-        <a href="home.html" class="button-wrapper">
+        <a href="index.html" class="button-wrapper">
         <div class="accueil-wrapper">
-          <img class="img" src="img/accueil.png" />
+          <img class="img" src="../img/accueil.png" />
         </div>
         </a>
 
         <a href="history_page.html" class="button-wrapper">
         <div class="historique-wrapper">
-          <img class="img" src="img/historique.png" />
+          <img class="img" src="../img/historique.png" />
         </div>
         </a>
       </div>
     </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/auth-check.js"></script>
   </body>
 </html>
