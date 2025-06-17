@@ -71,8 +71,8 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     const password = document.getElementById('register-password').value;
     const confirmPassword = document.getElementById('register-confirm-password').value;
 
-    sexe = sexe.toString();
-    formation = formation.toString();
+    console.log(sexe);
+    console.log(formation);
     
     if (password !== confirmPassword) {
         alert('Les mots de passe ne correspondent pas.');
