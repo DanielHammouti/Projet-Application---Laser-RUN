@@ -96,14 +96,57 @@ async function loadSessionsHistory() {
     }
     const data = await response.json();
     const container = document.getElementById('sessions-container');
-    container.innerHTML = ''; // Vider le conteneur avant d'ajouter les cartes
+    container.innerHTML = '';
     if (data.sessions && data.sessions.length > 0) {
       // Trier les sessions par date (plus récentes en premier)
       const sortedSessions = data.sessions.sort((a, b) => 
         new Date(b.dateheure) - new Date(a.dateheure)
       );
       sortedSessions.forEach(session => {
-        const card = createSessionCard(session);
+        const totalTirs = 15;
+        const nbTirs = session.nb_tirs || 0;
+        const shootingPercentage = Math.round((nbTirs / totalTirs) * 100);
+        const grade = Math.round((nbTirs / totalTirs) * 20);
+        const card = document.createElement('div');
+        card.className = 'session-card';
+        card.innerHTML = `
+          <div class="session-header">
+            <div class="session-date">${formatDate(session.dateheure)}</div>
+            <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${session.id_session}</div>
+          </div>
+          <div class="session-content">
+            <div class="session-stats">
+              <div class="stat-item">
+                <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_600m') : 'Temps 600m:'}</span>
+                <span class="stat-value">${formatTime(session.six)}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_400m') : 'Temps 400m:'}</span>
+                <span class="stat-value">${formatTime(session.quatre)}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_200m') : 'Temps 200m:'}</span>
+                <span class="stat-value">${formatTime(session.deux)}</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
+                <span class="stat-value">${nbTirs} / 15</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">${window.getTranslation ? window.getTranslation('pourcentage') : 'Pourcentage:'}</span>
+                <span class="stat-value">${shootingPercentage}%</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
+                <span class="stat-value">${grade}/20</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
+                <span class="stat-value">${session.meneur ? (window.getTranslation ? window.getTranslation('oui') : 'Oui') : (window.getTranslation ? window.getTranslation('non') : 'Non')}</span>
+              </div>
+            </div>
+          </div>
+        `;
         container.appendChild(card);
       });
     } else {
