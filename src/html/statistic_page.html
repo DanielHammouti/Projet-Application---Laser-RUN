@@ -15,37 +15,52 @@
             <a href="settings_page.html" class="button_settings">
                 <img class="parametres" src="../img/parametres.png" alt="Paramètres" /></a>
           <div class="text-rectangle-noir">
-            <div class="text-rectangle-noir" id="titre_stat"></div>
+            <div class="text-rectangle-noir" id="titre_stat">Statistiques</div>
           </div>
         </div>
         <div class="separation-line"></div>
-        <div class="temps-moyen">
-            <div class="text" id="temps_moyen">Temps moyen au 100m</div>
-        </div>
-        <div class="separation-line"></div>
-        <div class="text">Courbe</div>
-    
-    
-        <a href="statistic_page.html" class="statistique-wrapper">
-                <img class="img" src="../img/parametres.png" alt="Statistiques" /></a>
         
-        <a href="statistic_page.html" class="button-wrapper">
-        <div class="statistique-wrapper">
-          <img class="img" src="../img/statistique.png" />
+        <div class="graphs-container">
+          <div class="graph-section">
+            <div class="text">Évolution 200m</div>
+            <canvas id="graph200" width="600" height="300"></canvas>
+          </div>
+          
+          <div class="graph-section">
+            <div class="text">Évolution 400m</div>
+            <canvas id="graph400" width="600" height="300"></canvas>
+          </div>
+          
+          <div class="graph-section">
+            <div class="text">Évolution 600m</div>
+            <canvas id="graph600" width="600" height="300"></canvas>
+          </div>
+          
+          <div class="graph-section">
+            <div class="text">Évolution des tirs réussis</div>
+            <canvas id="graphShots" width="600" height="300"></canvas>
+          </div>
         </div>
-        </a>
 
-        <a href="index.html" class="button-wrapper">
-        <div class="accueil-wrapper">
-          <img class="img" src="../img/accueil.png" />
-        </div>
-        </a>
+        <div class="navigation-buttons">
+          <a href="statistic_page.html" class="button-wrapper">
+            <div class="statistique-wrapper">
+              <img class="img" src="../img/statistique.png" alt="Statistiques" />
+            </div>
+          </a>
 
-        <a href="history_page.html" class="button-wrapper">
-        <div class="historique-wrapper">
-          <img class="img" src="../img/historique.png" />
+          <a href="index.html" class="button-wrapper">
+            <div class="accueil-wrapper">
+              <img class="img" src="../img/accueil.png" alt="Accueil" />
+            </div>
+          </a>
+
+          <a href="history_page.html" class="button-wrapper">
+            <div class="historique-wrapper">
+              <img class="img" src="../img/historique.png" alt="Historique" />
+            </div>
+          </a>
         </div>
-        </a>
       </div>
     </div>
 
@@ -54,6 +69,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/auth-check.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/stats.js"></script>
   </body>
   <script src="../js/langue.js" ></script>
+  <script>
+    stats();
+  </script>
 </html>
