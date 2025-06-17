@@ -122,12 +122,8 @@ function createShotsGraph() {
                 fill: true,
                 tension: 0.2,
                 pointRadius: 6,
-                pointBackgroundColor: sessionsData.map(session => 
-                    session.meneur ? '#FF4444' : '#608969'
-                ),
-                pointBorderColor: sessionsData.map(session => 
-                    session.meneur ? '#FF4444' : '#608969'
-                )
+                pointBackgroundColor: '#608969',
+                pointBorderColor: '#608969'
             }]
         },
         options: {
@@ -138,12 +134,7 @@ function createShotsGraph() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            const session = sessionsData[context.dataIndex];
-                            let label = `Tirs réussis: ${context.parsed.y}`;
-                            if (session.meneur) {
-                                label += ' (avec meneur)';
-                            }
-                            return label;
+                            return `Tirs réussis: ${context.parsed.y}`;
                         }
                     }
                 }
