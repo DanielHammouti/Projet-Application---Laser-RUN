@@ -67,7 +67,7 @@
                 // Affichage de la note
                 const resultatNoteElement = document.getElementById('resultat_note');
                 if (resultatNoteElement) {
-                  resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/20<br><small>(${resultatNote.repartition})</small>`;
+                  resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/12<br><small>(${resultatNote.repartition})</small>`;
                 }
               } else {
                 // Fallback si pas de données utilisateur
@@ -100,7 +100,7 @@
         // Affichage de la note
         const resultatNoteElement = document.getElementById('resultat_note');
         if (resultatNoteElement) {
-          resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/20<br><small>(${resultatNote.repartition})</small>`;
+          resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/12<br><small>(${resultatNote.repartition})</small>`;
         }
       }
 
@@ -146,7 +146,7 @@
         <div class="rectangle-vert">
             <div class="resultat-tir" id="resultat_tir">Résultat tirs XX%</div>
         </div>
-      <div class="resultat-note" id="resultat_note">Vous avez obtenu <br> la note de 16/20</div>
+      <div class="resultat-note" id="resultat_note"></div>
        <a href="statistic_page.html" class="statistique-wrapper">
                 <img class="img" src="../img/parametres.png" alt="Statistiques" /></a>
         
