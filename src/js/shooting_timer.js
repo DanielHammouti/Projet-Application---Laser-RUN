@@ -48,7 +48,7 @@ const ShootingTimer = {
 
     finishButton.onclick = () => {
       sendSessionDataToAPI();
-      
+
       localStorage.setItem('sixTime', '0');
       localStorage.setItem('fourTime', '0');
       localStorage.setItem('twoTime', '0');
