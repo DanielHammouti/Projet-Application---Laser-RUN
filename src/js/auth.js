@@ -61,28 +61,29 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
         }
     });
 
-    // Gestion de l'inscription
     registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        console.log('Tentative d\'inscription');
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        const confirmPassword = document.getElementById('register-confirm-password').value;
-
-        if (password !== confirmPassword) {
-            console.error('Les mots de passe ne correspondent pas');
-            alert('Les mots de passe ne correspondent pas');
-            return;
-        }
+    e.preventDefault();
+    const name = document.getElementById('register-name').value;
+    const firstName = document.getElementById('register-first-name').value;
+    const sexe = document.getElementById('register-sexe').value;
+    const formation = document.getElementById('register-formation').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const confirmPassword = document.getElementById('register-confirm-password').value;
+    
+    if (password !== confirmPassword) {
+        alert('Les mots de passe ne correspondent pas.');
+        return;
+    }
 
         try {
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
             console.log('Inscription réussie:', userCredential.user.email);
             console.log(userCredential.user.uid);
 
-            createUserAPI(userCredential.user.uid, "test", "test", "test", "test");
+            createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
 
-            //window.location.href = 'index.html';
+            window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
             alert('Erreur d\'inscription : ' + error.message);
@@ -90,7 +91,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     });
 }
 
-// Vérification de l'état de connexion
+// Suivi de l'état d'authentification
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         console.log('Utilisateur connecté :', user.email);
@@ -101,7 +102,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 function createUserAPI(uid, nom, prenom, classe, sexe){
-    const url = 'http://172.16.100.3/api/users/create.php';
+    const url = 'https://172.16.100.3/api/users/create.php';
 
     $.ajax({
         type: "POST",
