@@ -1,47 +1,49 @@
 <?php
-// Récupérer les données JSON de read.php
-$url = "http://localhost/read.php"; // Mets l'URL correcte ici
-$response = file_get_contents($url);
-$data = json_decode($response, true);
 
-?>
+include_once '../config/database.php';
+include_once '../objects/user.php';
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des utilisateurs</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-    <h1>Liste des utilisateurs</h1>
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
 
-    <?php
-    if (!empty($data["users"])) {
-        echo "<table border='1'>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Classe</th>
-                    <th>Sexe</th>
-                </tr>";
+try {
+    if(!$database->isAlreadyConnected()){
+        $database->getConnection();
+        if(!$database->isAlreadyConnected()){
+            throw new Exception("Impossible de se connecter à la base de données");
+        }
+    }
 
-        foreach ($data["users"] as $user) {
-            echo "<tr>
-                    <td>{$user['id']}</td>
-                    <td>{$user['nom']}</td>
-                    <td>{$user['prenom']}</td>
-                    <td>{$user['classe']}</td>
-                    <td>{$user['sexe']}</td>
-                  </tr>";
+    $user = new User($database->conn);
+    $stmt = $user->read();
+    $num = $stmt->rowCount();
+
+    if($num > 0){
+        $user_arr = array();
+        $user_arr["users"] = array();
+
+        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $user_item = array(
+                "id" => $row['id_user'],
+                "nom" => $row['nom'],
+                "prenom" => $row['prenom'],
+                "classe" => $row['classe'],
+                "sexe" => $row['sexe']
+            );
+            array_push($user_arr["users"], $user_item);
         }
 
-        echo "</table>";
+        http_response_code(200);
+        echo json_encode($user_arr);
     } else {
-        echo "<p>Aucun utilisateur trouvé.</p>";
+        http_response_code(404);
+        echo json_encode(array("message" => "Aucun utilisateur trouvé"));
     }
-    ?>
-</body>
-</html>
+} catch(Exception $e) {
+    http_response_code(500);
+    echo json_encode(array(
+        "message" => "Erreur lors de la lecture des utilisateurs",
+        "error" => $e->getMessage()
+    ));
+}
+?>
