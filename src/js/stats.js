@@ -1,11 +1,45 @@
-// Données de test (à remplacer par les vraies données de la base de données)
-let sessionsData = [
-    { session: 1, "200": 10, "400": 20, "600": 30, nb_tirs: 12 },
-    { session: 2, "200": 12, "400": 22, "600": 32, nb_tirs: 10 },
-    { session: 3, "200": 50, "400": 25, "600": 35, nb_tirs: 8 },
-    { session: 4, "200": 35, "400": 28, "600": 38, nb_tirs: 13 },
-    { session: 5, "200": 25, "400": 30, "600": 40, nb_tirs: 15 }
-];
+// Variable globale pour stocker les données des sessions
+let sessionsData = [];
+
+// Fonction pour récupérer les données depuis l'API
+async function fetchSessionsData() {
+    try {
+        // Récupérer l'ID de l'utilisateur depuis Firebase
+        const user = firebase.auth().currentUser;
+        if (!user) {
+            throw new Error("Utilisateur non connecté");
+        }
+
+        // Appeler l'API pour récupérer les sessions
+        const response = await fetch(`/api/sessions/read.php?id_user=${user.uid}`);
+        const data = await response.json();
+
+        if (!data.sessions) {
+            throw new Error("Aucune session trouvée");
+        }
+
+        // Transformer les données pour les graphiques
+        sessionsData = data.sessions.map((session, index) => ({
+            session: index + 1,
+            "200": parseFloat(session.deux) || 0,
+            "400": parseFloat(session.quatre) || 0,
+            "600": parseFloat(session.six) || 0,
+            nb_tirs: parseInt(session.nb_tirs) || 0
+        }));
+
+        console.log('Données des sessions récupérées:', sessionsData);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des sessions:', error);
+        // En cas d'erreur, utiliser des données de test
+        sessionsData = [
+            { session: 1, "200": 10, "400": 20, "600": 30, nb_tirs: 12 },
+            { session: 2, "200": 12, "400": 22, "600": 32, nb_tirs: 10 },
+            { session: 3, "200": 50, "400": 25, "600": 35, nb_tirs: 8 },
+            { session: 4, "200": 35, "400": 28, "600": 38, nb_tirs: 13 },
+            { session: 5, "200": 25, "400": 30, "600": 40, nb_tirs: 15 }
+        ];
+    }
+}
 
 function createDistanceGraph(distance) {
     const ctx = document.getElementById(`graph${distance}`).getContext('2d');
@@ -103,16 +137,38 @@ function createShotsGraph() {
     });
 }
 
-function stats() {
-    document.addEventListener('DOMContentLoaded', () => {
-        // TODO: Récupérer les vraies données depuis la base de données
-        // sessionsData = ...
+async function stats() {
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            // Attendre que Firebase soit initialisé
+            await new Promise(resolve => {
+                const checkFirebase = setInterval(() => {
+                    if (firebase.auth()) {
+                        clearInterval(checkFirebase);
+                        resolve();
+                    }
+                }, 100);
+            });
 
-        // Créer les graphiques
-        createDistanceGraph('200');
-        createDistanceGraph('400');
-        createDistanceGraph('600');
-        createShotsGraph();
+            // Attendre que l'utilisateur soit connecté
+            await new Promise(resolve => {
+                const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+                    if (user) {
+                        unsubscribe();
+                        resolve();
+                    }
+                });
+            });
+
+            // Récupérer les données et créer les graphiques
+            await fetchSessionsData();
+            createDistanceGraph('200');
+            createDistanceGraph('400');
+            createDistanceGraph('600');
+            createShotsGraph();
+        } catch (error) {
+            console.error('Erreur lors de l\'initialisation des statistiques:', error);
+        }
     });
 }
 
