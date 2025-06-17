@@ -21,6 +21,12 @@
         <div class="separation-line"></div>
         <div class="temps-moyen">
             <div class="text">Temps moyen au 100m</div>
+            <div class="temps-phases">
+                <div class="phase">Phase 1 : <span id="temps-phase1">-- : --</span></div>
+                <div class="phase">Phase 2 : <span id="temps-phase2">-- : --</span></div>
+                <div class="phase">Phase 3 : <span id="temps-phase3">-- : --</span></div>
+                <div class="phase moyenne">Moyenne : <span id="temps-moyenne">-- : --</span></div>
+            </div>
         </div>
         <div class="separation-line"></div>
         <div class="text">Courbe</div>
@@ -57,26 +63,27 @@
     <script src="../js/auth-check.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../js/vitesse_chart.js"></script>
+    <script src="../js/stats.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Récupérer le temps total de la dernière course
-      const finalTime = parseInt(localStorage.getItem('finalTotalTime')) || 0;
-      // Calculer le temps moyen aux 100m
-      let avg100m = '-- : --';
-      if (finalTime > 0) {
-        const avgSeconds = finalTime / 12 / 1000; // 1200m / 12 = 100m
-        const min = Math.floor(avgSeconds / 60);
-        const sec = Math.round(avgSeconds % 60);
-        avg100m = `${min.toString().padStart(2, '0')} : ${sec.toString().padStart(2, '0')}`;
-      }
-      // Afficher dans la section prévue
-      const avgDisplay = document.querySelector('.temps-moyen .text');
-      if (avgDisplay) {
-        avgDisplay.textContent = `Temps moyen au 100m : ${avg100m}`;
-      }
+      // Récupérer les temps de chaque phase (en ms)
+      const phase1 = parseInt(localStorage.getItem('phase1Time')) || 0;
+      const phase2 = parseInt(localStorage.getItem('phase2Time')) || 0;
+      const phase3 = parseInt(localStorage.getItem('phase3Time')) || 0;
 
-      // Récupérer l'ordre des distances (par défaut [400,200,600])
+      console.log('Temps bruts du localStorage:', {
+        phase1Time: localStorage.getItem('phase1Time'),
+        phase2Time: localStorage.getItem('phase2Time'),
+        phase3Time: localStorage.getItem('phase3Time')
+      });
+      
+      console.log('Temps après parseInt:', {
+        phase1,
+        phase2,
+        phase3
+      });
+
+      // Récupérer l'ordre des distances
       let distances = [400, 200, 600];
       try {
         const ordre = JSON.parse(localStorage.getItem('ordrePhases'));
@@ -85,17 +92,23 @@
         }
       } catch (e) {}
 
-      // Récupérer les temps de chaque phase (en ms)
-      const phase1 = parseInt(localStorage.getItem('phase1Time')) || 0;
-      const phase2 = parseInt(localStorage.getItem('phase2Time')) || 0;
-      const phase3 = parseInt(localStorage.getItem('phase3Time')) || 0;
+      console.log('Distances:', distances);
 
-      // Préparer le tableau de données pour la courbe dans l'ordre choisi
+      // Préparer le tableau de données pour la courbe et les moyennes
       const tableau = [
         { distance: distances[0], temps: phase1 / 1000 },
         { distance: distances[1], temps: phase2 / 1000 },
         { distance: distances[2], temps: phase3 / 1000 }
       ];
+
+      console.log('Tableau préparé:', tableau);
+
+      // Calculer et afficher tous les temps moyens
+      const tempsMoyens = calculerTempsMoyen100m(tableau);
+      document.getElementById('temps-phase1').textContent = tempsMoyens.phase1;
+      document.getElementById('temps-phase2').textContent = tempsMoyens.phase2;
+      document.getElementById('temps-phase3').textContent = tempsMoyens.phase3;
+      document.getElementById('temps-moyenne').textContent = tempsMoyens.moyenne;
 
       create_graph(tableau);
     });

@@ -111,6 +111,17 @@ function calculateRawGrades() {
 function startShootingTimer() {
     // Sauvegarder le temps total actuel avant de commencer le décompte
     const currentTotalTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+    console.log('DEBUG - État initial:', {
+        currentTotalTime,
+        shootingSessions: localStorage.getItem('shootingSessions'),
+        phase1Time: localStorage.getItem('phase1Time'),
+        phase2Time: localStorage.getItem('phase2Time'),
+        phase3Time: localStorage.getItem('phase3Time'),
+        phaseTotalBefore0: localStorage.getItem('phaseTotalBefore0'),
+        phaseTotalBefore1: localStorage.getItem('phaseTotalBefore1'),
+        phaseTotalBefore2: localStorage.getItem('phaseTotalBefore2')
+    });
+    
     localStorage.setItem('previousTotalTime', currentTotalTime.toString());
     
     // Incrémenter le compteur de sessions de tir
@@ -118,18 +129,40 @@ function startShootingTimer() {
     const newSessionCount = shootingSessions + 1;
     localStorage.setItem('shootingSessions', newSessionCount.toString());
 
-    // Enregistrer le temps de la phase précédente (sauf pour la toute première phase)
-    if (shootingSessions > 1 && shootingSessions <= 3) {
-        // phase1Time, phase2Time, phase3Time
-        const lastPhaseTime = currentTotalTime - (parseInt(localStorage.getItem('phaseTotalBefore'+shootingSessions)) || 0);
+    console.log('DEBUG - Avant enregistrement phase:', {
+        shootingSessions,
+        newSessionCount,
+        currentTotalTime
+    });
+
+    // Enregistrer le temps de la phase actuelle qui vient de se terminer
+    if (shootingSessions >= 0 && shootingSessions < 3) {
+        const previousTotalTime = parseInt(localStorage.getItem('phaseTotalBefore' + shootingSessions) || '0');
+        const phaseTime = currentTotalTime - previousTotalTime;
         // Correction : ne jamais enregistrer de temps <= 0
-        const phaseTime = lastPhaseTime > 0 ? lastPhaseTime : 1;
-        localStorage.setItem('phase' + shootingSessions + 'Time', phaseTime.toString());
-        // Debug
-        console.log('Enregistrement phase' + shootingSessions + 'Time:', phaseTime, 'ms');
+        const validPhaseTime = phaseTime > 0 ? phaseTime : 1;
+        // On enregistre la phase courante (pas la suivante)
+        localStorage.setItem('phase' + (shootingSessions + 1) + 'Time', validPhaseTime.toString());
+        
+        console.log('DEBUG - Enregistrement phase ' + (shootingSessions + 1) + ':', {
+            previousTotalTime,
+            currentTotalTime,
+            phaseTime,
+            validPhaseTime
+        });
+    } else {
+        console.log('DEBUG - Pas d\'enregistrement de phase:', {
+            shootingSessions,
+            condition: 'shootingSessions >= 0 && shootingSessions < 3'
+        });
     }
-    // Sauvegarder le temps total avant cette phase pour la prochaine
-    localStorage.setItem('phaseTotalBefore' + (newSessionCount), currentTotalTime.toString());
+
+    // Sauvegarder le temps total avant la prochaine phase
+    localStorage.setItem('phaseTotalBefore' + newSessionCount, currentTotalTime.toString());
+    console.log('DEBUG - Sauvegarde temps avant prochaine phase:', {
+        newSessionCount,
+        currentTotalTime
+    });
 
     // Mettre en pause le chronomètre principal
     localStorage.setItem('isRunning', 'false');
