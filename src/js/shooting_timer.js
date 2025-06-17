@@ -131,10 +131,6 @@ function sendSessionDataToAPI() {
     type: 'GET',
     url: url,
     dataType: 'json',
-    crossDomain: true,
-    xhrFields: {
-      withCredentials: true
-    },
     data: { 
       id_user: idUser,
       six: sixmeter,
@@ -153,9 +149,6 @@ function sendSessionDataToAPI() {
       console.error('Erreur lors de la création de la session de tir:');
       console.error('Status:', status);
       console.error('Error:', error);
-      console.error('Response:', xhr.responseText);
-      console.error('Status Code:', xhr.status);
-      console.error('Ready State:', xhr.readyState);
     }
   });
 }
