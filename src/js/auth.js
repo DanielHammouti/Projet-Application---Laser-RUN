@@ -83,7 +83,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
 
             createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
 
-            //window.location.href = 'index.html';
+            window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
             alert('Erreur d\'inscription : ' + error.message);
