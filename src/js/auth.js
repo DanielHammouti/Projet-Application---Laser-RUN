@@ -98,6 +98,7 @@ firebase.auth().onAuthStateChanged((user) => {
         console.log('Utilisateur connecté :', user.email);
     } else {
         console.log('Utilisateur déconnecté');
+        localStorage.removeItem("userId");
     }
 }); 
 
