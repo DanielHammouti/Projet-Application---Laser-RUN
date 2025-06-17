@@ -107,6 +107,7 @@ async function loadSessionsHistory() {
         const nbTirs = session.nb_tirs || 0;
         // Calcul du temps total pour la note
         const tempsTotal = (session.six || 0) + (session.quatre || 0) + (session.deux || 0);
+        console.log(tempsTotal);
         // Calcul de la note avec la fonction getNote
         const sexe = session.sexe || 'garcon'; // à adapter si la DB fournit le sexe
         const dominante = session.dominante || 'mixte'; // à adapter si la DB fournit la dominante
