@@ -10,6 +10,10 @@
     <script>
       // Initialiser le compteur de sessions de tir à 0 au démarrage
       localStorage.setItem('shootingSessions', '0');
+      
+      // Réinitialiser le compteur de tirs quand on arrive sur la page d'accueil
+      localStorage.setItem('nombreTirs', '0');
+      console.log('Compteur de tirs réinitialisé - Page d\'accueil chargée');
     </script>
   </head>
   <body>
@@ -22,7 +26,7 @@
             <div class="text-rectangle-noir">Temps Total<br />00 : 00</div>
           </div>
           <div id="admin-button" style="display: none;">
-            <a href="../php/accueil.php" class="admin-link">Page admin</a>
+            <a href="../php/note.php" class="admin-link">Page admin</a>
           </div>
         </div>
         <div class="separation-line"> </div>

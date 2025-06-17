@@ -49,15 +49,6 @@ function getNav($lien, $title){
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav me-auto mb-2 mb-md-0">
-        <?php
-            echo getNav("../php/accueil.php", 'Accueil');
-            echo getNav("../php/note.php", 'Note');
-        ?>
-      </ul>
-      <a class="navbar-brand btn btn-outline-primary me-2" href="../html/index.html">Vision étudiante</a>
-    </div>
   </div>
 </nav>
 
