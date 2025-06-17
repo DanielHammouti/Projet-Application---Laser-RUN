@@ -3,8 +3,17 @@
 include_once '../config/database.php';
 include_once '../objects/user.php';
 
+// Configuration CORS
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Content-Type: application/json; charset=UTF-8");
+
+// Gestion des requêtes OPTIONS (pre-flight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 try{
     if(!$database->isAlreadyConnected()){
@@ -13,16 +22,22 @@ try{
 
     $user = new User($database->conn);
 
-    if(!isset($_GET['id']) || !isset($_GET['nom']) || !isset($_GET['prenom']) || !isset($_GET['groupe']) || !isset($_GET['classe']) || !isset($_GET['sexe'])){
+    // Récupération des données POST
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!$data) {
+        $data = $_POST;
+    }
+
+    if(!isset($data['id']) || !isset($data['nom']) || !isset($data['prenom']) || !isset($data['groupe']) || !isset($data['classe']) || !isset($data['sexe'])){
         throw new Exception("Les données sont invalides");
     }
 
-    $user->setId($_GET['id']);
-    $user->setNom($_GET['nom']);
-    $user->setPrenom($_GET['prenom']);
-    $user->setGroupe($_GET['groupe']);
-    $user->setClasse($_GET['classe']);
-    $user->setSexe($_GET['sexe']);
+    $user->setId($data['id']);
+    $user->setNom($data['nom']);
+    $user->setPrenom($data['prenom']);
+    $user->setGroupe($data['groupe']);
+    $user->setClasse($data['classe']);
+    $user->setSexe($data['sexe']);
 
     if($user->create()){
         http_response_code(201);
