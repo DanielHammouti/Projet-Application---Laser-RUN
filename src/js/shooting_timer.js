@@ -48,7 +48,7 @@ const ShootingTimer = {
 
     finishButton.onclick = () => {
       sendSessionDataToAPI();
-      window.location.href = '../html/mark_page.html';
+      //window.location.href = '../html/mark_page.html';
     };
 
     buttonContainer.appendChild(finishButton);
