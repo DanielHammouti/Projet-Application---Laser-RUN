@@ -26,7 +26,7 @@ const ShootingTimer = {
     // Récupérer les temps stockés dans le localStorage
     const session1Time = localStorage.getItem('session1Time') || '0';
     const session2Time = localStorage.getItem('session2Time') || '0';
-    const session3Time = localStorage.getItem('session3Time') || '0';
+    let session3Time = localStorage.getItem('session3Time') || '0';
     
     // Convertir les temps formatés "MM : SS" en secondes
     function timeStringToSeconds(timeString) {
@@ -43,7 +43,30 @@ const ShootingTimer = {
     // Convertir tous les temps en secondes
     const session1Seconds = timeStringToSeconds(session1Time);
     const session2Seconds = timeStringToSeconds(session2Time);
-    const session3Seconds = timeStringToSeconds(session3Time);
+    let session3Seconds = timeStringToSeconds(session3Time);
+    
+    // Si la session 3 n'est pas stockée, la calculer
+    if (session3Seconds === 0) {
+      console.log('⚠️ Session 3 non stockée, calcul automatique...');
+      const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+      const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
+      const twoTime = parseInt(localStorage.getItem('twoTime') || '0');
+      
+      // Calculer le temps de la 3ème session
+      session3Seconds = elapsedTime - (fourTime + twoTime);
+      session3Time = this.formatTime(session3Seconds);
+      
+      console.log('🔧 Calcul automatique de la session 3:');
+      console.log('  - elapsedTime total:', elapsedTime);
+      console.log('  - fourTime (session 1):', fourTime);
+      console.log('  - twoTime (session 2):', twoTime);
+      console.log('  - session3Seconds calculé:', session3Seconds);
+      console.log('  - session3Time formaté:', session3Time);
+      
+      // Stocker le temps calculé
+      localStorage.setItem('session3Time', session3Time);
+      localStorage.setItem('sixTime', session3Seconds.toString());
+    }
     
     // Organiser selon l'ordre : 400m (session1), 200m (session2), 600m (session3)
     const fourTime = session1Seconds;  // 400m - première session
