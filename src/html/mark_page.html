@@ -42,7 +42,7 @@
         const session3Time = localStorage.getItem('session3Time') || '0';
         
         // Récupérer le nombre de tirs
-        const nbTirs = parseInt(localStorage.getItem('nbTirs') || '0');
+        const nombreTirs = parseInt(localStorage.getItem('nombreTirs') || '0');
         
         // Récupérer le nombre de sessions de tir
         const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
@@ -58,7 +58,7 @@
         console.log('sixTime (600m):', sixTime, 'secondes');
         
         console.log('🎯 AUTRES DONNÉES:');
-        console.log('Nombre de tirs:', nbTirs);
+        console.log('Nombre de tirs:', nombreTirs);
         console.log('Nombre de sessions de tir:', shootingSessions);
         console.log('Temps total:', timeString);
         
@@ -100,7 +100,7 @@
           fourTime: fourTime,
           twoTime: twoTime,
           sixTime: sixTime,
-          nbTirs: nbTirs,
+          nbTirs: nombreTirs,
           totalTime: totalSessionTime
         });
       });
