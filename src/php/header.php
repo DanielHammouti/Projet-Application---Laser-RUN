@@ -54,8 +54,6 @@ function getNav($lien, $title){
         <?php
             echo getNav("../php/accueil.php", 'Accueil');
             echo getNav("../php/note.php", 'Note');
-            echo getNav("../php/classe.php", 'Classe');
-            echo getNav("../php/pénalité.php", 'Pénalité');
         ?>
       </ul>
       <a class="navbar-brand btn btn-outline-primary me-2" href="../html/index.html">Vision étudiante</a>
