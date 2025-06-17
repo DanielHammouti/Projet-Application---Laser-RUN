@@ -91,12 +91,27 @@ function createSessionCard(session) {
 async function loadSessionsHistory() {
   try {
     const response = await fetch(`../../api/sessions/read.php?id_user=${currentUser.uid}`);
+    
+    // Si la réponse est 404, cela signifie qu'il n'y a pas de sessions pour cet utilisateur
+    if (response.status === 404) {
+      const container = document.getElementById('sessions-container');
+      container.innerHTML = `
+        <div class="no-sessions">
+          <p>${window.getTranslation ? window.getTranslation('aucune_session') : 'Aucune session trouvée'}</p>
+          <p>Commencez par effectuer votre première session d'entraînement !</p>
+        </div>
+      `;
+      return;
+    }
+    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    
     const data = await response.json();
     const container = document.getElementById('sessions-container');
     container.innerHTML = '';
+    
     if (data.sessions && data.sessions.length > 0) {
       // Trier les sessions par date (plus récentes en premier)
       const sortedSessions = data.sessions.sort((a, b) => 
@@ -157,6 +172,7 @@ async function loadSessionsHistory() {
       container.innerHTML = `
         <div class="no-sessions">
           <p>${window.getTranslation ? window.getTranslation('aucune_session') : 'Aucune session trouvée'}</p>
+          <p>Commencez par effectuer votre première session d'entraînement !</p>
         </div>
       `;
     }
