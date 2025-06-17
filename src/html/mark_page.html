@@ -17,6 +17,78 @@
           const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
           timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
         }
+        
+        // Récupération et affichage des temps des sessions
+        console.log('=== PAGE MARK - RÉCUPÉRATION DES TEMPS ===');
+        
+        // Récupérer les temps stockés dans le localStorage
+        const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
+        const twoTime = parseInt(localStorage.getItem('twoTime') || '0');
+        const sixTime = parseInt(localStorage.getItem('sixTime') || '0');
+        
+        // Récupérer les temps formatés des sessions
+        const session1Time = localStorage.getItem('session1Time') || '0';
+        const session2Time = localStorage.getItem('session2Time') || '0';
+        const session3Time = localStorage.getItem('session3Time') || '0';
+        
+        // Récupérer le nombre de tirs
+        const nbTirs = parseInt(localStorage.getItem('nbTirs') || '0');
+        
+        console.log('📊 TEMPS DES SESSIONS (formaté):');
+        console.log('Session 1 (400m):', session1Time);
+        console.log('Session 2 (200m):', session2Time);
+        console.log('Session 3 (600m):', session3Time);
+        
+        console.log('⏱️ TEMPS CONVERTIS (en secondes):');
+        console.log('fourTime (400m):', fourTime, 'secondes');
+        console.log('twoTime (200m):', twoTime, 'secondes');
+        console.log('sixTime (600m):', sixTime, 'secondes');
+        
+        console.log('🎯 AUTRES DONNÉES:');
+        console.log('Nombre de tirs:', nbTirs);
+        console.log('Temps total:', timeString);
+        
+        // Vérification des valeurs
+        console.log('✅ VÉRIFICATION:');
+        if (fourTime > 0) {
+          console.log('✅ fourTime (400m) récupéré:', fourTime, 'secondes');
+        } else {
+          console.log('❌ fourTime (400m) est à 0');
+        }
+        
+        if (twoTime > 0) {
+          console.log('✅ twoTime (200m) récupéré:', twoTime, 'secondes');
+        } else {
+          console.log('❌ twoTime (200m) est à 0');
+        }
+        
+        if (sixTime > 0) {
+          console.log('✅ sixTime (600m) récupéré:', sixTime, 'secondes');
+        } else {
+          console.log('❌ sixTime (600m) est à 0');
+        }
+        
+        // Calcul du temps total des 3 sessions
+        const totalSessionTime = fourTime + twoTime + sixTime;
+        console.log('📈 TEMPS TOTAL DES 3 SESSIONS:', totalSessionTime, 'secondes');
+        
+        // Conversion en format MM:SS
+        const totalMinutes = Math.floor(totalSessionTime / 60);
+        const totalSeconds = totalSessionTime % 60;
+        const totalFormatted = `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+        console.log('📈 TEMPS TOTAL FORMATÉ:', totalFormatted);
+        
+        console.log('==========================================');
+        
+        // Préparation pour l'API
+        console.log('🚀 DONNÉES PRÊTES POUR L\'API:');
+        console.log({
+          fourTime: fourTime,
+          twoTime: twoTime,
+          sixTime: sixTime,
+          nbTirs: nbTirs,
+          totalTime: totalSessionTime
+        });
       });
     </script>
   </head>
