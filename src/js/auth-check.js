@@ -9,7 +9,7 @@ firebase.auth().onAuthStateChanged((user) => {
     } else if (user) {
         console.log("Utilisateur connecté :", user.uid);
 
-        if (user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
+        if (user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2" && localStorage.getItem('userid') === null) {
             window.location.href = "../php/note.php";
         }
     }
