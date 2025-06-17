@@ -69,24 +69,28 @@
                 if (resultatNoteElement) {
                   resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/12<br><small>(${resultatNote.repartition})</small>`;
                 }
+                
+                // Envoi des données à l'API
+                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
               } else {
                 // Fallback si pas de données utilisateur
                 const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
                 afficherResultats(resultatNote, nombreTirs);
+                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
               }
             })
             .catch(error => {
               // Fallback en cas d'erreur API
               const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
               afficherResultats(resultatNote, nombreTirs);
+              sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
             });
         } else {
           // Fallback si pas d'ID utilisateur
           const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
           afficherResultats(resultatNote, nombreTirs);
+          sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
         }
-        
-        sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
       });
 
       function afficherResultats(resultatNote, nombreTirs) {
