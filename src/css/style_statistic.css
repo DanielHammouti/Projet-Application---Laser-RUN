@@ -18,27 +18,42 @@
     flex-direction: column;
     position: relative;
     margin-bottom: 30px;
-    padding: 0 20px;
+    margin-left: 20px;
 }
 
 .temps-phases {
-    margin-top: 20px;
+    margin-top: 30px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 10px;
+    padding-right: 20px;
 }
 
 .phase {
     font-family: "Inter-Regular", Helvetica;
-    font-size: 18px;
+    font-size: 20px;
     color: #000000;
+    flex: 1;
+    text-align: center;
 }
 
 .phase.moyenne {
-    margin-top: 10px;
+    margin-top: 20px;
     font-weight: bold;
-    border-top: 1px solid #608969;
+    position: relative;
+    text-align: left;
     padding-top: 10px;
+}
+
+.phase.moyenne::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    right: -20px;
+    height: 1px;
+    background-color: #608969;
 }
 
 .home-page .div {
