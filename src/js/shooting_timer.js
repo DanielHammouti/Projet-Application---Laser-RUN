@@ -123,6 +123,8 @@ function sendSessionDataToAPI() {
   const fourmeter = parseInt(localStorage.getItem('fourmeter') || '0');
   const twometer = parseInt(localStorage.getItem('twometer') || '0');
   const nbTirs = parseInt(localStorage.getItem('nbTirs') || '0');
+  const idUser = localStorage.getItem('userId');
+  const meneur = localStorage.getItem('meneur') === 'true' ? 1 : 0;
   
   const url = 'https://172.16.100.3/api/sessions/create.php';
   $.ajax({
@@ -130,11 +132,12 @@ function sendSessionDataToAPI() {
     url: url,
     dataType: 'json',
     data: { 
-      shootingSessions: shootingSessions,
-      sixmeter: sixmeter,
-      fourmeter: fourmeter,
-      twometer: twometer,
-      nbTirs: nbTirs
+      id_user: idUser,
+      six: sixmeter,
+      quatre: fourmeter,
+      deux: twometer,
+      nb_tirs: nbTirs,
+      meneur: meneur
     },
     success: function(response) {
       console.log(response);
