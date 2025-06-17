@@ -25,17 +25,18 @@ async function fetchSessionsData() {
             "200": parseFloat(session.deux) || 0,
             "400": parseFloat(session.quatre) || 0,
             "600": parseFloat(session.six) || 0,
-            nb_tirs: parseInt(session.nb_tirs) || 0
+            nb_tirs: parseInt(session.nb_tirs) || 0,
+            meneur: session.meneur === "1" // Convertir en booléen
         }));
 
     } catch (error) {
         // En cas d'erreur, utiliser des données de test
         sessionsData = [
-            { session: 1, "200": 10, "400": 20, "600": 30, nb_tirs: 12 },
-            { session: 2, "200": 12, "400": 22, "600": 32, nb_tirs: 10 },
-            { session: 3, "200": 50, "400": 25, "600": 35, nb_tirs: 8 },
-            { session: 4, "200": 35, "400": 28, "600": 38, nb_tirs: 13 },
-            { session: 5, "200": 25, "400": 30, "600": 40, nb_tirs: 15 }
+            { session: 1, "200": 10, "400": 20, "600": 30, nb_tirs: 12, meneur: false },
+            { session: 2, "200": 12, "400": 22, "600": 32, nb_tirs: 10, meneur: true },
+            { session: 3, "200": 50, "400": 25, "600": 35, nb_tirs: 8, meneur: false },
+            { session: 4, "200": 35, "400": 28, "600": 38, nb_tirs: 13, meneur: true },
+            { session: 5, "200": 25, "400": 30, "600": 40, nb_tirs: 15, meneur: false }
         ];
     }
 }
@@ -57,15 +58,32 @@ function createDistanceGraph(distance) {
                 backgroundColor: 'rgba(96,137,105,0.08)',
                 fill: true,
                 tension: 0.2,
-                pointRadius: 4,
-                pointBackgroundColor: '#608969',
+                pointRadius: 6,
+                pointBackgroundColor: sessionsData.map(session => 
+                    session.meneur ? '#FF4444' : '#608969'
+                ),
+                pointBorderColor: sessionsData.map(session => 
+                    session.meneur ? '#FF4444' : '#608969'
+                )
             }]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: { display: false },
-                title: { display: true, text: `Évolution du temps sur ${distance}m` }
+                title: { display: true, text: `Évolution du temps sur ${distance}m` },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const session = sessionsData[context.dataIndex];
+                            let label = `Temps: ${context.parsed.y}s`;
+                            if (session.meneur) {
+                                label += ' (avec meneur)';
+                            }
+                            return label;
+                        }
+                    }
+                }
             },
             scales: {
                 x: {
@@ -103,15 +121,23 @@ function createShotsGraph() {
                 backgroundColor: 'rgba(96,137,105,0.08)',
                 fill: true,
                 tension: 0.2,
-                pointRadius: 4,
+                pointRadius: 6,
                 pointBackgroundColor: '#608969',
+                pointBorderColor: '#608969'
             }]
         },
         options: {
             responsive: true,
             plugins: {
                 legend: { display: false },
-                title: { display: true, text: 'Évolution des tirs réussis' }
+                title: { display: true, text: 'Évolution des tirs réussis' },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Tirs réussis: ${context.parsed.y}`;
+                        }
+                    }
+                }
             },
             scales: {
                 x: {
@@ -126,7 +152,7 @@ function createShotsGraph() {
                 y: {
                     title: { display: true, text: 'Nombre de tirs réussis' },
                     min: 0,
-                    max: 16,
+                    max: 15,
                     ticks: {
                         stepSize: 1
                     }
