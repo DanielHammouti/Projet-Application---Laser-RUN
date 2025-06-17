@@ -128,3 +128,7 @@ function createUserAPI(uid, nom, prenom, classe, sexe){
         }
     });
 }
+
+function setupLocalStorage(){
+    localStorage.setItem('sixmeter', '0');
+}
