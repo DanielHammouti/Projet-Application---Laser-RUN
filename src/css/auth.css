@@ -48,13 +48,18 @@ h1 {
     text-align: center;
     color: #608969;
     margin-bottom: 30px;
-    
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Marker Felt';
 }
 
+
 h2 {
-    color: #202124;
+    color: #064922;
     margin-bottom: 20px;
     font-size: 1.5em;
+    text-align: center;
 }
 
 .form-container {
@@ -72,6 +77,18 @@ input {
     border: 1px solid #dadce0;
     border-radius: 4px;
     font-size: 16px;
+}
+
+select {
+  padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+    color: #707070;
 }
 
 input:focus {
