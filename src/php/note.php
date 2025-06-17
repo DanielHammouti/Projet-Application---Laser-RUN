@@ -1,45 +1,62 @@
-<?php 
-$title = "Note";
-require('header.php');
-session_start();
+<?php
+include_once '../config/database.php';
+include_once '../objects/user.php';
 
-// Initialisation des données d'exemple si la session est vide
-$_SESSION['eleves'] = [
-['id' => 1, 'nom' => 'Dupont', 'prenom' => 'Alice', 'note' => 15, 'date' => '2025-01-11'],
-['id' => 2, 'nom' => 'Martin', 'prenom' => 'Bob', 'note' => 12, 'date' => '2025-01-11'],
-['id' => 3, 'nom' => 'Durand', 'prenom' => 'Chloé', 'note' => 18, 'date' => '2025-01-11'],
-];
+$database = new Database();
+$db = $database->getConnection();
 
-$eleves = $_SESSION['eleves'];
-
-// Pour la démo : édition via GET (à éviter en production)
-$edit_id = isset($_GET['edit']) ? (int)$_GET['edit'] : null;
+$user = new User($db);
+$stmt = $user->read();
 ?>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Prénom</th>
-      <th>Note</th>
-      <th>Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach ($eleves as $eleve): ?>
-      <tr>
-        <?php if ($edit_id === $eleve['id']): ?>
-          <!-- Mode édition (à personnaliser si tu veux un vrai formulaire) -->
-          <td colspan="4"><em>Édition de <?= htmlspecialchars($eleve['prenom']) ?></em></td>
-        <?php else: ?>
-          <td><?= htmlspecialchars($eleve['nom']) ?></td>
-          <td><?= htmlspecialchars($eleve['prenom']) ?></td>
-          <td><?= $eleve['note'] ?></td>
-          <td><?= $eleve['date'] ?></td>
-        <?php endif; ?>
-      </tr>
-    <?php endforeach; ?>
-  </tbody>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des utilisateurs</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 40px auto;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #608969;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align:center; color:#608969;">Liste des Utilisateurs</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Classe</th>
+            <th>Sexe</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) : ?>
+            <tr>
+                <td><?= htmlspecialchars($row['id_user']) ?></td>
+                <td><?= htmlspecialchars($row['nom']) ?></td>
+                <td><?= htmlspecialchars($row['prenom']) ?></td>
+                <td><?= htmlspecialchars($row['classe']) ?></td>
+                <td><?= htmlspecialchars($row['sexe']) ?></td>
+            </tr>
+        <?php endwhile; ?>
+    </tbody>
 </table>
 
-<?php require('footer.php'); ?>
+</body>
+</html>
