@@ -10,14 +10,73 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const timeDisplay = document.querySelector('.text-rectangle-noir');
+        let timeString = "00 : 00"; // Définir timeString dans le scope global du script
+        
         if (timeDisplay) {
           const elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
           const seconds = Math.floor((elapsedTime / 1000) % 60);
           const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
-          const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+          timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
           timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
         }
+        
+        // Récupération et affichage des temps des sessions
+        
+        // Récupérer les temps stockés dans le localStorage
+        const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
+        const twoTime = parseInt(localStorage.getItem('twoTime') || '0');
+        const sixTime = parseInt(localStorage.getItem('sixTime') || '0');
+        
+        // Récupérer les temps formatés des sessions
+        const session1Time = localStorage.getItem('session1Time') || '0';
+        const session2Time = localStorage.getItem('session2Time') || '0';
+        const session3Time = localStorage.getItem('session3Time') || '0';
+        
+        // Récupérer le nombre de tirs
+        const nombreTirs = parseInt(localStorage.getItem('nombreTirs') || '0');
+        
+        // Récupérer le nombre de sessions de tir
+        const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+        
+        // Calcul du temps total des 3 sessions
+        const totalSessionTime = fourTime + twoTime + sixTime;
+        
+        // Conversion en format MM:SS
+        const totalMinutes = Math.floor(totalSessionTime / 60);
+        const totalSeconds = totalSessionTime % 60;
+        const totalFormatted = `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
+        
+        sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
       });
+
+
+      function sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs) {
+        const idUser = localStorage.getItem('userId');
+        const meneur = localStorage.getItem('meneur') === 'true' ? 1 : 0;
+        
+        const url = 'https://172.16.100.3/api/sessions/create.php';
+        $.ajax({
+          type: 'GET',
+          url: url,
+          dataType: 'json',
+          data: { 
+            id_user: idUser,
+            six: sixTime,
+            quatre: fourTime,
+            deux: twoTime,
+            nb_tirs: nombreTirs,
+            meneur: meneur
+          },
+          success: function(response) {
+            if (response.message) {
+              // Message de succès silencieux
+            }
+          },
+          error: function(xhr, status, error) {
+            // Gestion silencieuse des erreurs
+          }
+        });
+      }
     </script>
   </head>
   <body>
@@ -58,6 +117,7 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/auth-check.js"></script>
   </body>
