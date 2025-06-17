@@ -71,6 +71,9 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     const password = document.getElementById('register-password').value;
     const confirmPassword = document.getElementById('register-confirm-password').value;
 
+    sexe = sexe.toString();
+    formation = formation.toString();
+    
     if (password !== confirmPassword) {
         alert('Les mots de passe ne correspondent pas.');
         return;
@@ -83,7 +86,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
 
             createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
 
-            window.location.href = 'index.html';
+            //window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
             alert('Erreur d\'inscription : ' + error.message);
