@@ -199,13 +199,36 @@ const ShootingTimer = {
     
     const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0', 10);
     
+    // Si c'est la 3ème session, stocker le temps de la session précédente
     if (shootingSessions === 3) {
+      this.storeThirdSessionTime();
       this.createFinishButton();
       const timeDisplay = document.querySelector('.temps-tirs');
       if (timeDisplay) timeDisplay.innerHTML = '<br />';
     } else {
       this.startShootingTimer();
     }
+  },
+
+  // Fonction pour stocker le temps de la 3ème session
+  storeThirdSessionTime() {
+    // Récupérer le temps depuis le chronomètre principal
+    const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+    const previousTotalTime = parseInt(localStorage.getItem('previousTotalTime') || '0');
+    
+    // Calculer le temps de la 3ème session
+    const sessionTime = elapsedTime - previousTotalTime;
+    const sessionTimeFormatted = this.formatTime(sessionTime);
+    
+    console.log('📊 Stockage du temps de la session 3 (600m):');
+    console.log('  - elapsedTime:', elapsedTime, 'secondes');
+    console.log('  - previousTotalTime:', previousTotalTime, 'secondes');
+    console.log('  - sessionTime:', sessionTime, 'secondes');
+    console.log('  - sessionTimeFormatted:', sessionTimeFormatted);
+    
+    localStorage.setItem('session3Time', sessionTimeFormatted);
+    localStorage.setItem('sixTime', sessionTime.toString());
+    console.log('✅ Temps stocké pour session 3 (600m):', sessionTimeFormatted);
   },
 
   // Fonction pour formater le temps en secondes en "MM : SS"
