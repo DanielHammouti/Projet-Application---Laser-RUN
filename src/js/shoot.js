@@ -1,7 +1,18 @@
-
-
 const tirsContainer = document.querySelector('.tirs');
 const template = document.getElementById('ligne-tir-template');
+
+// Fonction pour compter les tirs réussis
+function countSuccessfulShots() {
+  const successfulShots = document.querySelectorAll('.check-vert:checked').length;
+  return successfulShots;
+}
+
+// Fonction pour sauvegarder le nombre de tirs réussis
+function saveSuccessfulShots() {
+  const successfulShots = countSuccessfulShots();
+  const currentShots = parseInt(localStorage.getItem('nbTirs') || '0');
+  localStorage.setItem('nbTirs', (currentShots + successfulShots).toString());
+}
 
 for (let i = 1; i <= 5; i++) {
   const clone = template.content.cloneNode(true);
@@ -21,8 +32,15 @@ for (let i = 1; i <= 5; i++) {
   noLabel.htmlFor = noInput.id;
 
   const titre = clone.querySelector('.titre');
-    const label = window.getTranslation ? window.getTranslation('tir') : 'Tir n°';
-    titre.innerHTML = `${label} ${i}`;
+  const label = window.getTranslation ? window.getTranslation('tir') : 'Tir n°';
+  titre.innerHTML = `${label} ${i}`;
+
+  // Ajouter un écouteur d'événement pour le tir réussi
+  yesInput.addEventListener('change', function() {
+    if (this.checked) {
+      saveSuccessfulShots();
+    }
+  });
 
   noInput.setAttribute('onclick', 'openPopup()');
 

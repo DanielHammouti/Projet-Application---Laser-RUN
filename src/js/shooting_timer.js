@@ -47,6 +47,7 @@ const ShootingTimer = {
     finishButton.style.marginTop = '50px';
 
     finishButton.onclick = () => {
+      sendSessionDataToAPI();
       window.location.href = '../html/mark_page.html';
     };
 
@@ -115,6 +116,34 @@ const ShootingTimer = {
     }
   }
 };
+
+function sendSessionDataToAPI() {
+  const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+  const sixmeter = parseInt(localStorage.getItem('sixmeter') || '0');
+  const fourmeter = parseInt(localStorage.getItem('fourmeter') || '0');
+  const twometer = parseInt(localStorage.getItem('twometer') || '0');
+  const nbTirs = parseInt(localStorage.getItem('nbTirs') || '0');
+  
+  const url = 'https://172.16.100.3/api/shooting_sessions/create.php';
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'json',
+    data: { 
+      shootingSessions: shootingSessions,
+      sixmeter: sixmeter,
+      fourmeter: fourmeter,
+      twometer: twometer,
+      nbTirs: nbTirs
+    },
+    success: function(response) {
+      console.log(response);
+    },
+    error: function(error) {
+      console.error('Erreur lors de la création de la session de tir:', error);
+    }
+  });
+}
 
 // Exécuter l'initialisation immédiatement
 ShootingTimer.init();
