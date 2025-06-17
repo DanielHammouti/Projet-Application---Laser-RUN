@@ -51,6 +51,9 @@
         const idUser = localStorage.getItem('userId');
         let sexe = 'garcon'; // Valeur par défaut
         
+        // Vérification si les données sont valides avant d'envoyer à l'API
+        const hasValidData = fourTime > 0 || twoTime > 0 || sixTime > 0;
+        
         if (idUser) {
           fetch(`https://172.16.100.3/api/users/read_single.php?id=${idUser}`)
             .then(response => response.json())
@@ -61,22 +64,28 @@
               // Calcul et affichage dans tous les cas
               const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
               afficherResultats(resultatNote, nombreTirs);
-              // Envoi unique des données à l'API
-              sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+              // Envoi unique des données à l'API seulement si les données sont valides
+              if (hasValidData) {
+                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+              }
             })
             .catch(error => {
               // Calcul et affichage en cas d'erreur
               const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
               afficherResultats(resultatNote, nombreTirs);
-              // Envoi unique des données à l'API
-              sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+              // Envoi unique des données à l'API seulement si les données sont valides
+              if (hasValidData) {
+                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+              }
             });
         } else {
           // Calcul et affichage si pas d'ID
           const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
           afficherResultats(resultatNote, nombreTirs);
-          // Envoi unique des données à l'API
-          sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+          // Envoi unique des données à l'API seulement si les données sont valides
+          if (hasValidData) {
+            sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+          }
         }
       });
 
