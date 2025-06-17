@@ -124,23 +124,25 @@ function sendSessionDataToAPI() {
   const twometer = parseInt(localStorage.getItem('twometer') || '0');
   const nbTirs = parseInt(localStorage.getItem('nbTirs') || '0');
   
-  const url = 'https://172.16.100.3/api/shooting_sessions/create.php';
-  const params = new URLSearchParams({
-    shootingSessions: shootingSessions,
-    sixmeter: sixmeter,
-    fourmeter: fourmeter,
-    twometer: twometer,
-    nbTirs: nbTirs
-  });
-
-  fetch(`${url}?${params.toString()}`)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
+  const url = 'https://172.16.100.3/api/sessions/create.php';
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'json',
+    data: { 
+      shootingSessions: shootingSessions,
+      sixmeter: sixmeter,
+      fourmeter: fourmeter,
+      twometer: twometer,
+      nbTirs: nbTirs
+    },
+    success: function(response) {
+      console.log(response);
+    },
+    error: function(error) {
       console.error('Erreur lors de la création de la session de tir:', error);
-    });
+    }
+  });
 }
 
 // Exécuter l'initialisation immédiatement
