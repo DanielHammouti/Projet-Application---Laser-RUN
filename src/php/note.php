@@ -1,8 +1,6 @@
 <?php
-// Récupérer les données JSON de read.php
-$url = "http://tonsite.com/read.php"; // Mets l'URL correcte ici
-$response = file_get_contents($url);
-$data = json_decode($response, true);
+include_once '../api/users/read.php';
+$response = json_decode(json_encode($user_arr), true);
 
 ?>
 
