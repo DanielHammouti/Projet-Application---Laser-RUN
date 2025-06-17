@@ -14,26 +14,34 @@ function formatDate(dateString) {
   return `${day}/${month}/${year}<br />${hours}:${minutes}`;
 }
 
+// Fonction pour formater le temps
+function formatTime(seconds) {
+  if (seconds === null || seconds === 0) return '--';
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
 // Fonction pour calculer le pourcentage de réussite des tirs
-function calculateShootingPercentage(six, quatre, deux, nbTirs) {
-  if (nbTirs === 0) return 0;
-  const totalPoints = (six * 6) + (quatre * 4) + (deux * 2);
-  const maxPoints = nbTirs * 6;
-  return Math.round((totalPoints / maxPoints) * 100);
+function calculateShootingPercentage(nbTirs) {
+  // Supposons qu'il y a 3 sessions de tir par course
+  const totalShots = 3;
+  if (totalShots === 0) return 0;
+  return Math.round((nbTirs / totalShots) * 100);
 }
 
 // Fonction pour calculer la note sur 20
-function calculateGrade(six, quatre, deux, nbTirs) {
-  if (nbTirs === 0) return 0;
-  const totalPoints = (six * 6) + (quatre * 4) + (deux * 2);
-  const maxPoints = nbTirs * 6;
-  return Math.round((totalPoints / maxPoints) * 20);
+function calculateGrade(nbTirs) {
+  // Supposons qu'il y a 3 sessions de tir par course
+  const totalShots = 3;
+  if (totalShots === 0) return 0;
+  return Math.round((nbTirs / totalShots) * 20);
 }
 
 // Fonction pour créer une carte de session
 function createSessionCard(session) {
-  const shootingPercentage = calculateShootingPercentage(session.six, session.quatre, session.deux, session.nb_tirs);
-  const grade = calculateGrade(session.six, session.quatre, session.deux, session.nb_tirs);
+  const shootingPercentage = calculateShootingPercentage(session.nb_tirs);
+  const grade = calculateGrade(session.nb_tirs);
   
   const card = document.createElement('div');
   card.className = 'session-card';
@@ -45,12 +53,20 @@ function createSessionCard(session) {
     <div class="session-content">
       <div class="session-stats">
         <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
-          <span class="stat-value">6 pts: ${session.six} | 4 pts: ${session.quatre} | 2 pts: ${session.deux}</span>
+          <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_600m') : 'Temps 600m:'}</span>
+          <span class="stat-value">${formatTime(session.six)}</span>
         </div>
         <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('total_tirs') : 'Total tirs:'}</span>
-          <span class="stat-value">${session.nb_tirs}</span>
+          <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_400m') : 'Temps 400m:'}</span>
+          <span class="stat-value">${formatTime(session.quatre)}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_200m') : 'Temps 200m:'}</span>
+          <span class="stat-value">${formatTime(session.deux)}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
+          <span class="stat-value">${session.nb_tirs || 0} ${window.getTranslation ? window.getTranslation('tirs') : 'tirs'}</span>
         </div>
         <div class="stat-item">
           <span class="stat-label">${window.getTranslation ? window.getTranslation('pourcentage') : 'Pourcentage:'}</span>

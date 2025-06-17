@@ -36,7 +36,11 @@ const translations = {
     non: "Non",
     aucune_session: "Aucune session trouvée",
     erreur_chargement: "Erreur lors du chargement de l'historique",
-    session: "Session"
+    session: "Session",
+    tirs: "tirs",
+    temps_600m: "Temps 600m:",
+    temps_400m: "Temps 400m:",
+    temps_200m: "Temps 200m:"
   },
   en: {
     titre_param: "Settings",
@@ -73,7 +77,11 @@ const translations = {
     non: "No",
     aucune_session: "No session found",
     erreur_chargement: "Error loading history",
-    session: "Session"
+    session: "Session",
+    tirs: "shots",
+    temps_600m: "600m time:",
+    temps_400m: "400m time:",
+    temps_200m: "200m time:"
   }
 };
 
