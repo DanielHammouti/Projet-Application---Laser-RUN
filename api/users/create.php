@@ -3,19 +3,6 @@
 include_once '../config/database.php';
 include_once '../objects/user.php';
 
-// Configuration CORS
-header("Access-Control-Allow-Origin: http://127.0.0.1:80");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-header("Access-Control-Allow-Credentials: true");
-header("Content-Type: application/json; charset=UTF-8");
-
-// Gestion des requêtes OPTIONS (pre-flight)
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
 try{
     if(!$database->isAlreadyConnected()){
         $database->getConnection();
