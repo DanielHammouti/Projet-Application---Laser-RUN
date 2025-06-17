@@ -1,3 +1,19 @@
+function getTirNote(pourcentage, dominante) {
+  // dominante : "mixte", "tir", "course"
+  // pourcentage : entre 0 et 1
+  let index = 0;
+  if (dominante.toLowerCase() === "tir") index = 1;
+  else if (dominante.toLowerCase() === "course") index = 2;
+
+  if (pourcentage >= 0.9)      return [6, 5.4, 7][index];
+  else if (pourcentage >= 0.8) return [5, 4.5, 5.5][index];
+  else if (pourcentage >= 0.7) return [4, 3.6, 4.4][index];
+  else if (pourcentage >= 0.6) return [3, 2.7, 3.3][index];
+  else if (pourcentage >= 0.5) return [2, 1.8, 2.2][index];
+  else if (pourcentage >= 0.4) return [1, 0.9, 1.1][index];
+  else                         return 0;
+}
+
 function getNote(sexe, tempsSec, nb_tirs, dominante) {
     // Définir les barèmes course (seuils en secondes)
     const courseBaremeGarcon = [
@@ -28,20 +44,10 @@ function getNote(sexe, tempsSec, nb_tirs, dominante) {
       { max: Infinity, notes: [0, 0, 0] }
     ];
   
-    const tirBareme = {
-      6: [6, 5.4, 7],
-      5: [5, 4.5, 5.5],
-      4: [4, 3.6, 4.4],
-      3: [3, 2.7, 3.3],
-      2: [2, 1.8, 2.2],
-      1: [1, 0.9, 1.1],
-      0: [0, 0, 0]
-    };
-  
     const dominanteToIndex = {
       "mixte": 0,
-      "course": 2,
-      "tir": 1
+      "tir": 1,
+      "course": 2
     };
   
     const index = dominanteToIndex[dominante.toLowerCase()] ?? 0;
@@ -49,9 +55,10 @@ function getNote(sexe, tempsSec, nb_tirs, dominante) {
     const courseTable = (sexe.toLowerCase() === "fille") ? courseBaremeFille : courseBaremeGarcon;
   
     const courseNote = courseTable.find(e => tempsSec <= e.max)?.notes[index] ?? 0;
-  
-    const tirs = Math.max(0, Math.min(6, nb_tirs));
-    const tirNote = tirBareme[tirs]?.[index] ?? 0;
+
+    // Calcul du pourcentage de tirs réussis sur 15
+    const pourcentageTirs = Math.max(0, Math.min(1, nb_tirs / 15));
+    const tirNote = getTirNote(pourcentageTirs, dominante);
   
     const total = courseNote + tirNote;
     return {
@@ -59,5 +66,5 @@ function getNote(sexe, tempsSec, nb_tirs, dominante) {
       tirNote,
       total
     };
-  }
+}
   
