@@ -207,7 +207,7 @@ const ShootingTimer = {
       
       // Ici vous pourrez ajouter l'appel à l'API pour insérer dans la DB
       // sendSessionDataToAPI(fourTime, twoTime, sixTime);
-      
+      sendSessionDataToAPI();
       // Redirection vers la page de marquage
       window.location.href = '../html/mark_page.html';
     };
@@ -381,3 +381,38 @@ const ShootingTimer = {
 
 // Exécuter l'initialisation immédiatement
 ShootingTimer.init();
+
+function sendSessionDataToAPI() {
+  const sixmeter = parseInt(localStorage.getItem('sixmeter') || '0');
+  const fourmeter = parseInt(localStorage.getItem('fourmeter') || '0');
+  const twometer = parseInt(localStorage.getItem('twometer') || '0');
+  const nombreTirs = parseInt(localStorage.getItem('nombreTirs') || '0');
+  const idUser = localStorage.getItem('userId');
+  const meneur = localStorage.getItem('meneur') === 'true' ? 1 : 0;
+  
+  const url = 'https://172.16.100.3/api/sessions/create.php';
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'json',
+    data: { 
+      id_user: idUser,
+      six: sixmeter,
+      quatre: fourmeter,
+      deux: twometer,
+      nb_tirs: nombreTirs,
+      meneur: meneur
+    },
+    success: function(response) {
+      console.log('Réponse de l\'API:', response);
+      if (response.message) {
+        console.log('Message:', response.message);
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('Erreur lors de la création de la session de tir:');
+      console.error('Status:', status);
+      console.error('Error:', error);
+    }
+  });
+}
