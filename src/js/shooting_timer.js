@@ -52,12 +52,16 @@ const ShootingTimer = {
       const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
       const twoTime = parseInt(localStorage.getItem('twoTime') || '0');
       
+      // Convertir elapsedTime de millisecondes en secondes
+      const elapsedTimeSeconds = Math.floor(elapsedTime / 1000);
+      
       // Calculer le temps de la 3ème session
-      session3Seconds = elapsedTime - (fourTime + twoTime);
+      session3Seconds = elapsedTimeSeconds - (fourTime + twoTime);
       session3Time = this.formatTime(session3Seconds);
       
       console.log('🔧 Calcul automatique de la session 3:');
-      console.log('  - elapsedTime total:', elapsedTime);
+      console.log('  - elapsedTime (ms):', elapsedTime);
+      console.log('  - elapsedTime (secondes):', elapsedTimeSeconds);
       console.log('  - fourTime (session 1):', fourTime);
       console.log('  - twoTime (session 2):', twoTime);
       console.log('  - session3Seconds calculé:', session3Seconds);
