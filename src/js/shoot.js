@@ -47,25 +47,6 @@ for (let i = 1; i <= 5; i++) {
   tirsContainer.appendChild(clone);
 }
 
-// Event listener pour détecter les clics sur les liens vers index.html
-document.addEventListener('click', function(e) {
-  // Vérifier si le clic est sur un lien vers index.html
-  if (e.target.tagName === 'A' && e.target.href && e.target.href.includes('index.html')) {
-    // Réinitialiser le compteur avant de naviguer vers la page d'accueil
-    resetNombreTirs();
-  }
-});
-
-// Event listener pour détecter les clics sur les boutons qui naviguent vers index.html
-document.addEventListener('click', function(e) {
-  // Vérifier si le clic est sur un bouton qui pourrait naviguer vers index.html
-  if (e.target.tagName === 'BUTTON' && (e.target.textContent.toLowerCase().includes('accueil') || 
-                                       e.target.textContent.toLowerCase().includes('home') ||
-                                       e.target.textContent.toLowerCase().includes('menu'))) {
-    resetNombreTirs();
-  }
-});
-
 function openPopup() {
   document.getElementById("popupOverlay").style.display = "flex";
 }
