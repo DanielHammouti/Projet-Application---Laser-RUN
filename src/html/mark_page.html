@@ -49,46 +49,33 @@
         
         // Récupération du sexe depuis l'API et calcul de la note
         const idUser = localStorage.getItem('userId');
+        let sexe = 'garcon'; // Valeur par défaut
+        
         if (idUser) {
           fetch(`https://172.16.100.3/api/users/read_single.php?id=${idUser}`)
             .then(response => response.json())
             .then(data => {
               if (data.user && data.user.length > 0) {
-                const sexe = data.user[0].sexe;
-                const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
-                
-                // Affichage du résultat des tirs
-                const pourcentageTirs = Math.round((nombreTirs / 15) * 100);
-                const resultatTirElement = document.getElementById('resultat_tir');
-                if (resultatTirElement) {
-                  resultatTirElement.textContent = `Résultat tirs ${pourcentageTirs}%`;
-                }
-                
-                // Affichage de la note
-                const resultatNoteElement = document.getElementById('resultat_note');
-                if (resultatNoteElement) {
-                  resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/12<br><small>(${resultatNote.repartition})</small>`;
-                }
-                
-                // Envoi des données à l'API
-                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
-              } else {
-                // Fallback si pas de données utilisateur
-                const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
-                afficherResultats(resultatNote, nombreTirs);
-                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+                sexe = data.user[0].sexe;
               }
+              // Calcul et affichage dans tous les cas
+              const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
+              afficherResultats(resultatNote, nombreTirs);
+              // Envoi unique des données à l'API
+              sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
             })
             .catch(error => {
-              // Fallback en cas d'erreur API
-              const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
+              // Calcul et affichage en cas d'erreur
+              const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
               afficherResultats(resultatNote, nombreTirs);
+              // Envoi unique des données à l'API
               sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
             });
         } else {
-          // Fallback si pas d'ID utilisateur
-          const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
+          // Calcul et affichage si pas d'ID
+          const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
           afficherResultats(resultatNote, nombreTirs);
+          // Envoi unique des données à l'API
           sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
         }
       });
