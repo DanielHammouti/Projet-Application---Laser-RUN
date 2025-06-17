@@ -66,7 +66,7 @@ function createSessionCard(session) {
         </div>
         <div class="stat-item">
           <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
-          <span class="stat-value">${session.nb_tirs || 0} ${window.getTranslation ? window.getTranslation('tirs') : 'tirs'}</span>
+          <span class="stat-value">${Math.round((session.nb_tirs / 15) * 100)}% (${session.nb_tirs}/15)</span>
         </div>
         <div class="stat-item">
           <span class="stat-label">${window.getTranslation ? window.getTranslation('pourcentage') : 'Pourcentage:'}</span>
@@ -134,7 +134,7 @@ async function loadSessionsHistory() {
               </div>
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
-                <span class="stat-value">${nbTirs} / 15</span>
+                <span class="stat-value">${Math.round((nbTirs / 15) * 100)}% (${nbTirs}/15)</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
