@@ -2,8 +2,8 @@ function getTirNote(pourcentage, dominante) {
   // dominante : "mixte", "tir", "course"
   // pourcentage : entre 0 et 1
   let index = 0;
-  if (dominante.toLowerCase() === "tir") index = 1;
-  else if (dominante.toLowerCase() === "course") index = 2;
+  if (dominante.toLowerCase() === "tir") index = 2;
+  else if (dominante.toLowerCase() === "course") index = 1;
 
   if (pourcentage >= 0.9)      return [6, 5.4, 7][index];
   else if (pourcentage >= 0.8) return [5, 4.5, 5.5][index];
