@@ -198,6 +198,10 @@ const ShootingTimer = {
     this.displayTime(this.SHOOTING_TIME);
     
     const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0', 10);
+    
+    // Récupérer le temps de la session courante depuis run_timer.js
+    this.storeCurrentSessionTime();
+    
     if (shootingSessions === 3) {
       this.createFinishButton();
       const timeDisplay = document.querySelector('.temps-tirs');
@@ -205,6 +209,40 @@ const ShootingTimer = {
     } else {
       this.startShootingTimer();
     }
+  },
+
+  // Fonction pour stocker le temps de la session courante
+  storeCurrentSessionTime() {
+    const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+    
+    // Récupérer le temps depuis le chronomètre principal
+    const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+    const previousTotalTime = parseInt(localStorage.getItem('previousTotalTime') || '0');
+    
+    // Calculer le temps de la session courante
+    const sessionTime = elapsedTime - previousTotalTime;
+    const sessionTimeFormatted = this.formatTime(sessionTime);
+    
+    console.log(`📊 Stockage du temps de la session ${shootingSessions}:`, sessionTimeFormatted, `(${sessionTime} secondes)`);
+    
+    // Stocker le temps selon le numéro de session
+    if (shootingSessions === 1) {
+      localStorage.setItem('session1Time', sessionTimeFormatted);
+      console.log('✅ Temps stocké pour session 1 (400m):', sessionTimeFormatted);
+    } else if (shootingSessions === 2) {
+      localStorage.setItem('session2Time', sessionTimeFormatted);
+      console.log('✅ Temps stocké pour session 2 (200m):', sessionTimeFormatted);
+    } else if (shootingSessions === 3) {
+      localStorage.setItem('session3Time', sessionTimeFormatted);
+      console.log('✅ Temps stocké pour session 3 (600m):', sessionTimeFormatted);
+    }
+  },
+
+  // Fonction pour formater le temps en secondes en "MM : SS"
+  formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')} : ${remainingSeconds.toString().padStart(2, '0')}`;
   }
 };
 

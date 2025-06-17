@@ -71,9 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (timeDisplay) {
     const label = window.getTranslation ? window.getTranslation('temps_tour') : 'Temps du tour';
     timeDisplay.innerHTML = `${label}<br />00 : 00`;
-    
-    // Stocker le temps de la session actuelle
-    storeSessionTime();
   }
   startRunTimer();
+  
+  // Stocker le temps quand on quitte la page (avant de partir vers la page de tir)
+  window.addEventListener('beforeunload', () => {
+    storeSessionTime();
+  });
+  
+  // Stocker aussi quand on clique sur un lien qui mène vers la page de tir
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a[href*="shots_page.html"]')) {
+      storeSessionTime();
+    }
+  });
 });

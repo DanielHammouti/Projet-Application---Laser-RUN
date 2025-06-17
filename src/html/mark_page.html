@@ -10,16 +10,26 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const timeDisplay = document.querySelector('.text-rectangle-noir');
+        let timeString = "00 : 00"; // Définir timeString dans le scope global du script
+        
         if (timeDisplay) {
           const elapsedTime = parseInt(localStorage.getItem('elapsedTime')) || 0;
           const seconds = Math.floor((elapsedTime / 1000) % 60);
           const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
-          const timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+          timeString = `${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
           timeDisplay.innerHTML = `Temps Total<br />${timeString}`;
         }
         
         // Récupération et affichage des temps des sessions
         console.log('=== PAGE MARK - RÉCUPÉRATION DES TEMPS ===');
+        
+        // Debug: Afficher toutes les clés localStorage
+        console.log('🔍 DEBUG - TOUTES LES CLÉS LOCALSTORAGE:');
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          const value = localStorage.getItem(key);
+          console.log(`${key}: ${value}`);
+        }
         
         // Récupérer les temps stockés dans le localStorage
         const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
@@ -34,6 +44,9 @@
         // Récupérer le nombre de tirs
         const nbTirs = parseInt(localStorage.getItem('nbTirs') || '0');
         
+        // Récupérer le nombre de sessions de tir
+        const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+        
         console.log('📊 TEMPS DES SESSIONS (formaté):');
         console.log('Session 1 (400m):', session1Time);
         console.log('Session 2 (200m):', session2Time);
@@ -46,6 +59,7 @@
         
         console.log('🎯 AUTRES DONNÉES:');
         console.log('Nombre de tirs:', nbTirs);
+        console.log('Nombre de sessions de tir:', shootingSessions);
         console.log('Temps total:', timeString);
         
         // Vérification des valeurs
