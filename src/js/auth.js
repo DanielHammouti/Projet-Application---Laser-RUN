@@ -78,7 +78,11 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
         try {
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
             console.log('Inscription réussie:', userCredential.user.email);
-            window.location.href = 'index.html';
+            console.log(userCredential.user.uid);
+
+            createUserAPI(userCredential.user.uid, "test", "test", "test", "test");
+
+            //window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
             alert('Erreur d\'inscription : ' + error.message);
@@ -94,3 +98,27 @@ firebase.auth().onAuthStateChanged((user) => {
         console.log('Utilisateur déconnecté');
     }
 }); 
+
+
+function createUserAPI(uid, nom, prenom, classe, sexe){
+    const url = 'http://172.16.100.3/api/users/create.php';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "json",
+        data: {
+            id: uid,
+            nom: nom,
+            prenom: prenom,
+            classe: classe,
+            sexe: sexe
+        },
+        success: function(response){
+            console.log(response);
+        },
+        error: function(error){
+            console.error('Erreur lors de la création de l\'utilisateur:', error);
+        }
+    });
+}
