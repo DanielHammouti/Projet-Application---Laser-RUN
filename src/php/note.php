@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des utilisateurs</title>
-    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <h1>Liste des utilisateurs</h1>
