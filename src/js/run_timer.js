@@ -46,35 +46,42 @@ function formatTime(seconds) {
 // Fonction pour stocker le temps de la session actuelle
 function storeSessionTime() {
   const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+  const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+  const elapsedTimeSeconds = Math.floor(elapsedTime / 1000);
+
+  // Récupérer la fin de la session précédente (en secondes)
+  const lastSessionEndTime = parseInt(localStorage.getItem('lastSessionEndTime') || '0');
+
+  // Calculer le temps de la session courante
+  const sessionTime = elapsedTimeSeconds - lastSessionEndTime;
+
+  console.log(`📊 Stockage du temps de la session ${shootingSessions}:`);
+  console.log('  - elapsedTime (ms):', elapsedTime);
+  console.log('  - elapsedTime (secondes):', elapsedTimeSeconds);
+  console.log('  - lastSessionEndTime:', lastSessionEndTime);
+  console.log('  - sessionTime calculé:', sessionTime, 'secondes');
   
-  // Récupérer le temps actuel du chronomètre de course
-  let tempsFinalSeconds = 0;
-  if (runIsRunning) {
-    const elapsedTime = Date.now() - runStartTime;
-    tempsFinalSeconds = Math.floor(elapsedTime / 1000);
-  }
-  
-  const tempsFinalFormatted = formatTime(tempsFinalSeconds);
-  
-  console.log(`📊 Stockage du temps de la session ${shootingSessions}:`, tempsFinalFormatted, `(${tempsFinalSeconds} secondes)`);
-  console.log('  - runIsRunning:', runIsRunning);
-  console.log('  - runStartTime:', runStartTime);
-  console.log('  - Date.now():', Date.now());
+  const tempsFinalFormatted = formatTime(sessionTime);
+  console.log('  - sessionTime formaté:', tempsFinalFormatted);
   
   // Stocker le temps selon le numéro de session
   if (shootingSessions === 1) {
     localStorage.setItem('session1Time', tempsFinalFormatted);
-    localStorage.setItem('fourTime', tempsFinalSeconds.toString());
+    localStorage.setItem('fourTime', sessionTime.toString());
     console.log('✅ Temps stocké pour session 1 (400m):', tempsFinalFormatted);
   } else if (shootingSessions === 2) {
     localStorage.setItem('session2Time', tempsFinalFormatted);
-    localStorage.setItem('twoTime', tempsFinalSeconds.toString());
+    localStorage.setItem('twoTime', sessionTime.toString());
     console.log('✅ Temps stocké pour session 2 (200m):', tempsFinalFormatted);
   } else if (shootingSessions === 3) {
     localStorage.setItem('session3Time', tempsFinalFormatted);
-    localStorage.setItem('sixTime', tempsFinalSeconds.toString());
+    localStorage.setItem('sixTime', sessionTime.toString());
     console.log('✅ Temps stocké pour session 3 (600m):', tempsFinalFormatted);
   }
+  
+  // Mettre à jour la fin de la session précédente
+  localStorage.setItem('lastSessionEndTime', elapsedTimeSeconds.toString());
+  console.log('  - lastSessionEndTime mis à jour:', elapsedTimeSeconds);
   
   return tempsFinalFormatted;
 }
