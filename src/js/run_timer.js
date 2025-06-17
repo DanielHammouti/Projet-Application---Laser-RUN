@@ -2,12 +2,6 @@ let runStartTime;
 let runTimerInterval;
 let runIsRunning = false;
 
-let sixTime = 0;
-let fourTime = 0;
-let twoTime = 0;
-let sixmeter = 0;
-let nbTirs = 0;
-
 function startRunTimer() {
   if (!runIsRunning) {
     runStartTime = Date.now();
