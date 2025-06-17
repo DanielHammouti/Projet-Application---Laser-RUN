@@ -135,7 +135,7 @@ function getBestNote(sexe, tempsSec, nb_tirs) {
     return {
         courseNote: courseNote,
         tirNote: tirNote,
-        total: meilleureNote,
+        total: Math.round(meilleureNote * 10) / 10,
         repartition: meilleureRepartition.label,
         dominante: meilleureRepartition.nom
     };
