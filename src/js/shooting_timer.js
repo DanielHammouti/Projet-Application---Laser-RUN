@@ -249,12 +249,18 @@ const ShootingTimer = {
     const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
     const previousTotalTime = parseInt(localStorage.getItem('previousTotalTime') || '0');
     
+    // Convertir elapsedTime de millisecondes en secondes
+    const elapsedTimeSeconds = Math.floor(elapsedTime / 1000);
+    const previousTotalTimeSeconds = Math.floor(previousTotalTime / 1000);
+    
     console.log('🔍 DEBUG - Valeurs récupérées:');
-    console.log('  - elapsedTime:', elapsedTime);
-    console.log('  - previousTotalTime:', previousTotalTime);
+    console.log('  - elapsedTime (ms):', elapsedTime);
+    console.log('  - elapsedTime (secondes):', elapsedTimeSeconds);
+    console.log('  - previousTotalTime (ms):', previousTotalTime);
+    console.log('  - previousTotalTime (secondes):', previousTotalTimeSeconds);
     
     // Calculer le temps de la 3ème session
-    let sessionTime = elapsedTime - previousTotalTime;
+    let sessionTime = elapsedTimeSeconds - previousTotalTimeSeconds;
     
     // Si le calcul donne 0, essayer une méthode alternative
     if (sessionTime <= 0) {
@@ -267,10 +273,10 @@ const ShootingTimer = {
       console.log('🔍 DEBUG - Méthode alternative:');
       console.log('  - fourTime (session 1):', fourTime);
       console.log('  - twoTime (session 2):', twoTime);
-      console.log('  - elapsedTime total:', elapsedTime);
+      console.log('  - elapsedTime total (secondes):', elapsedTimeSeconds);
       
       // Le temps de la 3ème session = temps total - (session1 + session2)
-      sessionTime = elapsedTime - (fourTime + twoTime);
+      sessionTime = elapsedTimeSeconds - (fourTime + twoTime);
       
       console.log('  - sessionTime calculé:', sessionTime);
     }
@@ -278,8 +284,8 @@ const ShootingTimer = {
     const sessionTimeFormatted = this.formatTime(sessionTime);
     
     console.log('📊 Stockage du temps de la session 3 (600m):');
-    console.log('  - elapsedTime:', elapsedTime, 'secondes');
-    console.log('  - previousTotalTime:', previousTotalTime, 'secondes');
+    console.log('  - elapsedTime (secondes):', elapsedTimeSeconds);
+    console.log('  - previousTotalTime (secondes):', previousTotalTimeSeconds);
     console.log('  - sessionTime final:', sessionTime, 'secondes');
     console.log('  - sessionTimeFormatted:', sessionTimeFormatted);
     
