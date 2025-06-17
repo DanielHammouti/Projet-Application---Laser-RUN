@@ -300,6 +300,33 @@ const ShootingTimer = {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')} : ${remainingSeconds.toString().padStart(2, '0')}`;
+  },
+
+  storeSessionTime() {
+    const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+    const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+    const elapsedTimeSeconds = Math.floor(elapsedTime / 1000);
+
+    // Récupérer la fin de la session précédente (en secondes)
+    const lastSessionEndTime = parseInt(localStorage.getItem('lastSessionEndTime') || '0');
+
+    // Calculer le temps de la session courante
+    const sessionTime = elapsedTimeSeconds - lastSessionEndTime;
+
+    // Stocker le temps de la session courante
+    if (shootingSessions === 1) {
+      localStorage.setItem('session1Time', this.formatTime(sessionTime));
+      localStorage.setItem('fourTime', sessionTime.toString());
+    } else if (shootingSessions === 2) {
+      localStorage.setItem('session2Time', this.formatTime(sessionTime));
+      localStorage.setItem('twoTime', sessionTime.toString());
+    } else if (shootingSessions === 3) {
+      localStorage.setItem('session3Time', this.formatTime(sessionTime));
+      localStorage.setItem('sixTime', sessionTime.toString());
+    }
+
+    // Mettre à jour la fin de la session précédente
+    localStorage.setItem('lastSessionEndTime', elapsedTimeSeconds.toString());
   }
 };
 
