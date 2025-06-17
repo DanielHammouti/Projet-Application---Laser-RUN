@@ -91,21 +91,17 @@ function createSessionCard(session) {
 async function loadSessionsHistory() {
   try {
     const response = await fetch(`../../api/sessions/read.php?id_user=${currentUser.uid}`);
-    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
     const data = await response.json();
-    
     const container = document.getElementById('sessions-container');
-    
+    container.innerHTML = ''; // Vider le conteneur avant d'ajouter les cartes
     if (data.sessions && data.sessions.length > 0) {
       // Trier les sessions par date (plus récentes en premier)
       const sortedSessions = data.sessions.sort((a, b) => 
         new Date(b.dateheure) - new Date(a.dateheure)
       );
-      
       sortedSessions.forEach(session => {
         const card = createSessionCard(session);
         container.appendChild(card);
@@ -136,13 +132,11 @@ function initializeHistory() {
     if (user) {
       currentUser = user;
       console.log('Utilisateur connecté pour l\'historique:', user.email);
-      
       // Mettre à jour le titre de la page
       const titreElement = document.getElementById('titre_historique');
       if (titreElement) {
         titreElement.textContent = window.getTranslation ? window.getTranslation('titre_historique') : 'Historique';
       }
-      
       loadSessionsHistory();
     } else {
       console.log('Aucun utilisateur connecté');
@@ -151,5 +145,7 @@ function initializeHistory() {
   });
 }
 
-// Initialiser l'historique quand le DOM est chargé
-document.addEventListener('DOMContentLoaded', initializeHistory); 
+// Initialiser l'historique quand le DOM est chargé, après un court délai pour la langue
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(initializeHistory, 100);
+}); 
