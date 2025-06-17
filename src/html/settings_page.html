@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styleguide.css" />
     <link rel="stylesheet" href="../css/style_settings.css" />
     <script src="../js/chronometer.js"></script>
-    
+    <script src="../js/settings.js"></script>
   </head>
   <body>
     <div class="home-page">
@@ -106,18 +106,5 @@
     <script src="../js/auth.js"></script>
     <script src="../js/auth-check.js"></script>
   </body>
-  <script src="../js/langue.js" ></script>
-  <script>
-    // Synchroniser la sélection du menu déroulant avec la langue actuelle
-    document.addEventListener('DOMContentLoaded', function() {
-      const langueSelect = document.getElementById('langue');
-      const currentLang = localStorage.getItem('selectedLanguage') || 'fr';
-      langueSelect.value = currentLang;
-    });
-
-    document.getElementById('bouton_valide').addEventListener('click', function() {
-      const selectedLang = document.getElementById('langue').value;
-      setLanguage(selectedLang);
-    });
-  </script>
+  <script src="../js/langue.js"></script>
 </html>
