@@ -111,7 +111,7 @@
         const sixmeter = parseInt(localStorage.getItem('sixmeter') || '0');
         const fourmeter = parseInt(localStorage.getItem('fourmeter') || '0');
         const twometer = parseInt(localStorage.getItem('twometer') || '0');
-        const nbTirs = parseInt(localStorage.getItem('nbTirs') || '0');
+        const nombreTirs = parseInt(localStorage.getItem('nombreTirs') || '0');
         const idUser = localStorage.getItem('userId');
         const meneur = localStorage.getItem('meneur') === 'true' ? 1 : 0;
         
@@ -125,7 +125,7 @@
             six: sixmeter,
             quatre: fourmeter,
             deux: twometer,
-            nb_tirs: nbTirs,
+            nb_tirs: nombreTirs,
             meneur: meneur
           },
           success: function(response) {
