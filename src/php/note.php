@@ -1,6 +1,7 @@
-<?php
-include_once '../config/database.php';
-include_once '../objects/user.php';
+<?php 
+$title = "Note";
+require('header.php');
+session_start();
 
 $database = new Database();
 $db = $database->getConnection();
@@ -9,11 +10,6 @@ $user = new User($db);
 $stmt = $user->read();
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des utilisateurs</title>
     <style>
         table {
             border-collapse: collapse;
@@ -30,8 +26,6 @@ $stmt = $user->read();
             color: white;
         }
     </style>
-</head>
-<body>
 
 <h1 style="text-align:center; color:#608969;">Liste des Utilisateurs</h1>
 
@@ -57,6 +51,3 @@ $stmt = $user->read();
         <?php endwhile; ?>
     </tbody>
 </table>
-
-</body>
-</html>
