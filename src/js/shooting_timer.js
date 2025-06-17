@@ -205,9 +205,7 @@ const ShootingTimer = {
       console.log('sixTime (600m):', sixTime, 'secondes');
       console.log('=======================');
       
-      // Ici vous pourrez ajouter l'appel à l'API pour insérer dans la DB
-      // sendSessionDataToAPI(fourTime, twoTime, sixTime);
-      sendSessionDataToAPI();
+      
       // Redirection vers la page de marquage
       window.location.href = '../html/mark_page.html';
     };

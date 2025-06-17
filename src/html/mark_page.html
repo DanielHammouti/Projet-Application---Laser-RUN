@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/style_mark.css" />
     <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
     <script src="../js/chronometer.js"></script>
+    <script src="../js/note.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const timeDisplay = document.querySelector('.text-rectangle-noir');
@@ -47,9 +48,62 @@
         const totalSeconds = totalSessionTime % 60;
         const totalFormatted = `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
         
-        sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+        // Récupération du sexe depuis l'API et calcul de la note
+        const idUser = localStorage.getItem('userId');
+        let sexe = 'garcon'; // Valeur par défaut
+        
+        // Vérification si les données sont valides avant d'envoyer à l'API
+        const hasValidData = fourTime > 0 || twoTime > 0 || sixTime > 0;
+        
+        if (idUser) {
+          fetch(`https://172.16.100.3/api/users/read_single.php?id=${idUser}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.user && data.user.length > 0) {
+                sexe = data.user[0].sexe;
+              }
+              // Calcul et affichage dans tous les cas
+              const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
+              afficherResultats(resultatNote, nombreTirs);
+              // Envoi unique des données à l'API seulement si les données sont valides
+              if (hasValidData) {
+                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+              }
+            })
+            .catch(error => {
+              // Calcul et affichage en cas d'erreur
+              const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
+              afficherResultats(resultatNote, nombreTirs);
+              // Envoi unique des données à l'API seulement si les données sont valides
+              if (hasValidData) {
+                sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+              }
+            });
+        } else {
+          // Calcul et affichage si pas d'ID
+          const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
+          afficherResultats(resultatNote, nombreTirs);
+          // Envoi unique des données à l'API seulement si les données sont valides
+          if (hasValidData) {
+            sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
+          }
+        }
       });
 
+      function afficherResultats(resultatNote, nombreTirs) {
+        // Affichage du résultat des tirs
+        const pourcentageTirs = Math.round((nombreTirs / 15) * 100);
+        const resultatTirElement = document.getElementById('resultat_tir');
+        if (resultatTirElement) {
+          resultatTirElement.textContent = `Résultat tirs ${pourcentageTirs}%`;
+        }
+        
+        // Affichage de la note
+        const resultatNoteElement = document.getElementById('resultat_note');
+        if (resultatNoteElement) {
+          resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/12<br><small>(${resultatNote.repartition})</small>`;
+        }
+      }
 
       function sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs) {
         const idUser = localStorage.getItem('userId');
@@ -93,7 +147,7 @@
         <div class="rectangle-vert">
             <div class="resultat-tir" id="resultat_tir">Résultat tirs XX%</div>
         </div>
-      <div class="resultat-note" id="resultat_note">Vous avez obtenu <br> la note de 16/20</div>
+      <div class="resultat-note" id="resultat_note"></div>
        <a href="statistic_page.html" class="statistique-wrapper">
                 <img class="img" src="../img/parametres.png" alt="Statistiques" /></a>
         
