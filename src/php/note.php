@@ -12,6 +12,7 @@
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Note</th>
+                <th>Date</th>
             </tr>
         </table>
 
@@ -34,7 +35,8 @@
                     let row = `<tr id="row-${user.id}">
                                 <td>${user.nom}</td>
                                 <td>${user.prenom}</td>
-                                <td id="note-${user.id}">Chargement...</td>
+                                <td id="note-${user.id}"></td>
+                                <td id="date-${user.id}"></td>
                             </tr>`;
                     tableau.innerHTML += row;
 
@@ -47,6 +49,7 @@
                                 let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs); // Calculer la note
                                 console.log("Note calculée :", noteInfo);
                                 document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
+                                document.getElementById(`date-${user.id}`).innerText = session.dateheure;
                             } else {
                                 document.getElementById(`note-${user.id}`).innerText = "Pas de note";
                             }
