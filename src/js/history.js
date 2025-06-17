@@ -105,11 +105,12 @@ async function loadSessionsHistory() {
       sortedSessions.forEach(session => {
         const totalTirs = 15;
         const nbTirs = session.nb_tirs || 0;
+        // Calcul du temps total pour la note
+        const tempsTotal = (session.six || 0) + (session.quatre || 0) + (session.deux || 0);
         // Calcul de la note avec la fonction getNote
-        // On suppose que le sexe et la dominante sont stockés dans la session ou à défaut on met des valeurs par défaut
         const sexe = session.sexe || 'garcon'; // à adapter si la DB fournit le sexe
         const dominante = session.dominante || 'mixte'; // à adapter si la DB fournit la dominante
-        const noteObj = getNote(sexe, session.six, nbTirs, dominante);
+        const noteObj = getNote(sexe, tempsTotal, nbTirs, dominante);
         const card = document.createElement('div');
         card.className = 'session-card';
         card.innerHTML = `
