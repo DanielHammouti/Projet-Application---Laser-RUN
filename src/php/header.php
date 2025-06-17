@@ -44,12 +44,20 @@ function getNav($lien, $title){
     </style>
 
        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">LaserTrack</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </div>
-</nav>
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">LaserTrack</a>
+
+          <!-- Bouton de déconnexion correctement placé -->
+          <button onclick="firebase.auth().signOut()" class="btn btn-danger">Se déconnecter</button>
+
+          <!-- Toggle menu (corrigé) -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
   
