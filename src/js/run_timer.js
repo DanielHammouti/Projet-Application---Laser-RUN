@@ -24,11 +24,56 @@ function updateRunDisplay() {
   }
 }
 
+// Fonction pour arrêter le chronomètre et retourner le temps en secondes
+function stopRunTimer() {
+  if (runIsRunning) {
+    clearInterval(runTimerInterval);
+    runIsRunning = false;
+    const elapsedTime = Date.now() - runStartTime;
+    const seconds = Math.floor(elapsedTime / 1000);
+    return seconds;
+  }
+  return 0;
+}
+
+// Fonction pour formater le temps en secondes en "MM : SS"
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')} : ${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// Fonction pour stocker le temps de la session actuelle
+function storeSessionTime() {
+  const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+  const tempsFinalSeconds = stopRunTimer();
+  const tempsFinalFormatted = formatTime(tempsFinalSeconds);
+  
+  console.log(`Stockage du temps de la session ${shootingSessions}:`, tempsFinalFormatted, `(${tempsFinalSeconds} secondes)`);
+  
+  // Stocker le temps selon le numéro de session
+  if (shootingSessions === 1) {
+    localStorage.setItem('session1Time', tempsFinalFormatted);
+    console.log('Temps stocké pour session 1 (400m):', tempsFinalFormatted);
+  } else if (shootingSessions === 2) {
+    localStorage.setItem('session2Time', tempsFinalFormatted);
+    console.log('Temps stocké pour session 2 (200m):', tempsFinalFormatted);
+  } else if (shootingSessions === 3) {
+    localStorage.setItem('session3Time', tempsFinalFormatted);
+    console.log('Temps stocké pour session 3 (600m):', tempsFinalFormatted);
+  }
+  
+  return tempsFinalFormatted;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const timeDisplay = document.querySelector('.temps-tour');
   if (timeDisplay) {
     const label = window.getTranslation ? window.getTranslation('temps_tour') : 'Temps du tour';
     timeDisplay.innerHTML = `${label}<br />00 : 00`;
+    
+    // Stocker le temps de la session actuelle
+    storeSessionTime();
   }
   startRunTimer();
 });
