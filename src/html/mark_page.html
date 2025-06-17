@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/styleguide.css" />
     <link rel="stylesheet" href="../css/style_mark.css" />
     <script src="../js/chronometer.js"></script>
+    <script src="../js/note.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const timeDisplay = document.querySelector('.text-rectangle-noir');
@@ -46,9 +47,62 @@
         const totalSeconds = totalSessionTime % 60;
         const totalFormatted = `${totalMinutes.toString().padStart(2, '0')}:${totalSeconds.toString().padStart(2, '0')}`;
         
+        // Récupération du sexe depuis l'API et calcul de la note
+        const idUser = localStorage.getItem('userId');
+        if (idUser) {
+          fetch(`https://172.16.100.3/api/users/read_single.php?id=${idUser}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.user && data.user.length > 0) {
+                const sexe = data.user[0].sexe;
+                const resultatNote = getBestNote(sexe, totalSessionTime, nombreTirs);
+                
+                // Affichage du résultat des tirs
+                const pourcentageTirs = Math.round((nombreTirs / 15) * 100);
+                const resultatTirElement = document.getElementById('resultat_tir');
+                if (resultatTirElement) {
+                  resultatTirElement.textContent = `Résultat tirs ${pourcentageTirs}%`;
+                }
+                
+                // Affichage de la note
+                const resultatNoteElement = document.getElementById('resultat_note');
+                if (resultatNoteElement) {
+                  resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/20<br><small>(${resultatNote.repartition})</small>`;
+                }
+              } else {
+                // Fallback si pas de données utilisateur
+                const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
+                afficherResultats(resultatNote, nombreTirs);
+              }
+            })
+            .catch(error => {
+              // Fallback en cas d'erreur API
+              const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
+              afficherResultats(resultatNote, nombreTirs);
+            });
+        } else {
+          // Fallback si pas d'ID utilisateur
+          const resultatNote = getBestNote('garcon', totalSessionTime, nombreTirs);
+          afficherResultats(resultatNote, nombreTirs);
+        }
+        
         sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs);
       });
 
+      function afficherResultats(resultatNote, nombreTirs) {
+        // Affichage du résultat des tirs
+        const pourcentageTirs = Math.round((nombreTirs / 15) * 100);
+        const resultatTirElement = document.getElementById('resultat_tir');
+        if (resultatTirElement) {
+          resultatTirElement.textContent = `Résultat tirs ${pourcentageTirs}%`;
+        }
+        
+        // Affichage de la note
+        const resultatNoteElement = document.getElementById('resultat_note');
+        if (resultatNoteElement) {
+          resultatNoteElement.innerHTML = `Vous avez obtenu <br> la note de ${resultatNote.total}/20<br><small>(${resultatNote.repartition})</small>`;
+        }
+      }
 
       function sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs) {
         const idUser = localStorage.getItem('userId');
