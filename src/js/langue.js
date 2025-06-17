@@ -4,6 +4,7 @@ const translations = {
   fr: {
     titre_param: "Paramètres",
     titre_stat : "Statistiques",
+    titre_historique: "Historique",
     sexe_type: "Sexe",
     homme: "Homme",
     femme: "Femme",
@@ -26,10 +27,21 @@ const translations = {
     temps_moyen: "Temps moyen au 100m",
     courbe: "Courbe",
     bouton_fin : "Marquer - Confirmer fin de course",
+    tirs_reussis: "Tirs réussis:",
+    total_tirs: "Total tirs:",
+    pourcentage: "Pourcentage:",
+    note: "Note:",
+    meneur_allure: "Meneur d'allure:",
+    oui: "Oui",
+    non: "Non",
+    aucune_session: "Aucune session trouvée",
+    erreur_chargement: "Erreur lors du chargement de l'historique",
+    session: "Session"
   },
   en: {
     titre_param: "Settings",
     titre_stat : "Statistics",
+    titre_historique: "History",
     sexe_type: "Gender",
     homme: "Male",
     femme: "Female",
@@ -51,7 +63,17 @@ const translations = {
     tir: "Shot #",
     temps_moyen: "Average time per 100m",
     courbe: "Curve",
-    bouton_fin :"Mark - Confirm end of race"
+    bouton_fin :"Mark - Confirm end of race",
+    tirs_reussis: "Successful shots:",
+    total_tirs: "Total shots:",
+    pourcentage: "Percentage:",
+    note: "Grade:",
+    meneur_allure: "Pace setter:",
+    oui: "Yes",
+    non: "No",
+    aucune_session: "No session found",
+    erreur_chargement: "Error loading history",
+    session: "Session"
   }
 };
 

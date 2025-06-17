@@ -1,4 +1,3 @@
-
 .rectangle {
   position: relative;
   width: 320px;
@@ -59,4 +58,141 @@
   letter-spacing: 0;
   line-height: normal;
   
+}
+
+.sessions-container {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+  margin-bottom: 100px;
+}
+
+.session-card {
+  background: #f5f5f5;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-left: 4px solid #608969;
+}
+
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.session-date {
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+.session-id {
+  background: #608969;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.session-content {
+  margin-top: 10px;
+}
+
+.session-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.stat-label {
+  font-weight: bold;
+  color: #555;
+  font-size: 14px;
+}
+
+.stat-value {
+  color: #333;
+  font-size: 14px;
+  text-align: right;
+}
+
+.no-sessions {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.error-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #d32f2f;
+  background: #ffebee;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.error-message p {
+  margin: 5px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sessions-container {
+    padding: 15px;
+    margin-bottom: 80px;
+  }
+  
+  .session-card {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .session-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .stat-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+  
+  .stat-value {
+    text-align: left;
+  }
+}
+
+/* Scrollbar personnalisée */
+.sessions-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sessions-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.sessions-container::-webkit-scrollbar-thumb {
+  background: #608969;
+  border-radius: 3px;
+}
+
+.sessions-container::-webkit-scrollbar-thumb:hover {
+  background: #4a6b4f;
 }
