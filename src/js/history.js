@@ -138,7 +138,7 @@ async function loadSessionsHistory() {
               </div>
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
-                <span class="stat-value">${noteObj.total}/12</span>
+                <span class="stat-value">${noteObj.total}/12 (${noteObj.courseNote} + ${noteObj.tirNote})</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">Répartition optimale:</span>
