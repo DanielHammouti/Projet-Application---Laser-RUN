@@ -48,13 +48,13 @@ function getNav($lien, $title){
           <a class="navbar-brand" href="#">LaserTrack</a>
 
           <button onclick="firebase.auth().signOut()" class="btn btn-danger">Se déconnecter</button>
-
-            <span class="navbar-toggler-icon"></span>
           </button>
         </div>
       </nav>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/auth-check.js"></script>
 
   
