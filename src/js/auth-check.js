@@ -10,7 +10,7 @@ firebase.auth().onAuthStateChanged((user) => {
         console.log("Utilisateur connecté :", user.uid);
 
         if (user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
-            window.location.href = "note.php";
+            window.location.href = "../php/note.php";
         }
     }
 });
