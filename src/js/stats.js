@@ -19,7 +19,8 @@ async function fetchSessionsData() {
         }
 
         // Transformer les données pour les graphiques
-        sessionsData = data.sessions.map((session, index) => ({
+        // On inverse l'ordre des sessions pour avoir la plus ancienne en premier
+        sessionsData = data.sessions.reverse().map((session, index) => ({
             session: index + 1,
             "200": parseFloat(session.deux) || 0,
             "400": parseFloat(session.quatre) || 0,
@@ -27,9 +28,7 @@ async function fetchSessionsData() {
             nb_tirs: parseInt(session.nb_tirs) || 0
         }));
 
-        console.log('Données des sessions récupérées:', sessionsData);
     } catch (error) {
-        console.error('Erreur lors de la récupération des sessions:', error);
         // En cas d'erreur, utiliser des données de test
         sessionsData = [
             { session: 1, "200": 10, "400": 20, "600": 30, nb_tirs: 12 },
@@ -127,7 +126,7 @@ function createShotsGraph() {
                 y: {
                     title: { display: true, text: 'Nombre de tirs réussis' },
                     min: 0,
-                    max: 15,
+                    max: 16,
                     ticks: {
                         stepSize: 1
                     }
