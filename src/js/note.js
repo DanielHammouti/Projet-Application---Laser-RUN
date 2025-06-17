@@ -67,4 +67,77 @@ function getNote(sexe, tempsSec, nb_tirs, dominante) {
       total
     };
 }
+
+function getBestNote(sexe, tempsSec, nb_tirs) {
+    // Définir les barèmes course (seuils en secondes)
+    const courseBaremeGarcon = [
+      { max: 255, notes: [6, 5, 6.6] },     // 4mn15
+      { max: 262, notes: [5.4, 4.32, 5.94] },
+      { max: 270, notes: [4.8, 3.84, 5.28] },
+      { max: 277, notes: [4.2, 3.36, 4.62] },
+      { max: 285, notes: [3.6, 2.88, 3.96] },
+      { max: 300, notes: [3, 2.4, 3.3] },
+      { max: 315, notes: [2.4, 1.92, 2.64] },
+      { max: 330, notes: [1.8, 1.44, 1.98] },
+      { max: 345, notes: [1.2, 0.96, 1.32] },
+      { max: 360, notes: [0.6, 0.48, 0.66] },
+      { max: Infinity, notes: [0, 0, 0] }
+    ];
+  
+    const courseBaremeFille = [
+      { max: 310, notes: [6, 4.8, 6.6] },     // 5mn10
+      { max: 335, notes: [5.4, 4.32, 5.94] },
+      { max: 360, notes: [4.8, 3.84, 5.28] },
+      { max: 370, notes: [4.2, 3.36, 4.62] },
+      { max: 380, notes: [3.6, 2.88, 3.96] },
+      { max: 390, notes: [3, 2.4, 3.3] },
+      { max: 405, notes: [2.4, 1.92, 2.64] },
+      { max: 420, notes: [1.8, 1.44, 1.98] },
+      { max: 435, notes: [1.2, 0.96, 1.32] },
+      { max: 450, notes: [0.6, 0.48, 0.66] },
+      { max: Infinity, notes: [0, 0, 0] }
+    ];
+
+    const courseTable = (sexe.toLowerCase() === "fille") ? courseBaremeFille : courseBaremeGarcon;
+    
+    // Calcul du pourcentage de tirs réussis sur 15
+    const pourcentageTirs = Math.max(0, Math.min(1, nb_tirs / 15));
+    
+    // Tester les 3 répartitions possibles
+    const repartitions = [
+        { nom: "mixte", index: 0, label: "50% Course / 50% Tirs" },
+        { nom: "tir", index: 1, label: "40% Course / 60% Tirs" },
+        { nom: "course", index: 2, label: "60% Course / 40% Tirs" }
+    ];
+    
+    let meilleureNote = 0;
+    let meilleureRepartition = null;
+    let courseNote = 0;
+    let tirNote = 0;
+    
+    repartitions.forEach(repartition => {
+        // Note de course pour cette répartition
+        const courseNoteTemp = courseTable.find(e => tempsSec <= e.max)?.notes[repartition.index] ?? 0;
+        
+        // Note de tir pour cette répartition
+        const tirNoteTemp = getTirNote(pourcentageTirs, repartition.nom);
+        
+        const totalTemp = courseNoteTemp + tirNoteTemp;
+        
+        if (totalTemp > meilleureNote) {
+            meilleureNote = totalTemp;
+            meilleureRepartition = repartition;
+            courseNote = courseNoteTemp;
+            tirNote = tirNoteTemp;
+        }
+    });
+    
+    return {
+        courseNote: courseNote,
+        tirNote: tirNote,
+        total: meilleureNote,
+        repartition: meilleureRepartition.label,
+        dominante: meilleureRepartition.nom
+    };
+}
   

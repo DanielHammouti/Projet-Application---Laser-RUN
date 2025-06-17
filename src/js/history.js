@@ -110,7 +110,7 @@ async function loadSessionsHistory() {
         // Calcul de la note avec la fonction getNote
         const sexe = session.sexe || 'garcon'; // à adapter si la DB fournit le sexe
         const dominante = session.dominante || 'mixte'; // à adapter si la DB fournit la dominante
-        const noteObj = getNote(sexe, tempsTotal, nbTirs, dominante);
+        const noteObj = getBestNote(sexe, tempsTotal, nbTirs);
         const card = document.createElement('div');
         card.className = 'session-card';
         card.innerHTML = `
@@ -139,6 +139,10 @@ async function loadSessionsHistory() {
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
                 <span class="stat-value">${noteObj.total}/12</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Répartition optimale:</span>
+                <span class="stat-value">${noteObj.repartition}</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
