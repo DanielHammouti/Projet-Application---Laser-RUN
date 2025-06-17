@@ -12,6 +12,14 @@
 </head>
 <body>
     <h1>Liste des utilisateurs</h1>
+        <div class="ligne-select">
+            <div class="text" id="text">Formation</div>
+                <select name="formation" id="choix_formation">
+                    <option value="all">Toutes les formations</option>
+                    <option value="sti">STI</option>
+                    <option value="mri">MRI
+                </select>
+        </div>
         <table border="1" id="tableau-utilisateurs">
             <tr>
                 <th>Nom</th>
@@ -36,35 +44,43 @@
             function afficherUtilisateurs(users) {
                 let tableau = document.getElementById("tableau-utilisateurs");
 
-                users.forEach(user => {
-                    let row = `<tr id="row-${user.id}">
-                                <td>${user.nom}</td>
-                                <td>${user.prenom}</td>
-                                <td id="note-${user.id}"></td>
-                                <td id="date-${user.id}"></td>
-                            </tr>`;
-                    tableau.innerHTML += row;
+                tableau.innerHTML = `<tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Note</th>
+                            <th>Date</th>
+                        </tr>`;
 
-                    // Récupérer la session de l'utilisateur et calculer la note
-                    fetch(`/api/sessions/read.php?id_user=${user.id}`)
-                        .then(response => response.json())
-                        .then(sessionData => {
-                            if (sessionData.sessions.length > 0) {
-                                let session = sessionData.sessions[0]; // Prendre la première session trouvée
-                                let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs); // Calculer la note
-                                console.log("Note calculée :", noteInfo);
-                                document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
-                                document.getElementById(`date-${user.id}`).innerText = session.dateheure;
-                            } else {
-                                document.getElementById(`note-${user.id}`).innerText = "Pas de note";
-                            }
-                        })
-                        .catch(error => {
-                            console.error(`Erreur de chargement de la session pour ${user.nom} :`, error);
-                            document.getElementById(`note-${user.id}`).innerText = "Erreur";
-                        });
+    window.utilisateurs.forEach(user => {
+        if (classe === "all" || user.classe === classe) {
+            let row = `<tr id="row-${user.id}">
+                        <td>${user.nom}</td>
+                        <td>${user.prenom}</td>
+                        <td id="note-${user.id}"></td>
+                        <td id="date-${user.id}"></td>
+                       </tr>`;
+            tableau.innerHTML += row;
+
+            // Récupérer la session de l'utilisateur et calculer la note
+            fetch(`/api/sessions/read.php?id_user=${user.id}`)
+                .then(response => response.json())
+                .then(sessionData => {
+                    if (sessionData.sessions.length > 0) {
+                        let session = sessionData.sessions[0];
+                        let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs);
+                        document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
+                        document.getElementById(`date-${user.id}`).innerText = session.dateheure;
+                    } else {
+                        document.getElementById(`note-${user.id}`).innerText = "Pas de note";
+                    }
+                })
+                .catch(error => {
+                    console.error(`Erreur de chargement de la session pour ${user.nom} :`, error);
+                    document.getElementById(`note-${user.id}`).innerText = "Erreur";
                 });
-            }
+        }
+    });
+}
 
 </script>
 </body>
