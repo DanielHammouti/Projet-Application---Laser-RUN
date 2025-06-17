@@ -102,7 +102,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 function createUserAPI(uid, nom, prenom, classe, sexe){
-    const url = 'http://172.16.100.3/api/users/create.php';
+    const url = 'https://172.16.100.3/api/users/create.php';
 
     $.ajax({
         type: "POST",
