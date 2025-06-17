@@ -101,7 +101,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 function createUserAPI(uid, nom, prenom, groupe, classe, sexe){
-    const url = 'http://127.0.0.1:80/api/users/create.php';
+    const url = 'http://localhost/api/users/create.php';
 
     $.ajax({
         type: "POST",
@@ -117,7 +117,6 @@ function createUserAPI(uid, nom, prenom, groupe, classe, sexe){
         },
         success: function(response){
             console.log(response);
-            window.location.href = 'index.html';
         },
         error: function(error){
             console.error('Erreur lors de la création de l\'utilisateur:', error);

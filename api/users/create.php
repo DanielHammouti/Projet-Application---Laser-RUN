@@ -3,6 +3,18 @@
 include_once '../config/database.php';
 include_once '../objects/user.php';
 
+// Headers CORS
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Content-Type: application/json; charset=UTF-8");
+
+// Gestion des requêtes OPTIONS (pre-flight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
 try{
     if(!$database->isAlreadyConnected()){
         $database->getConnection();
@@ -12,10 +24,7 @@ try{
 
     // Récupération des données POST
     $data = json_decode(file_get_contents("php://input"), true);
-    if (!$data) {
-        $data = $_POST;
-    }
-
+    
     if(!isset($data['id']) || !isset($data['nom']) || !isset($data['prenom']) || !isset($data['groupe']) || !isset($data['classe']) || !isset($data['sexe'])){
         throw new Exception("Les données sont invalides");
     }
