@@ -61,36 +61,49 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
         }
     });
 
-    // Gestion de l'inscription
     registerForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        console.log('Tentative d\'inscription');
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        const confirmPassword = document.getElementById('register-confirm-password').value;
+    e.preventDefault();
+    const name = document.getElementById('register-name').value;
+    const firstName = document.getElementById('register-first-name').value;
+    const email = document.getElementById('register-email').value;
+    const sexe = document.getElementById('register-sexe').value;
+    const formation = document.getElementById('register-formation').value;
+    const password = document.getElementById('register-password').value;
+    const confirmPassword = document.getElementById('register-confirm-password').value;
 
-        if (password !== confirmPassword) {
-            console.error('Les mots de passe ne correspondent pas');
-            alert('Les mots de passe ne correspondent pas');
-            return;
-        }
+    if (password !== confirmPassword) {
+        alert('Les mots de passe ne correspondent pas.');
+        return;
+    }
 
-        try {
-            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            console.log('Inscription réussie:', userCredential.user.email);
-            window.location.href = 'index.html';
-        } catch (error) {
-            console.error('Erreur d\'inscription:', error);
-            alert('Erreur d\'inscription : ' + error.message);
-        }
-    });
+    try {
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        // Sauvegarde des infos dans Firestore
+        await db.collection('users').doc(user.uid).set({
+            name,
+            firstName,
+            email,
+            sexe,
+            formation,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        console.log('Utilisateur inscrit et infos enregistrées:', user.email);
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Erreur d\'inscription:', error);
+        alert('Erreur d\'inscription : ' + error.message);
+    }
+});
 }
 
-// Vérification de l'état de connexion
+// Suivi de l'état d'authentification
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         console.log('Utilisateur connecté :', user.email);
     } else {
         console.log('Utilisateur déconnecté');
     }
-}); 
+});

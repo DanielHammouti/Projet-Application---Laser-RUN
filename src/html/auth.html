@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentification - Laser RUN</title>
+    <title>Authentification - LaserTrack</title>
     <link rel="stylesheet" href="../css/auth.css">
 </head>
 <body>
+    <img class="background" src="../img/laserrun.webp"/>
     <div class="container">
         <div class="auth-box">
-            <h1>Laser RUN</h1>
+            <h1>Laser Track</h1>
             
             <!-- Formulaire de connexion -->
             <div id="login-form" class="form-container">
@@ -26,6 +27,16 @@
             <div id="register-form" class="form-container" style="display: none;">
                 <h2>Inscription</h2>
                 <form id="register">
+                    <input type="text" id="register-name" placeholder="Nom" required>
+                    <input type="text" id="register-first-name" placeholder="Prénom" required>
+                    <select name="Sexe" id="sexe">
+                        <option value="homme" id="homme">Homme</option>
+                        <option value="femme" id="femme">Femme</option>
+                    </select>
+                    <select name="formation" id="Formation">
+                        <option value="sti" id="sti">STI</option>
+                        <option value="mri" id="mri">MRI</option>
+                    </select>
                     <input type="email" id="register-email" placeholder="Email" required>
                     <input type="password" id="register-password" placeholder="Mot de passe" required>
                     <input type="password" id="register-confirm-password" placeholder="Confirmer le mot de passe" required>
