@@ -65,9 +65,9 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     e.preventDefault();
     const name = document.getElementById('register-name').value;
     const firstName = document.getElementById('register-first-name').value;
-    const email = document.getElementById('register-email').value;
     const sexe = document.getElementById('register-sexe').value;
     const formation = document.getElementById('register-formation').value;
+    const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
     const confirmPassword = document.getElementById('register-confirm-password').value;
 
