@@ -58,7 +58,7 @@
                                     <td id="date-${user.id}"></td>
                                 </tr>`;
                         tableau.innerHTML += row;
-
+                    }
                     // Récupérer la session de l'utilisateur et calculer la note
                     fetch(`/api/sessions/read.php?id_user=${user.id}`)
                         .then(response => response.json())
