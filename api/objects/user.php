@@ -9,7 +9,6 @@ class User{
     private $id;
     private $nom;
     private $prenom;
-    private $groupe;
     private $classe;
     private $sexe;
 
@@ -37,12 +36,12 @@ class User{
             return false;
         }
 
-        $sql = "INSERT INTO \"$this->table\" (nom, prenom, groupe, classe, sexe) VALUES (:nom, :prenom, :groupe, :classe, :sexe)";
+        $sql = "INSERT INTO \"$this->table\" (id_user, nom, prenom, classe, sexe) VALUES (:id_user, :nom, :prenom, :classe, :sexe)";
         $stmt = $this->conn->prepare($sql);
 
+        $stmt->bindParam(':id_user', $this->id);
         $stmt->bindParam(':nom', $this->nom);
         $stmt->bindParam(':prenom', $this->prenom);
-        $stmt->bindParam(':groupe', $this->groupe);
         $stmt->bindParam(':classe', $this->classe);
         $stmt->bindParam(':sexe', $this->sexe);
 
@@ -68,10 +67,6 @@ class User{
 
     function setPrenom($prenom){
         $this->prenom = $prenom;
-    }
-
-    function setGroupe($groupe){
-        $this->groupe = $groupe;
     }
 
     function setClasse($classe){

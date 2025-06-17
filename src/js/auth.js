@@ -80,7 +80,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             console.log('Inscription réussie:', userCredential.user.email);
             console.log(userCredential.user.uid);
 
-            createUserAPI(userCredential.user.uid, "test", "test", "test", "test", "test");
+            createUserAPI(userCredential.user.uid, "test", "test", "test", "test");
 
             //window.location.href = 'index.html';
         } catch (error) {
@@ -100,7 +100,7 @@ firebase.auth().onAuthStateChanged((user) => {
 }); 
 
 
-function createUserAPI(uid, nom, prenom, groupe, classe, sexe){
+function createUserAPI(uid, nom, prenom, classe, sexe){
     const url = 'http://172.16.100.3/api/users/create.php';
 
     $.ajax({
@@ -111,7 +111,6 @@ function createUserAPI(uid, nom, prenom, groupe, classe, sexe){
             id: uid,
             nom: nom,
             prenom: prenom,
-            groupe: groupe,
             classe: classe,
             sexe: sexe
         },

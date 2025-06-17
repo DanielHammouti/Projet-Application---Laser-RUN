@@ -25,14 +25,13 @@ try{
     // Récupération des données POST
     $data = $_POST;
     
-    if(!isset($data['id']) || !isset($data['nom']) || !isset($data['prenom']) || !isset($data['groupe']) || !isset($data['classe']) || !isset($data['sexe'])){
+    if(!isset($data['id']) || !isset($data['nom']) || !isset($data['prenom']) || !isset($data['classe']) || !isset($data['sexe'])){
         throw new Exception("Les données sont invalides");
     }
 
     $user->setId($data['id']);
     $user->setNom($data['nom']);
     $user->setPrenom($data['prenom']);
-    $user->setGroupe($data['groupe']);
     $user->setClasse($data['classe']);
     $user->setSexe($data['sexe']);
 
