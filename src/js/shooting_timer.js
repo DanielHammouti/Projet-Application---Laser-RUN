@@ -176,6 +176,9 @@ const ShootingTimer = {
     const newSessionCount = shootingSessions + 1;
     localStorage.setItem('shootingSessions', newSessionCount.toString());
 
+    // Stocker le temps de la session précédente
+    this.storeSessionTime(shootingSessions);
+
     if (newSessionCount === 3) {
       this.createFinishButton();
       const timeDisplay = document.querySelector('.temps-tirs');
@@ -203,8 +206,8 @@ const ShootingTimer = {
     
     // Si c'est la 3ème session, stocker le temps de la session précédente
     if (shootingSessions === 3) {
-      console.log('🔍 DEBUG - 3ème session détectée, appel de storeThirdSessionTime()');
-      this.storeThirdSessionTime();
+      console.log('🔍 DEBUG - 3ème session détectée, stockage du temps');
+      this.storeSessionTime(3);
       this.createFinishButton();
       const timeDisplay = document.querySelector('.temps-tirs');
       if (timeDisplay) timeDisplay.innerHTML = '<br />';
@@ -214,58 +217,47 @@ const ShootingTimer = {
     }
   },
 
-  // Fonction pour stocker le temps de la 3ème session
-  storeThirdSessionTime() {
-    console.log('🔍 DEBUG - storeThirdSessionTime() appelée');
-    
-    // Méthode 1: Calcul avec elapsedTime et previousTotalTime
-    const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
-    const previousTotalTime = parseInt(localStorage.getItem('previousTotalTime') || '0');
-    
-    console.log('🔍 DEBUG - Valeurs récupérées:');
-    console.log('  - elapsedTime:', elapsedTime);
-    console.log('  - previousTotalTime:', previousTotalTime);
-    
-    // Calculer le temps de la 3ème session
-    let sessionTime = elapsedTime - previousTotalTime;
-    
-    // Si le calcul donne 0, essayer une méthode alternative
-    if (sessionTime <= 0) {
-      console.log('⚠️ Calcul donne 0 ou négatif, utilisation de la méthode alternative');
-      
-      // Méthode 2: Calculer en soustrayant les temps des 2 premières sessions
-      const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
-      const twoTime = parseInt(localStorage.getItem('twoTime') || '0');
-      
-      console.log('🔍 DEBUG - Méthode alternative:');
-      console.log('  - fourTime (session 1):', fourTime);
-      console.log('  - twoTime (session 2):', twoTime);
-      console.log('  - elapsedTime total:', elapsedTime);
-      
-      // Le temps de la 3ème session = temps total - (session1 + session2)
-      sessionTime = elapsedTime - (fourTime + twoTime);
-      
-      console.log('  - sessionTime calculé:', sessionTime);
+  // Fonction pour stocker le temps de la session
+  storeSessionTime(sessionNumber) {
+    if (sessionNumber === 0) {
+      console.log('🔄 Première session - pas encore de temps à stocker');
+      return;
     }
+
+    const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
+    const elapsedTimeSeconds = Math.floor(elapsedTime / 1000);
+    const lastSessionEndTime = parseInt(localStorage.getItem('lastSessionEndTime') || '0');
+
+    // Calculer le temps de la session courante
+    const sessionTime = elapsedTimeSeconds - lastSessionEndTime;
+
+    console.log(`📊 Stockage du temps de la session ${sessionNumber}:`);
+    console.log('  - elapsedTime (ms):', elapsedTime);
+    console.log('  - elapsedTime (secondes):', elapsedTimeSeconds);
+    console.log('  - lastSessionEndTime:', lastSessionEndTime);
+    console.log('  - sessionTime calculé:', sessionTime, 'secondes');
     
     const sessionTimeFormatted = this.formatTime(sessionTime);
+    console.log('  - sessionTime formaté:', sessionTimeFormatted);
     
-    console.log('📊 Stockage du temps de la session 3 (600m):');
-    console.log('  - elapsedTime:', elapsedTime, 'secondes');
-    console.log('  - previousTotalTime:', previousTotalTime, 'secondes');
-    console.log('  - sessionTime final:', sessionTime, 'secondes');
-    console.log('  - sessionTimeFormatted:', sessionTimeFormatted);
+    // Stocker le temps selon le numéro de session
+    if (sessionNumber === 1) {
+      localStorage.setItem('session1Time', sessionTimeFormatted);
+      localStorage.setItem('fourTime', sessionTime.toString());
+      console.log('✅ Temps stocké pour session 1 (400m):', sessionTimeFormatted);
+    } else if (sessionNumber === 2) {
+      localStorage.setItem('session2Time', sessionTimeFormatted);
+      localStorage.setItem('twoTime', sessionTime.toString());
+      console.log('✅ Temps stocké pour session 2 (200m):', sessionTimeFormatted);
+    } else if (sessionNumber === 3) {
+      localStorage.setItem('session3Time', sessionTimeFormatted);
+      localStorage.setItem('sixTime', sessionTime.toString());
+      console.log('✅ Temps stocké pour session 3 (600m):', sessionTimeFormatted);
+    }
     
-    localStorage.setItem('session3Time', sessionTimeFormatted);
-    localStorage.setItem('sixTime', sessionTime.toString());
-    console.log('✅ Temps stocké pour session 3 (600m):', sessionTimeFormatted);
-    
-    // Vérification immédiate
-    const storedSession3Time = localStorage.getItem('session3Time');
-    const storedSixTime = localStorage.getItem('sixTime');
-    console.log('🔍 DEBUG - Vérification après stockage:');
-    console.log('  - session3Time stocké:', storedSession3Time);
-    console.log('  - sixTime stocké:', storedSixTime);
+    // Mettre à jour la fin de la session précédente
+    localStorage.setItem('lastSessionEndTime', elapsedTimeSeconds.toString());
+    console.log('  - lastSessionEndTime mis à jour:', elapsedTimeSeconds);
   },
 
   // Fonction pour formater le temps en secondes en "MM : SS"
@@ -273,33 +265,6 @@ const ShootingTimer = {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes.toString().padStart(2, '0')} : ${remainingSeconds.toString().padStart(2, '0')}`;
-  },
-
-  storeSessionTime() {
-    const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
-    const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
-    const elapsedTimeSeconds = Math.floor(elapsedTime / 1000);
-
-    // Récupérer la fin de la session précédente (en secondes)
-    const lastSessionEndTime = parseInt(localStorage.getItem('lastSessionEndTime') || '0');
-
-    // Calculer le temps de la session courante
-    const sessionTime = elapsedTimeSeconds - lastSessionEndTime;
-
-    // Stocker le temps de la session courante
-    if (shootingSessions === 1) {
-      localStorage.setItem('session1Time', this.formatTime(sessionTime));
-      localStorage.setItem('fourTime', sessionTime.toString());
-    } else if (shootingSessions === 2) {
-      localStorage.setItem('session2Time', this.formatTime(sessionTime));
-      localStorage.setItem('twoTime', sessionTime.toString());
-    } else if (shootingSessions === 3) {
-      localStorage.setItem('session3Time', this.formatTime(sessionTime));
-      localStorage.setItem('sixTime', sessionTime.toString());
-    }
-
-    // Mettre à jour la fin de la session précédente
-    localStorage.setItem('lastSessionEndTime', elapsedTimeSeconds.toString());
   }
 };
 
