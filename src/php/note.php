@@ -49,6 +49,13 @@
             function afficherUtilisateurs(formation) {
                 let tableau = document.getElementById("tableau-utilisateurs");
 
+                tableau.innerHTML = `<tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Note</th>
+                            <th>Date</th>
+                        </tr>`;
+
                 window.utilisateurs.forEach(user => {
                     if (formation === "all" || user.classe.toLowerCase() === formation.toLowerCase()) {
                         let row = `<tr id="row-${user.id}">
