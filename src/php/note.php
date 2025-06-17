@@ -16,7 +16,7 @@
 
     <script >
             document.addEventListener("DOMContentLoaded", function () {
-            fetch("../api/users/read.php")
+            fetch("/api/users/read.php")
                 .then(response => response.json())
                 .then(data => {
                     afficherUtilisateurs(data.users);
