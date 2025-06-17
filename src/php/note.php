@@ -1,9 +1,3 @@
-<?php
-include_once '../api/users/read.php';
-$response = json_decode(json_encode($user_arr), true);
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,32 +8,34 @@ $response = json_decode(json_encode($user_arr), true);
 </head>
 <body>
     <h1>Liste des utilisateurs</h1>
+    <table border="1" id="tableau-utilisateurs">
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+        </tr>
+    </table>
 
-    <?php
-    if (!empty($data["users"])) {
-        echo "<table border='1'>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Classe</th>
-                    <th>Sexe</th>
-                </tr>";
+    <script >
+            document.addEventListener("DOMContentLoaded", function () {
+            fetch("../api/user/read.php")
+                .then(response => response.json())
+                .then(data => {
+                    afficherUtilisateurs(data.users);
+                })
+                .catch(error => console.error("Erreur de chargement :", error));
+        });
 
-        foreach ($data["users"] as $user) {
-            echo "<tr>
-                    <td>{$user['id']}</td>
-                    <td>{$user['nom']}</td>
-                    <td>{$user['prenom']}</td>
-                    <td>{$user['classe']}</td>
-                    <td>{$user['sexe']}</td>
-                  </tr>";
+        function afficherUtilisateurs(users) {
+            let tableau = document.getElementById("tableau-utilisateurs");
+
+            users.forEach(user => {
+                let row = `<tr>
+                            <td>${user.nom}</td>
+                            <td>${user.prenom}</td>
+                        </tr>`;
+                tableau.innerHTML += row;
+            });
         }
-
-        echo "</table>";
-    } else {
-        echo "<p>Aucun utilisateur trouvé.</p>";
-    }
-    ?>
+</script>
 </body>
 </html>
