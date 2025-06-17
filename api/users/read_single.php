@@ -30,7 +30,6 @@ try{
                 "id" => $row['id_user'],
                 "nom" => $row['nom'],
                 "prenom" => $row['prenom'],
-                "groupe" => $row['groupe'],
                 "classe" => $row['classe'],
                 "sexe" => $row['sexe']
             );
