@@ -1,0 +1,63 @@
+function getNote(sexe, tempsSec, nb_tirs, dominante) {
+    // Définir les barèmes course (seuils en secondes)
+    const courseBaremeGarcon = [
+      { max: 255, notes: [6, 5, 6.6] },     // 4mn15
+      { max: 262, notes: [5.4, 4.32, 5.94] },
+      { max: 270, notes: [4.8, 3.84, 5.28] },
+      { max: 277, notes: [4.2, 3.36, 4.62] },
+      { max: 285, notes: [3.6, 2.88, 3.96] },
+      { max: 300, notes: [3, 2.4, 3.3] },
+      { max: 315, notes: [2.4, 1.92, 2.64] },
+      { max: 330, notes: [1.8, 1.44, 1.98] },
+      { max: 345, notes: [1.2, 0.96, 1.32] },
+      { max: 360, notes: [0.6, 0.48, 0.66] },
+      { max: Infinity, notes: [0, 0, 0] }
+    ];
+  
+    const courseBaremeFille = [
+      { max: 310, notes: [6, 4.8, 6.6] },     // 5mn10
+      { max: 335, notes: [5.4, 4.32, 5.94] },
+      { max: 360, notes: [4.8, 3.84, 5.28] },
+      { max: 370, notes: [4.2, 3.36, 4.62] },
+      { max: 380, notes: [3.6, 2.88, 3.96] },
+      { max: 390, notes: [3, 2.4, 3.3] },
+      { max: 405, notes: [2.4, 1.92, 2.64] },
+      { max: 420, notes: [1.8, 1.44, 1.98] },
+      { max: 435, notes: [1.2, 0.96, 1.32] },
+      { max: 450, notes: [0.6, 0.48, 0.66] },
+      { max: Infinity, notes: [0, 0, 0] }
+    ];
+  
+    const tirBareme = {
+      6: [6, 5.4, 7],
+      5: [5, 4.5, 5.5],
+      4: [4, 3.6, 4.4],
+      3: [3, 2.7, 3.3],
+      2: [2, 1.8, 2.2],
+      1: [1, 0.9, 1.1],
+      0: [0, 0, 0]
+    };
+  
+    const dominanteToIndex = {
+      "mixte": 0,
+      "course": 2,
+      "tir": 1
+    };
+  
+    const index = dominanteToIndex[dominante.toLowerCase()] ?? 0;
+  
+    const courseTable = (sexe.toLowerCase() === "fille") ? courseBaremeFille : courseBaremeGarcon;
+  
+    const courseNote = courseTable.find(e => tempsSec <= e.max)?.notes[index] ?? 0;
+  
+    const tirs = Math.max(0, Math.min(6, nb_tirs));
+    const tirNote = tirBareme[tirs]?.[index] ?? 0;
+  
+    const total = courseNote + tirNote;
+    return {
+      courseNote,
+      tirNote,
+      total
+    };
+  }
+  

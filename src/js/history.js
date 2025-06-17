@@ -105,8 +105,11 @@ async function loadSessionsHistory() {
       sortedSessions.forEach(session => {
         const totalTirs = 15;
         const nbTirs = session.nb_tirs || 0;
-        const shootingPercentage = Math.round((nbTirs / totalTirs) * 100);
-        const grade = Math.round((nbTirs / totalTirs) * 20);
+        // Calcul de la note avec la fonction getNote
+        // On suppose que le sexe et la dominante sont stockés dans la session ou à défaut on met des valeurs par défaut
+        const sexe = session.sexe || 'garcon'; // à adapter si la DB fournit le sexe
+        const dominante = session.dominante || 'mixte'; // à adapter si la DB fournit la dominante
+        const noteObj = getNote(sexe, session.six, nbTirs, dominante);
         const card = document.createElement('div');
         card.className = 'session-card';
         card.innerHTML = `
@@ -133,12 +136,8 @@ async function loadSessionsHistory() {
                 <span class="stat-value">${nbTirs} / 15</span>
               </div>
               <div class="stat-item">
-                <span class="stat-label">${window.getTranslation ? window.getTranslation('pourcentage') : 'Pourcentage:'}</span>
-                <span class="stat-value">${shootingPercentage}%</span>
-              </div>
-              <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
-                <span class="stat-value">${grade}/20</span>
+                <span class="stat-value">${noteObj.total}/20</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
