@@ -56,8 +56,16 @@
     background-color: #608969;
 }
 
-.home-page .div {
-  padding-bottom: 90px;
+.home-page {
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+.div {
+    position: relative;
+    min-height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 80px; /* Espace pour les boutons de navigation */
 }
 
 #vitesseCourbe {
@@ -77,6 +85,7 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .graph-section {
@@ -84,6 +93,8 @@
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .graph-section .text {
@@ -99,8 +110,86 @@ canvas {
     aspect-ratio: 2/1;
 }
 
+/* Navigation fixe en bas */
+.navigation-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.statistique-wrapper,
+.accueil-wrapper,
+.historique-wrapper {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Styles pour mobile */
 @media (max-width: 768px) {
     .graphs-container {
         grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 15px;
+        margin-bottom: 70px; /* Espace pour la navigation fixe */
+    }
+
+    .graph-section {
+        padding: 10px;
+    }
+
+    .graph-section .text {
+        font-size: 1em;
+    }
+
+    /* Ajuster la barre noire du haut */
+    .rectangle-noir {
+        padding: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    /* Ajuster le titre */
+    .text-rectangle-noir {
+        font-size: 0.9em;
+    }
+
+    /* Ajuster le ratio des graphiques pour mobile */
+    canvas {
+        aspect-ratio: 3/2;
+    }
+
+    /* Ajuster la navigation pour mobile */
+    .navigation-buttons {
+        padding: 5px;
+    }
+
+    .statistique-wrapper,
+    .accueil-wrapper,
+    .historique-wrapper {
+        width: 35px;
+        height: 35px;
     }
 }
