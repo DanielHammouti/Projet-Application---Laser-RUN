@@ -6,5 +6,11 @@ firebase.auth().onAuthStateChanged((user) => {
     if (!user && !isAuthPage) {
         // Rediriger vers auth.html seulement si on n'est pas déjà sur la page d'authentification
         window.location.href = 'auth.html';
+    } else if (user) {
+        console.log("Utilisateur connecté :", user.uid);
+
+        if (user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
+            window.location.href = "note.php";
+        }
     }
-}); 
+});
