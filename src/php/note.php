@@ -74,7 +74,6 @@
                             if (sessionData.sessions.length > 0) {
                                 let session = sessionData.sessions[0]; // Prendre la première session trouvée
                                 let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs); // Calculer la note
-                                console.log("Note calculée :", noteInfo);
                                 document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
                                 document.getElementById(`date-${user.id}`).innerText = session.dateheure;
                             } else {
