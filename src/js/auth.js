@@ -54,7 +54,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
         try {
             const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
             console.log('Connexion réussie:', userCredential.user.email);
-            setupLocalStorage(userCredential.user.uid);
+            setupLocalStorage(userCredential);
             window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur de connexion:', error);
@@ -81,7 +81,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
             console.log('Inscription réussie:', userCredential.user.email);
             console.log(userCredential.user.uid);
-            setupLocalStorage(userCredential.user.uid);
+            setupLocalStorage(userCredential);
             createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
 
             window.location.href = 'index.html';
