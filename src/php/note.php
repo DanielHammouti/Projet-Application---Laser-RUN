@@ -1,3 +1,7 @@
+<?php
+    $title = "Note";
+    require ('header.php');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
