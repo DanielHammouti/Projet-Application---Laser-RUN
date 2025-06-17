@@ -20,6 +20,12 @@ const showLoginLink = document.getElementById('show-login');
 const loginFormContainer = document.getElementById('login-form');
 const registerFormContainer = document.getElementById('register-form');
 
+let sixTime = 0;
+let fourTime = 0;
+let twoTime = 0;
+let sixmeter = 0;
+let nbTirs = 0;
+
 // Vérifier si nous sommes sur la page d'authentification
 if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     console.log('Formulaires trouvés:', {
@@ -55,6 +61,11 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
             console.log('Connexion réussie:', userCredential.user.email);
             localStorage.setItem('userId', userCredential.user.uid);
+            localStorage.setItem('sixTime', '0');
+            localStorage.setItem('fourTime', '0');
+            localStorage.setItem('twoTime', '0');
+            localStorage.setItem('sixmeter', '0');
+            localStorage.setItem('nbTirs', '0');
             window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur de connexion:', error);

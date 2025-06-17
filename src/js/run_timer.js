@@ -15,20 +15,6 @@ function startRunTimer() {
     runTimerInterval = setInterval(updateRunDisplay, 1000);
     updateRunDisplay(); // Mise à jour immédiate
   }
-
-  const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
-  if(shootingSessions === 1){
-    sixTime = localStorage.getItem('sixTime') || 0;
-    fourTime = localStorage.getItem('fourTime') || 0;
-    twoTime = localStorage.getItem('twoTime') || 0;
-    sixmeter = localStorage.getItem('sixmeter') || 0;
-    nbTirs = localStorage.getItem('nbTirs') || 0;
-    localStorage.setItem('sixTime', sixTime.toString());
-    localStorage.setItem('fourTime', fourTime.toString());
-    localStorage.setItem('twoTime', twoTime.toString());
-    localStorage.setItem('sixmeter', sixmeter.toString());
-    localStorage.setItem('nbTirs', nbTirs.toString());
-  }
 }
 
 function updateRunDisplay() {

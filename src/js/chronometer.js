@@ -4,12 +4,6 @@ let isRunning = false;
 let currentTimeString = "00 : 00";
 let elapsedTime = 0;
 
-let sixTime = 0;
-let fourTime = 0;
-let twoTime = 0;
-let sixmeter = 0;
-let nbTirs = 0;
-
 function updateElapsedTime() {
   if (isRunning) {
     elapsedTime = Date.now() - startTime;
@@ -38,12 +32,6 @@ function startChronometer() {
       localStorage.setItem('elapsedTime', elapsedTime.toString());
       updateDisplay();
     }, 1000);
-    localStorage.setItem('isRunning', 'true');
-    localStorage.setItem('sixTime', sixTime);
-    localStorage.setItem('fourTime', fourTime);
-    localStorage.setItem('twoTime', twoTime);
-    localStorage.setItem('sixmeter', sixmeter);
-    localStorage.setItem('nbTirs', nbTirs);
   }
 }
 
