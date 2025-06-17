@@ -21,8 +21,49 @@ const ShootingTimer = {
     }
   },
 
+  // Fonction pour nettoyer les données incorrectes du localStorage
+  cleanIncorrectData() {
+    console.log('🧹 Nettoyage des données incorrectes...');
+    
+    // Vérifier et nettoyer session3Time si nécessaire
+    const session3Time = localStorage.getItem('session3Time');
+    if (session3Time) {
+      const session3Seconds = this.timeStringToSeconds(session3Time);
+      if (session3Seconds > 1000) {
+        console.log('🗑️ Suppression de session3Time incorrect:', session3Time);
+        localStorage.removeItem('session3Time');
+        localStorage.removeItem('sixTime');
+      }
+    }
+    
+    // Vérifier et nettoyer sixTime si nécessaire
+    const sixTime = localStorage.getItem('sixTime');
+    if (sixTime) {
+      const sixTimeValue = parseInt(sixTime);
+      if (sixTimeValue > 1000) {
+        console.log('🗑️ Suppression de sixTime incorrect:', sixTime);
+        localStorage.removeItem('sixTime');
+      }
+    }
+  },
+
+  // Fonction utilitaire pour convertir un temps formaté en secondes
+  timeStringToSeconds(timeString) {
+    if (timeString === '0' || timeString === '00 : 00') return 0;
+    const parts = timeString.split(' : ');
+    if (parts.length === 2) {
+      const minutes = parseInt(parts[0]);
+      const seconds = parseInt(parts[1]);
+      return minutes * 60 + seconds;
+    }
+    return 0;
+  },
+
   // Fonction pour récupérer et organiser les temps des 3 sessions
   getSessionTimes() {
+    // Nettoyer les données incorrectes avant de récupérer
+    this.cleanIncorrectData();
+    
     // Récupérer les temps stockés dans le localStorage
     const session1Time = localStorage.getItem('session1Time') || '0';
     const session2Time = localStorage.getItem('session2Time') || '0';
@@ -45,9 +86,11 @@ const ShootingTimer = {
     const session2Seconds = timeStringToSeconds(session2Time);
     let session3Seconds = timeStringToSeconds(session3Time);
     
-    // Si la session 3 n'est pas stockée, la calculer
-    if (session3Seconds === 0) {
-      console.log('⚠️ Session 3 non stockée, calcul automatique...');
+    // Vérifier si la session 3 doit être recalculée (si elle n'existe pas ou si elle semble incorrecte)
+    const shouldRecalculate = session3Seconds === 0 || session3Seconds > 1000; // Si plus de 1000 secondes, c'est probablement incorrect
+    
+    if (shouldRecalculate) {
+      console.log('⚠️ Session 3 à recalculer (valeur actuelle:', session3Seconds, 'secondes)...');
       const elapsedTime = parseInt(localStorage.getItem('elapsedTime') || '0');
       const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
       const twoTime = parseInt(localStorage.getItem('twoTime') || '0');
