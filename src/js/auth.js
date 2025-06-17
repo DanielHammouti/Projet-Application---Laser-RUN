@@ -8,6 +8,13 @@ const firebaseConfig = {
     appId: "1:433789757444:web:projetappli-b12ac"
 };
 
+
+let sixTime = 0;
+let fourTime = 0;
+let twoTime = 0;
+let sixmeter = 0;
+let nbTirs = 0;
+
 // Initialisation Firebase
 firebase.initializeApp(firebaseConfig);
 console.log('Firebase initialisé');
@@ -84,6 +91,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
 
             createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
             localStorage.setItem('userId', userCredential.user.uid);
+
             window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
@@ -123,4 +131,12 @@ function createUserAPI(uid, nom, prenom, classe, sexe){
             console.error('Erreur lors de la création de l\'utilisateur:', error);
         }
     });
+}
+
+function loadSessionData(){
+    localStorage.setItem('sixTime', sixTime.toString());
+    localStorage.setItem('fourTime', fourTime.toString());
+    localStorage.setItem('twoTime', twoTime.toString());
+    localStorage.setItem('sixmeter', sixmeter.toString());
+    localStorage.setItem('nbTirs', nbTirs.toString());
 }

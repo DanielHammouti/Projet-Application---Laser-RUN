@@ -48,6 +48,13 @@ const ShootingTimer = {
 
     finishButton.onclick = () => {
       sendSessionDataToAPI();
+      
+      localStorage.setItem('sixTime', '0');
+      localStorage.setItem('fourTime', '0');
+      localStorage.setItem('twoTime', '0');
+      localStorage.setItem('sixmeter', '0');
+      localStorage.setItem('nbTirs', '0');
+
       //window.location.href = '../html/mark_page.html';
     };
 
