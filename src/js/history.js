@@ -107,7 +107,6 @@ async function loadSessionsHistory() {
         const nbTirs = session.nb_tirs || 0;
         // Calcul du temps total pour la note
         const tempsTotal = (session.six || 0) + (session.quatre || 0) + (session.deux || 0);
-        console.log(tempsTotal);
         // Calcul de la note avec la fonction getNote
         const sexe = session.sexe || 'garcon'; // à adapter si la DB fournit le sexe
         const dominante = session.dominante || 'mixte'; // à adapter si la DB fournit la dominante
@@ -139,7 +138,7 @@ async function loadSessionsHistory() {
               </div>
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
-                <span class="stat-value">${noteObj.total}/20</span>
+                <span class="stat-value">${noteObj.total}/12</span>
               </div>
               <div class="stat-item">
                 <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
@@ -158,7 +157,6 @@ async function loadSessionsHistory() {
       `;
     }
   } catch (error) {
-    console.error('Erreur lors du chargement de l\'historique:', error);
     const container = document.getElementById('sessions-container');
     container.innerHTML = `
       <div class="error-message">
@@ -175,7 +173,6 @@ function initializeHistory() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       currentUser = user;
-      console.log('Utilisateur connecté pour l\'historique:', user.email);
       // Mettre à jour le titre de la page
       const titreElement = document.getElementById('titre_historique');
       if (titreElement) {
@@ -183,7 +180,6 @@ function initializeHistory() {
       }
       loadSessionsHistory();
     } else {
-      console.log('Aucun utilisateur connecté');
       window.location.href = 'auth.html';
     }
   });
