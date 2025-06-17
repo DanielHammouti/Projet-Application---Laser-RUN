@@ -57,7 +57,8 @@
                         </tr>`;
 
                 window.utilisateurs.forEach(user => {
-                    if (formation === "all" || user.classe.toLowerCase() === formation.toLowerCase()) {
+                    if ((formation === "all" && (user.classe.toLowerCase() === "sti" || user.classe.toLowerCase() === "mri")) ||
+                        user.classe.toLowerCase() === formation.toLowerCase()) {
                         let row = `<tr id="row-${user.id}">
                                     <td>${user.nom}</td>
                                     <td>${user.prenom}</td>
