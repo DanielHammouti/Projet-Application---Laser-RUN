@@ -168,3 +168,23 @@
     font-size: 16px;
   }
 }
+
+/* Overrides pour corriger les anciens styles */
+.home-page .rectangle-vert {
+  width: 85% !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 0 auto !important;
+}
+
+.resultat-tir {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+.resultat-note {
+  left: auto !important;
+  transform: none !important;
+}
