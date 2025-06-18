@@ -70,8 +70,8 @@ h1, h2, h3 {
 }
 
 .check-rouge + label {
-  color: #ec5959;
-  border-color: #ec5959;
+  color: #b42121;
+  border-color: #b42121;
 }
 
 .check-vert:checked + label {
@@ -82,7 +82,7 @@ h1, h2, h3 {
 }
 
 .check-rouge:checked + label {
-  background-color: #ec5959;
+  background-color: #b42121;
   color: white;
   font-weight: bold;
   transform: scale(1.1);
