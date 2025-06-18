@@ -12,33 +12,52 @@ let charts = {
 async function fetchSessionsData() {
     try {
         // Récupérer l'ID de l'utilisateur depuis Firebase
-        const user = firebase.auth().currentUser;
-        if (!user) {
+        if (!currentUser) {
             throw new Error("Utilisateur non connecté");
         }
+        console.log("ID utilisateur:", currentUser.uid);
 
         // Appeler l'API pour récupérer les sessions
-        const response = await fetch(`/api/sessions/read.php?id_user=${user.uid}`);
+        const response = await fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${currentUser.uid}`);
+        console.log("Status de la réponse:", response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log("Données parsées:", data);
 
         if (!data.sessions) {
             throw new Error("Aucune session trouvée");
         }
 
         // Transformer les données pour les graphiques
-        // On inverse l'ordre des sessions pour avoir la plus ancienne en premier
-        // et on limite aux 5 dernières sessions
-        sessionsData = data.sessions.reverse().slice(-5).map((session, index) => ({
-            session: index + 1,
-            "200": parseFloat(session.deux) || 0,
-            "400": parseFloat(session.quatre) || 0,
-            "600": parseFloat(session.six) || 0,
-            nb_tirs: parseInt(session.nb_tirs) || 0,
-            meneur: session.meneur === "1" // Convertir en booléen
-        }));
+        const reversedSessions = data.sessions.reverse();
+        console.log("Sessions inversées:", reversedSessions);
+        
+        const lastFiveSessions = reversedSessions.slice(-5);
+        console.log("5 dernières sessions:", lastFiveSessions);
+
+        sessionsData = lastFiveSessions.map((session, index) => {
+            const mappedSession = {
+                session: index + 1,
+                "200": parseFloat(session.deux) || 0,
+                "400": parseFloat(session.quatre) || 0,
+                "600": parseFloat(session.six) || 0,
+                nb_tirs: parseInt(session.nb_tirs) || 0,
+                meneur: session.meneur === "1"
+            };
+            console.log(`Session ${index + 1} mappée:`, mappedSession);
+            return mappedSession;
+        });
+        console.log("Données finales pour les graphiques:", sessionsData);
 
     } catch (error) {
-        console.error("Erreur lors de la récupération des sessions:", error);
+        console.error("Erreur détaillée lors de la récupération des sessions:", error);
+        if (error.stack) {
+            console.error("Stack trace:", error.stack);
+        }
         sessionsData = [];
     }
 }
@@ -201,6 +220,7 @@ async function stats() {
             await new Promise(resolve => {
                 const unsubscribe = firebase.auth().onAuthStateChanged(user => {
                     if (user) {
+                        currentUser = user;  // Stocker l'utilisateur dans la variable globale
                         unsubscribe();
                         resolve();
                     }
