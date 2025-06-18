@@ -29,7 +29,8 @@
                 <th>Prénom</th>
                 <th>Note</th>
                 <th>Date</th>
-                <th>Afficher les informations</th>
+                <th>Détails</th>
+                <th>Notes</th>
             </tr>
         </table>
 
@@ -57,7 +58,8 @@
                             <th>Prénom</th>
                             <th>Note</th>
                             <th>Date</th>
-                            <th>Afficher les informations</th>
+                            <th>Détails</th>
+                            <th>Notes</th>
                         </tr>`;
 
                 window.utilisateurs.forEach(user => {
@@ -68,7 +70,8 @@
                                     <td>${user.prenom}</td>
                                     <td id="note-${user.id}"></td>
                                     <td id="date-${user.id}"></td>
-                                    <td><button class="btn btn-info" onclick="voirDetails('${user.id}')">Voir</button></td>
+                                    <td><button class="view-btn" onclick="voirDetails('${user.id}')">Voir</button></td>
+                                    <td><button class="view-btn" onclick="voirNotes('${user.id}','${user.sexe}')">Notes</button></td>
                                 </tr>`;
                         tableau.innerHTML += row;
                     
@@ -104,6 +107,18 @@
         </div>
     </div>
 
+    <div class="modal fade" id="notesModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Historique des notes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="notesBody"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Ajouter le JavaScript pour gérer le modal
         window.voirDetails = function(userId) {
@@ -135,6 +150,27 @@
                 .catch(err => {
                     console.error(err);
                     alert('Erreur lors de la récupération des détails');
+                });
+        }
+
+        window.voirNotes = function(userId, sexe) {
+            fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${userId}`)
+                .then(res=>res.json())
+                .then(data=>{
+                    if(!data.sessions || data.sessions.length===0){alert('Aucune session');return;}
+                    // construire tableau des notes
+                    let html = '<table style="width:100%;border-collapse:collapse"><tr><th>Date</th><th>Note</th></tr>';
+                    data.sessions.forEach(s=>{
+                        const noteInfo=getBestNote(sexe, s.six, s.nb_tirs);
+                        html+=`<tr><td>${new Date(s.dateheure).toLocaleDateString('fr-FR')}</td><td>${noteInfo.total}</td></tr>`;
+                    });
+                    html+='</table>';
+                    document.getElementById('notesBody').innerHTML=html;
+                    const modal=document.getElementById('notesModal');
+                    modal.classList.add('show');modal.style.display='block';
+                    const closeBtn=modal.querySelector('.btn-close');
+                    const hide=()=>{modal.classList.remove('show');modal.style.display='none';};
+                    closeBtn.onclick=hide;window.onclick=(e)=>{if(e.target===modal)hide();};
                 });
         }
     </script>
