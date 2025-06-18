@@ -20,7 +20,8 @@ async function fetchSessionsData() {
 
         // Transformer les données pour les graphiques
         // On inverse l'ordre des sessions pour avoir la plus ancienne en premier
-        sessionsData = data.sessions.reverse().map((session, index) => ({
+        // et on limite aux 5 dernières sessions
+        sessionsData = data.sessions.reverse().slice(-5).map((session, index) => ({
             session: index + 1,
             "200": parseFloat(session.deux) || 0,
             "400": parseFloat(session.quatre) || 0,
@@ -30,14 +31,8 @@ async function fetchSessionsData() {
         }));
 
     } catch (error) {
-        // En cas d'erreur, utiliser des données de test
-        sessionsData = [
-            { session: 1, "200": 10, "400": 20, "600": 30, nb_tirs: 12, meneur: false },
-            { session: 2, "200": 12, "400": 22, "600": 32, nb_tirs: 10, meneur: true },
-            { session: 3, "200": 50, "400": 25, "600": 35, nb_tirs: 8, meneur: false },
-            { session: 4, "200": 35, "400": 28, "600": 38, nb_tirs: 13, meneur: true },
-            { session: 5, "200": 25, "400": 30, "600": 40, nb_tirs: 15, meneur: false }
-        ];
+        console.error("Erreur lors de la récupération des sessions:", error);
+        sessionsData = [];
     }
 }
 
@@ -162,6 +157,21 @@ function createShotsGraph() {
     });
 }
 
+async function updateGraphs() {
+    await fetchSessionsData();
+    // Supprimer les anciens graphiques
+    document.getElementById('graph200').getContext('2d').clearRect(0, 0, document.getElementById('graph200').width, document.getElementById('graph200').height);
+    document.getElementById('graph400').getContext('2d').clearRect(0, 0, document.getElementById('graph400').width, document.getElementById('graph400').height);
+    document.getElementById('graph600').getContext('2d').clearRect(0, 0, document.getElementById('graph600').width, document.getElementById('graph600').height);
+    document.getElementById('graphShots').getContext('2d').clearRect(0, 0, document.getElementById('graphShots').width, document.getElementById('graphShots').height);
+    
+    // Recréer les graphiques avec les nouvelles données
+    createDistanceGraph('200');
+    createDistanceGraph('400');
+    createDistanceGraph('600');
+    createShotsGraph();
+}
+
 async function stats() {
     document.addEventListener('DOMContentLoaded', async () => {
         try {
@@ -185,12 +195,12 @@ async function stats() {
                 });
             });
 
-            // Récupérer les données et créer les graphiques
-            await fetchSessionsData();
-            createDistanceGraph('200');
-            createDistanceGraph('400');
-            createDistanceGraph('600');
-            createShotsGraph();
+            // Première création des graphiques
+            await updateGraphs();
+
+            // Mettre à jour les graphiques toutes les 30 secondes
+            setInterval(updateGraphs, 30000);
+
         } catch (error) {
             console.error('Erreur lors de l\'initialisation des statistiques:', error);
         }
