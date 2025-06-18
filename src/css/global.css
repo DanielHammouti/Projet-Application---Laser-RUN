@@ -13,11 +13,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow: hidden; /* Pour ne pas avoir l'ascenseur*/
 }
 
-/* Permettre le scroll sur la page paramètres */
-.settings-page {
+/* Pages avec scroll */
+.settings-page,
+.home-page .statistique-page,
+.history-page {
   overflow-y: auto;
 }
 
@@ -45,6 +46,8 @@ a {
   flex-direction: row;
   justify-content: center;
   width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .home-page .div {
