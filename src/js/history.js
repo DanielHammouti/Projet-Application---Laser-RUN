@@ -174,8 +174,14 @@ async function loadSessionsHistory() {
     container.innerHTML = '';
     
     if (data.sessions && data.sessions.length > 0) {
+      // Conserver uniquement les sessions de l'utilisateur courant (sécurité au cas où l'API renverrait plus)
+      const own = data.sessions.filter(s=> s.id_user === currentUser.uid);
+      if(own.length===0){
+        container.innerHTML = `<div class="no-sessions"><p>Aucune session trouvée</p></div>`;
+        return;
+      }
       // Trier les sessions par date (plus récentes en premier)
-      const sortedSessions = data.sessions.sort((a, b) => 
+      const sortedSessions = own.sort((a, b) => 
         new Date(b.dateheure) - new Date(a.dateheure)
       );
       let index=1;
