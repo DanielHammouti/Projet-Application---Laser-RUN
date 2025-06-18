@@ -47,7 +47,7 @@ function calculateGrade(nbTirs) {
 }
 
 // Fonction pour créer une carte de session
-function createSessionCard(session) {
+function createSessionCard(session, sessionNumber) {
   const shootingPercentage = calculateShootingPercentage(session.nb_tirs);
   const grade = calculateGrade(session.nb_tirs);
   
@@ -56,7 +56,7 @@ function createSessionCard(session) {
   card.innerHTML = `
     <div class="session-header">
       <div class="session-date">${formatDate(session.dateheure)}</div>
-      <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${session.id_session}</div>
+      <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${sessionNumber}</div>
     </div>
     <div class="session-content">
       <div class="session-stats">
@@ -178,6 +178,10 @@ async function loadSessionsHistory() {
       const sortedSessions = data.sessions.sort((a, b) => 
         new Date(b.dateheure) - new Date(a.dateheure)
       );
+      
+      // Compteur de sessions pour cet utilisateur (numérotation continue 1,2,3,...)
+      let sessionCounter = sortedSessions.length;
+      
       sortedSessions.forEach(async session => {
         const totalTirs = 15;
         const nbTirs = session.nb_tirs || 0;
@@ -201,7 +205,7 @@ async function loadSessionsHistory() {
         card.innerHTML = `
           <div class="session-header">
             <div class="session-date">${formatDate(session.dateheure)}</div>
-            <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${session.id_session}</div>
+            <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${sessionCounter--}</div>
           </div>
           <div class="session-content">
             <div class="session-stats">
