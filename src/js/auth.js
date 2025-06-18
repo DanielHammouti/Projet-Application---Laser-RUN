@@ -84,7 +84,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
 
             // Redirection spécifique
             if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
-                window.location.href = '../php/note.php';
+                window.location.href = 'php/note.php';
             } else {
                 window.location.href = 'index.html';
 }
