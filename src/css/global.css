@@ -140,8 +140,8 @@ a {
 
 .button_settings {
   position: absolute;
-  top : 10px;
-  right: 10px;
+  top : 20px;
+  right: 20px;
   width: 15vw;               /* S'adapte à la taille de l'écran */
   max-width: 60px;
   display: block;
