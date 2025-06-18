@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mettre à jour sixmeter en fonction de la course sélectionnée
     function updateSixmeter() {
         const selectedCourse = courseSelect.value;
-        const sixmeter = selectedCourse === '600m' ? 1 : 0;
+        const sixmeter = selectedCourse === '600m' ? '1' : '0';
         localStorage.setItem('sixmeter', sixmeter);
         console.log('🔍 DEBUG - sixmeter:', sixmeter);
     }
