@@ -143,7 +143,7 @@ function createSessionCard(session) {
 // Fonction pour charger l'historique des sessions
 async function loadSessionsHistory() {
   try {
-    const response = await fetch(`../../api/sessions/read.php?id_user=${currentUser.uid}`);
+    const response = await fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${currentUser.uid}`);
     
     // Si la réponse est 404, cela signifie qu'il n'y a pas de sessions pour cet utilisateur
     if (response.status === 404) {
