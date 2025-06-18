@@ -22,6 +22,14 @@ function formatTime(seconds) {
   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
+// Fonction pour formater un temps en MM:SS sans décimales
+function formatTimeMMSS(seconds) {
+  if (!seconds || isNaN(seconds)) return '00:00';
+  const min = Math.floor(seconds / 60);
+  const sec = Math.floor(seconds % 60);
+  return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+}
+
 // Fonction pour calculer le pourcentage de réussite des tirs
 function calculateShootingPercentage(nbTirs) {
   // Supposons qu'il y a 3 sessions de tir par course
@@ -56,7 +64,7 @@ function createSessionCard(session) {
           <thead>
             <tr>
               <th>${window.getTranslation ? window.getTranslation('statistiques') : 'Statistiques'}</th>
-              <th class="right-align">${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen au 100m'}</th>
+              <th class="right-align">Temps moyen au 100m</th>
             </tr>
           </thead>
           <tbody>
@@ -69,7 +77,7 @@ function createSessionCard(session) {
               </td>
               <td class="right-align">
                 <div class="stat-item">
-                  <span class="stat-value">${formatTime(session.six / 6)}</span>
+                  <span class="stat-value">${formatTimeMMSS(session.six / 6)}</span>
                 </div>
               </td>
             </tr>
@@ -82,7 +90,7 @@ function createSessionCard(session) {
               </td>
               <td class="right-align">
                 <div class="stat-item">
-                  <span class="stat-value">${formatTime(session.quatre / 4)}</span>
+                  <span class="stat-value">${formatTimeMMSS(session.quatre / 4)}</span>
                 </div>
               </td>
             </tr>
@@ -95,7 +103,7 @@ function createSessionCard(session) {
               </td>
               <td class="right-align">
                 <div class="stat-item">
-                  <span class="stat-value">${formatTime(session.deux / 2)}</span>
+                  <span class="stat-value">${formatTimeMMSS(session.deux / 2)}</span>
                 </div>
               </td>
             </tr>
@@ -191,7 +199,7 @@ async function loadSessionsHistory() {
                 <thead>
                   <tr>
                     <th>${window.getTranslation ? window.getTranslation('statistiques') : 'Statistiques'}</th>
-                    <th class="right-align">${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen au 100m'}</th>
+                    <th class="right-align">Temps moyen au 100m</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -204,7 +212,7 @@ async function loadSessionsHistory() {
                     </td>
                     <td class="right-align">
                       <div class="stat-item">
-                        <span class="stat-value">${formatTime(session.six / 6)}</span>
+                        <span class="stat-value">${formatTimeMMSS(session.six / 6)}</span>
                       </div>
                     </td>
                   </tr>
@@ -217,7 +225,7 @@ async function loadSessionsHistory() {
                     </td>
                     <td class="right-align">
                       <div class="stat-item">
-                        <span class="stat-value">${formatTime(session.quatre / 4)}</span>
+                        <span class="stat-value">${formatTimeMMSS(session.quatre / 4)}</span>
                       </div>
                     </td>
                   </tr>
@@ -230,7 +238,7 @@ async function loadSessionsHistory() {
                     </td>
                     <td class="right-align">
                       <div class="stat-item">
-                        <span class="stat-value">${formatTime(session.deux / 2)}</span>
+                        <span class="stat-value">${formatTimeMMSS(session.deux / 2)}</span>
                       </div>
                     </td>
                   </tr>
