@@ -178,17 +178,24 @@ async function loadSessionsHistory() {
       const sortedSessions = data.sessions.sort((a, b) => 
         new Date(b.dateheure) - new Date(a.dateheure)
       );
-      sortedSessions.forEach(session => {
+      sortedSessions.forEach(async session => {
         const totalTirs = 15;
         const nbTirs = session.nb_tirs || 0;
         // Calcul du temps total pour la note
         const tempsTotal = (session.six || 0) + (session.quatre || 0) + (session.deux || 0);
         // Calcul de la note avec la fonction getNote
-        const user = fetch(`https://172.16.100.3/api/users/read_single.php?id=${currentUser.uid}`);
-        const userData = user.json();
-        const sexe = userData.user[0].sexe || 'homme';
-        console.log(sexe);
-        const noteObj = getBestNote(sexe, tempsTotal, nbTirs);
+        let noteObj;
+        try {
+          const userResponse = await fetch(`https://172.16.100.3/api/users/read_single.php?id=${currentUser.uid}`);
+          const userData = await userResponse.json();
+          const sexe = userData.user[0].sexe || 'homme';
+          console.log(sexe);
+          noteObj = getBestNote(sexe, tempsTotal, nbTirs);
+        } catch (error) {
+          console.error('Erreur lors de la récupération des données utilisateur:', error);
+          const sexe = 'homme'; // Valeur par défaut en cas d'erreur
+          noteObj = getBestNote(sexe, tempsTotal, nbTirs);
+        }
         const card = document.createElement('div');
         card.className = 'session-card';
         card.innerHTML = `

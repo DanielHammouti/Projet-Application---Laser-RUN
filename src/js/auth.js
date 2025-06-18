@@ -86,7 +86,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
 
         try {
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            console.log('Connexion réussie:', userCredential.user.email);
+            console.log('Inscription réussie:', userCredential.user.email);
 
             // Redirection spécifique
             console.log(userCredential.user.uid);
