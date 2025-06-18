@@ -1,6 +1,6 @@
 firebase.auth().onAuthStateChanged((user) => {
     const isAuthPage = window.location.pathname.includes('../html/auth.html');
-    const isNotePage = window.location.pathname.includes('../php/note.php');
+    const isNotePage = window.location.pathname.includes('note.php');
 
     if (user) {
         if (user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2" && !isNotePage) {
