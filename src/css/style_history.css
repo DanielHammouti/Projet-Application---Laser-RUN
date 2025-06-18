@@ -150,7 +150,11 @@
   background: #f8f9fa;
   padding: 4px 8px;
   border-radius: 6px;
-  min-width: 80px;
+}
+
+.stat-value.right-align {
+  text-align: right;
+  display: block;
 }
 
 /* Styles pour le tableau des statistiques */

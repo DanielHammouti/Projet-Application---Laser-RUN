@@ -77,7 +77,7 @@ function createSessionCard(session) {
               </td>
               <td class="right-align">
                 <div class="stat-item">
-                  <span class="stat-value">${formatTimeMMSS(session.six / 6)}</span>
+                  <span class="stat-value right-align">${formatTimeMMSS(session.six / 6)}</span>
                 </div>
               </td>
             </tr>
@@ -90,7 +90,7 @@ function createSessionCard(session) {
               </td>
               <td class="right-align">
                 <div class="stat-item">
-                  <span class="stat-value">${formatTimeMMSS(session.quatre / 4)}</span>
+                  <span class="stat-value right-align">${formatTimeMMSS(session.quatre / 4)}</span>
                 </div>
               </td>
             </tr>
@@ -103,7 +103,7 @@ function createSessionCard(session) {
               </td>
               <td class="right-align">
                 <div class="stat-item">
-                  <span class="stat-value">${formatTimeMMSS(session.deux / 2)}</span>
+                  <span class="stat-value right-align">${formatTimeMMSS(session.deux / 2)}</span>
                 </div>
               </td>
             </tr>
@@ -212,7 +212,7 @@ async function loadSessionsHistory() {
                     </td>
                     <td class="right-align">
                       <div class="stat-item">
-                        <span class="stat-value">${formatTimeMMSS(session.six / 6)}</span>
+                        <span class="stat-value right-align">${formatTimeMMSS(session.six / 6)}</span>
                       </div>
                     </td>
                   </tr>
@@ -225,7 +225,7 @@ async function loadSessionsHistory() {
                     </td>
                     <td class="right-align">
                       <div class="stat-item">
-                        <span class="stat-value">${formatTimeMMSS(session.quatre / 4)}</span>
+                        <span class="stat-value right-align">${formatTimeMMSS(session.quatre / 4)}</span>
                       </div>
                     </td>
                   </tr>
@@ -238,7 +238,7 @@ async function loadSessionsHistory() {
                     </td>
                     <td class="right-align">
                       <div class="stat-item">
-                        <span class="stat-value">${formatTimeMMSS(session.deux / 2)}</span>
+                        <span class="stat-value right-align">${formatTimeMMSS(session.deux / 2)}</span>
                       </div>
                     </td>
                   </tr>
