@@ -6,19 +6,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gestion de la course
     const courseSelect = document.getElementById('course');
-    const currentCourse = localStorage.getItem('course') || '400';
-    courseSelect.value = currentCourse;
+    // Déterminer la valeur initiale à partir de « sixmeter »
+    const sixmeterStorage = localStorage.getItem('sixmeter');
+    if (sixmeterStorage === '1') {
+        courseSelect.value = '600m';
+    } else {
+        courseSelect.value = '400';
+    }
 
     // Mettre à jour sixmeter en fonction de la course sélectionnée
     function updateSixmeter() {
         const selectedCourse = courseSelect.value;
         const sixmeter = selectedCourse === '600m' ? '1' : '0';
         localStorage.setItem('sixmeter', sixmeter);
+        localStorage.setItem('course', selectedCourse);
         console.log('🔍 DEBUG - sixmeter:', sixmeter);
     }
 
     // Initialiser sixmeter au chargement
     updateSixmeter();
+
+    // Gestion du meneur d'allure
+    const meneurYes = document.getElementById('meneur-yes');
+    const meneurNo = document.getElementById('meneur-no');
+    const currentMeneur = localStorage.getItem('meneur') || 'no';
+    if (currentMeneur === 'yes') {
+        meneurYes.checked = true;
+    } else {
+        meneurNo.checked = true;
+    }
+
+    // Mettre à jour le localStorage lorsque l'utilisateur change le meneur
+    meneurYes.addEventListener('change', () => {
+        if (meneurYes.checked) {
+            localStorage.setItem('meneur', 'yes');
+        }
+    });
+
+    meneurNo.addEventListener('change', () => {
+        if (meneurNo.checked) {
+            localStorage.setItem('meneur', 'no');
+        }
+    });
 
     // Écouter les changements de la sélection de course
     courseSelect.addEventListener('change', updateSixmeter);

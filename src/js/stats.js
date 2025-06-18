@@ -46,7 +46,7 @@ async function fetchSessionsData() {
                 "400": parseFloat(session.quatre) || 0,
                 "600": parseFloat(session.six) || 0,
                 nb_tirs: parseInt(session.nb_tirs) || 0,
-                meneur: session.meneur === "1"
+                meneur: session.meneur === 1 || session.meneur === "1" || session.meneur === true
             };
             console.log(`Session ${index + 1} mappée:`, mappedSession);
             return mappedSession;
@@ -74,6 +74,11 @@ function createDistanceGraph(distance) {
         x: session.session,
         y: session[distance]
     }));
+
+    // Si aucune donnée, ne pas créer le graphique
+    if (data.length === 0) {
+        return;
+    }
 
     charts[distance] = new Chart(ctx, {
         type: 'line',
@@ -117,14 +122,15 @@ function createDistanceGraph(distance) {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: sessionsData.length > 0 ? sessionsData.length : 1,
+                    max: Math.max(2, sessionsData.length), // Au moins 2 pour avoir une échelle visible
                     ticks: {
                         stepSize: 1
                     }
                 },
                 y: {
                     title: { display: true, text: 'Temps (s)' },
-                    min: 0
+                    min: 0,
+                    max: Math.max(60, Math.max(...data.map(d => d.y)) * 1.2) // Au moins 60 secondes ou 20% plus que le max
                 }
             }
         }
@@ -143,6 +149,11 @@ function createShotsGraph() {
         x: session.session,
         y: session.nb_tirs
     }));
+
+    // Si aucune donnée, ne pas créer le graphique
+    if (data.length === 0) {
+        return;
+    }
 
     charts['shots'] = new Chart(ctx, {
         type: 'line',
@@ -177,7 +188,7 @@ function createShotsGraph() {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: sessionsData.length > 0 ? sessionsData.length : 1,
+                    max: Math.max(2, sessionsData.length), // Au moins 2 pour avoir une échelle visible
                     ticks: {
                         stepSize: 1
                     }
@@ -185,7 +196,7 @@ function createShotsGraph() {
                 y: {
                     title: { display: true, text: 'Nombre de tirs réussis' },
                     min: 0,
-                    max: 15,
+                    max: Math.max(15, Math.max(...data.map(d => d.y)) * 1.2), // Au moins 15 ou 20% plus que le max
                     ticks: {
                         stepSize: 1
                     }

@@ -85,13 +85,13 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     }
 
         try {
-            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-            console.log('Connexion réussie:', userCredential.user.email);
-            setupLocalStorage(userCredential);
+            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            console.log('Inscription réussie:', userCredential.user.email);
 
             // Redirection spécifique
             console.log(userCredential.user.uid);
             setupLocalStorage(userCredential);
+            createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
             window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
@@ -137,4 +137,5 @@ function createUserAPI(uid, nom, prenom, classe, sexe){
 function setupLocalStorage(userCredential){
     localStorage.setItem('userId', userCredential.user.uid);
     localStorage.setItem('sixmeter', 0);
+    localStorage.setItem('meneur', 'no');
 }
