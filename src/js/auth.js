@@ -15,18 +15,25 @@ console.log('Firebase initialisé');
 // Éléments du DOM
 const loginForm = document.getElementById('login');
 const registerForm = document.getElementById('register');
+const forgotPasswordForm = document.getElementById('forgot-password');
 const showRegisterLink = document.getElementById('show-register');
 const showLoginLink = document.getElementById('show-login');
+const showForgotPasswordLink = document.getElementById('show-forgot-password');
+const showLoginFromForgotLink = document.getElementById('show-login-from-forgot');
 const loginFormContainer = document.getElementById('login-form');
 const registerFormContainer = document.getElementById('register-form');
+const forgotPasswordFormContainer = document.getElementById('forgot-password-form');
 
 // Vérifier si nous sommes sur la page d'authentification
 if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     console.log('Formulaires trouvés:', {
         loginForm: !!loginForm,
         registerForm: !!registerForm,
+        forgotPasswordForm: !!forgotPasswordForm,
         showRegisterLink: !!showRegisterLink,
-        showLoginLink: !!showLoginLink
+        showLoginLink: !!showLoginLink,
+        showForgotPasswordLink: !!showForgotPasswordLink,
+        showLoginFromForgotLink: !!showLoginFromForgotLink
     });
 
     // Gestion de l'affichage des formulaires
@@ -34,12 +41,30 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
         e.preventDefault();
         console.log('Clic sur le lien d\'inscription');
         loginFormContainer.style.display = 'none';
+        forgotPasswordFormContainer.style.display = 'none';
         registerFormContainer.style.display = 'block';
     });
 
     showLoginLink.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('Clic sur le lien de connexion');
+        registerFormContainer.style.display = 'none';
+        forgotPasswordFormContainer.style.display = 'none';
+        loginFormContainer.style.display = 'block';
+    });
+
+    showForgotPasswordLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Clic sur le lien mot de passe oublié');
+        loginFormContainer.style.display = 'none';
+        registerFormContainer.style.display = 'none';
+        forgotPasswordFormContainer.style.display = 'block';
+    });
+
+    showLoginFromForgotLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Retour à la connexion depuis mot de passe oublié');
+        forgotPasswordFormContainer.style.display = 'none';
         registerFormContainer.style.display = 'none';
         loginFormContainer.style.display = 'block';
     });
@@ -59,9 +84,9 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             // Redirection spécifique
             if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
                 window.location.href = '../php/note.php';
-} else {
-    window.location.href = 'index.html';
-}
+            } else {
+                window.location.href = 'index.html';
+            }
 
         } catch (error) {
             console.error('Erreur de connexion:', error);
@@ -69,20 +94,41 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
         }
     });
 
+    // Gestion du mot de passe oublié
+    forgotPasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('Tentative de réinitialisation de mot de passe');
+        const email = document.getElementById('forgot-email').value;
+
+        try {
+            await firebase.auth().sendPasswordResetEmail(email);
+            console.log('Email de réinitialisation envoyé');
+            alert('Un email de réinitialisation a été envoyé à votre adresse email.');
+            
+            // Retour au formulaire de connexion
+            forgotPasswordFormContainer.style.display = 'none';
+            loginFormContainer.style.display = 'block';
+            
+        } catch (error) {
+            console.error('Erreur de réinitialisation:', error);
+            alert('Erreur lors de l\'envoi de l\'email : ' + error.message);
+        }
+    });
+
     registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('register-name').value;
-    const firstName = document.getElementById('register-first-name').value;
-    const sexe = document.getElementById('register-sexe').value;
-    const formation = document.getElementById('register-formation').value;
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-    const confirmPassword = document.getElementById('register-confirm-password').value;
-    
-    if (password !== confirmPassword) {
-        alert('Les mots de passe ne correspondent pas.');
-        return;
-    }
+        e.preventDefault();
+        const name = document.getElementById('register-name').value;
+        const firstName = document.getElementById('register-first-name').value;
+        const sexe = document.getElementById('register-sexe').value;
+        const formation = document.getElementById('register-formation').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
+        
+        if (password !== confirmPassword) {
+            alert('Les mots de passe ne correspondent pas.');
+            return;
+        }
 
         try {
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
