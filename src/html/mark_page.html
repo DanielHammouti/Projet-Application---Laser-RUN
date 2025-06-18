@@ -50,7 +50,7 @@
         
         // Récupération du sexe depuis l'API et calcul de la note
         const idUser = localStorage.getItem('userId');
-        let sexe = 'garcon'; // Valeur par défaut
+        
         
         // Vérification si les données sont valides avant d'envoyer à l'API
         const hasValidData = fourTime > 0 || twoTime > 0 || sixTime > 0;
@@ -60,6 +60,7 @@
             .then(response => response.json())
             .then(data => {
               if (data.user && data.user.length > 0) {
+                console.log(data.user[0].sexe);
                 sexe = data.user[0].sexe;
               }
               // Calcul et affichage dans tous les cas
