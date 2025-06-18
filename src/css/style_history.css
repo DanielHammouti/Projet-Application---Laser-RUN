@@ -156,7 +156,8 @@
 /* Styles pour le tableau des statistiques */
 .stats-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin-top: 10px;
   background: white;
   border-radius: 8px;
@@ -167,6 +168,7 @@
 .stats-table thead {
   background: linear-gradient(135deg, #608969, #4a6b4f);
   color: white;
+  border-radius: 0;
 }
 
 .stats-table th {
@@ -178,18 +180,31 @@
   border-bottom: 2px solid #4a6b4f;
 }
 
+.stats-table th.right-align {
+  text-align: right !important;
+}
+
+.stats-table td.right-align {
+  text-align: right !important;
+}
+
 .stats-table td {
   padding: 10px 15px;
   border-bottom: 1px solid #e0e0e0;
   vertical-align: middle;
+  background: #fff;
+}
+
+.stats-table tbody tr:nth-child(even) td {
+  background: #f8f9fa;
 }
 
 .stats-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.stats-table tbody tr:hover {
-  background-color: #f8f9fa;
+.stats-table tbody tr:hover td {
+  background-color: #f0f4f0;
 }
 
 .stats-table .stat-item {
@@ -205,15 +220,10 @@
   background: none;
   padding: 0;
   min-width: auto;
-  text-align: center;
+  text-align: inherit;
   font-weight: bold;
   color: #608969;
-}
-
-.stats-table .right-align, .stats-table .right-align .stat-value {
-  text-align: right !important;
-  justify-content: flex-end;
-  display: block;
+  display: inline;
 }
 
 /* Responsive pour le tableau */
