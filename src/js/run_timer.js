@@ -46,6 +46,7 @@ function formatTime(seconds) {
 // Fonction pour stocker le temps de la session actuelle
 function storeSessionTime() {
   const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0');
+  const sessionNumber = shootingSessions + 1; // Numéro réel (1,2,3)
   
   // Récupérer le temps actuel du chronomètre de course
   let tempsFinalSeconds = 0;
@@ -56,21 +57,21 @@ function storeSessionTime() {
   
   const tempsFinalFormatted = formatTime(tempsFinalSeconds);
   
-  console.log(`📊 Stockage du temps de la session ${shootingSessions}:`, tempsFinalFormatted, `(${tempsFinalSeconds} secondes)`);
+  console.log(`📊 Stockage du temps de la session ${sessionNumber}:`, tempsFinalFormatted, `(${tempsFinalSeconds} secondes)`);
   console.log('  - runIsRunning:', runIsRunning);
   console.log('  - runStartTime:', runStartTime);
   console.log('  - Date.now():', Date.now());
   
   // Stocker le temps selon le numéro de session
-  if (shootingSessions === 1) {
+  if (sessionNumber === 1) {
     localStorage.setItem('session1Time', tempsFinalFormatted);
     localStorage.setItem('fourTime', tempsFinalSeconds.toString());
     console.log('✅ Temps stocké pour session 1 (400m):', tempsFinalFormatted);
-  } else if (shootingSessions === 2) {
+  } else if (sessionNumber === 2) {
     localStorage.setItem('session2Time', tempsFinalFormatted);
     localStorage.setItem('twoTime', tempsFinalSeconds.toString());
     console.log('✅ Temps stocké pour session 2 (200m):', tempsFinalFormatted);
-  } else if (shootingSessions === 3) {
+  } else if (sessionNumber === 3) {
     localStorage.setItem('session3Time', tempsFinalFormatted);
     localStorage.setItem('sixTime', tempsFinalSeconds.toString());
     console.log('✅ Temps stocké pour session 3 (600m):', tempsFinalFormatted);
