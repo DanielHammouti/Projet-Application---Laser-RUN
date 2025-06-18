@@ -79,9 +79,6 @@
                                 document.getElementById(`note-${user.id}`).innerText = "Pas de note";
                             }
                         })
-                        .catch(error => {
-                            document.getElementById(`note-${user.id}`).innerText = "Erreur";
-                        });
                 });
             }
 
