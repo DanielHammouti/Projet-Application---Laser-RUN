@@ -153,6 +153,83 @@
   min-width: 80px;
 }
 
+/* Styles pour le tableau des statistiques */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.stats-table thead {
+  background: linear-gradient(135deg, #608969, #4a6b4f);
+  color: white;
+}
+
+.stats-table th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Inter-Bold", Helvetica;
+  border-bottom: 2px solid #4a6b4f;
+}
+
+.stats-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+}
+
+.stats-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.stats-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.stats-table .stat-item {
+  border-bottom: none;
+  padding: 0;
+}
+
+.stats-table .stat-label {
+  font-size: 14px;
+}
+
+.stats-table .stat-value {
+  background: none;
+  padding: 0;
+  min-width: auto;
+  text-align: center;
+  font-weight: bold;
+  color: #608969;
+}
+
+/* Responsive pour le tableau */
+@media (max-width: 768px) {
+  .stats-table {
+    font-size: 12px;
+  }
+  
+  .stats-table th,
+  .stats-table td {
+    padding: 8px 10px;
+  }
+  
+  .stats-table .stat-label {
+    font-size: 12px;
+  }
+  
+  .stats-table .stat-value {
+    font-size: 12px;
+  }
+}
+
 .no-sessions {
   text-align: center;
   padding: 60px 20px;

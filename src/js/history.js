@@ -52,34 +52,87 @@ function createSessionCard(session) {
     </div>
     <div class="session-content">
       <div class="session-stats">
-        <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_600m') : 'Temps 600m:'}</span>
-          <span class="stat-value">${formatTime(session.six)}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_400m') : 'Temps 400m:'}</span>
-          <span class="stat-value">${formatTime(session.quatre)}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_200m') : 'Temps 200m:'}</span>
-          <span class="stat-value">${formatTime(session.deux)}</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
-          <span class="stat-value">${Math.round((session.nb_tirs / 15) * 100)}% (${session.nb_tirs}/15)</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('pourcentage') : 'Pourcentage:'}</span>
-          <span class="stat-value">${shootingPercentage}%</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
-          <span class="stat-value">${grade}/20</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
-          <span class="stat-value">${session.meneur ? (window.getTranslation ? window.getTranslation('oui') : 'Oui') : (window.getTranslation ? window.getTranslation('non') : 'Non')}</span>
-        </div>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>${window.getTranslation ? window.getTranslation('statistiques') : 'Statistiques'}</th>
+              <th>${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen / 100m'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="stat-item">
+                  <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_600m') : 'Temps 600m:'}</span>
+                  <span class="stat-value">${formatTime(session.six)}</span>
+                </div>
+              </td>
+              <td>
+                <div class="stat-item">
+                  <span class="stat-value">${formatTime(session.six / 6)}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="stat-item">
+                  <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_400m') : 'Temps 400m:'}</span>
+                  <span class="stat-value">${formatTime(session.quatre)}</span>
+                </div>
+              </td>
+              <td>
+                <div class="stat-item">
+                  <span class="stat-value">${formatTime(session.quatre / 4)}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="stat-item">
+                  <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_200m') : 'Temps 200m:'}</span>
+                  <span class="stat-value">${formatTime(session.deux)}</span>
+                </div>
+              </td>
+              <td>
+                <div class="stat-item">
+                  <span class="stat-value">${formatTime(session.deux / 2)}</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="stat-item">
+                  <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
+                  <span class="stat-value">${Math.round((session.nb_tirs / 15) * 100)}% (${session.nb_tirs}/15)</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="stat-item">
+                  <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
+                  <span class="stat-value">${grade}/20</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="stat-item">
+                  <span class="stat-label">Répartition optimale:</span>
+                  <span class="stat-value">${shootingPercentage}%</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="stat-item">
+                  <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
+                  <span class="stat-value">${session.meneur ? (window.getTranslation ? window.getTranslation('oui') : 'Oui') : (window.getTranslation ? window.getTranslation('non') : 'Non')}</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   `;
@@ -123,8 +176,7 @@ async function loadSessionsHistory() {
         // Calcul du temps total pour la note
         const tempsTotal = (session.six || 0) + (session.quatre || 0) + (session.deux || 0);
         // Calcul de la note avec la fonction getNote
-        const sexe = session.sexe || 'garcon'; // à adapter si la DB fournit le sexe
-        const dominante = session.dominante || 'mixte'; // à adapter si la DB fournit la dominante
+        const sexe = session.sexe || 'garcon'; 
         const noteObj = getBestNote(sexe, tempsTotal, nbTirs);
         const card = document.createElement('div');
         card.className = 'session-card';
@@ -135,34 +187,87 @@ async function loadSessionsHistory() {
           </div>
           <div class="session-content">
             <div class="session-stats">
-              <div class="stat-item">
-                <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_600m') : 'Temps 600m:'}</span>
-                <span class="stat-value">${formatTime(session.six)}</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_400m') : 'Temps 400m:'}</span>
-                <span class="stat-value">${formatTime(session.quatre)}</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_200m') : 'Temps 200m:'}</span>
-                <span class="stat-value">${formatTime(session.deux)}</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
-                <span class="stat-value">${Math.round((nbTirs / 15) * 100)}% (${nbTirs}/15)</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
-                <span class="stat-value">${noteObj.total}/12 (${noteObj.courseNote} + ${noteObj.tirNote})</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">Répartition optimale:</span>
-                <span class="stat-value">${noteObj.repartition}</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
-                <span class="stat-value">${session.meneur ? (window.getTranslation ? window.getTranslation('oui') : 'Oui') : (window.getTranslation ? window.getTranslation('non') : 'Non')}</span>
-              </div>
+              <table class="stats-table">
+                <thead>
+                  <tr>
+                    <th>${window.getTranslation ? window.getTranslation('statistiques') : 'Statistiques'}</th>
+                    <th>${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen / 100m'}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_600m') : 'Temps 600m:'}</span>
+                        <span class="stat-value">${formatTime(session.six)}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-value">${formatTime(session.six / 6)}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_400m') : 'Temps 400m:'}</span>
+                        <span class="stat-value">${formatTime(session.quatre)}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-value">${formatTime(session.quatre / 4)}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_200m') : 'Temps 200m:'}</span>
+                        <span class="stat-value">${formatTime(session.deux)}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-value">${formatTime(session.deux / 2)}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
+                        <span class="stat-value">${Math.round((nbTirs / 15) * 100)}% (${nbTirs}/15)</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
+                        <span class="stat-value">${noteObj.total}/12 (${noteObj.courseNote} + ${noteObj.tirNote})</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">Répartition optimale:</span>
+                        <span class="stat-value">${noteObj.repartition}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
+                        <span class="stat-value">${session.meneur ? (window.getTranslation ? window.getTranslation('oui') : 'Oui') : (window.getTranslation ? window.getTranslation('non') : 'Non')}</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         `;
@@ -209,3 +314,4 @@ function initializeHistory() {
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(initializeHistory, 100);
 }); 
+
