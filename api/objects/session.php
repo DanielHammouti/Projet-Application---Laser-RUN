@@ -40,20 +40,18 @@ class Session{
     }
 
     function create(){
-        try {
-            $sql = "INSERT INTO \"$this->table\" (six, quatre, deux, nb_tirs, meneur, dateheure, id_user) VALUES (:six, :quatre, :deux, :nb_tirs, :meneur, :dateheure, :id_user)";
+        $sql = "INSERT INTO \"$this->table\" (six, quatre, deux, nb_tirs, meneur, dateheure, id_user) VALUES (:six, :quatre, :deux, :nb_tirs, :meneur, :dateheure, :id_user)";
         $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':six', $this->six);
-            $stmt->bindParam(':quatre', $this->quatre);
-            $stmt->bindParam(':deux', $this->deux);
-            $stmt->bindParam(':nb_tirs', $this->nb_tirs);
-            $stmt->bindParam(':meneur', $this->meneur);
-            $stmt->bindParam(':dateheure', $this->dateheure);
+        
+        $stmt->bindParam(':six', $this->six);
+        $stmt->bindParam(':quatre', $this->quatre);
+        $stmt->bindParam(':deux', $this->deux);
+        $stmt->bindParam(':nb_tirs', $this->nb_tirs);
+        $stmt->bindParam(':meneur', $this->meneur);
+        $stmt->bindParam(':dateheure', $this->dateheure);
         $stmt->bindParam(':id_user', $this->id_user);
-            return $stmt->execute();
-        } catch(PDOException $e) {
-            throw new Exception("Erreur lors de la création de la session: " . $e->getMessage());
-        }
+        
+        return $stmt->execute();
     }
 
     function getLastSession(){
