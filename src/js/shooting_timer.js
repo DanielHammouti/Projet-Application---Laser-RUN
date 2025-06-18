@@ -2,9 +2,9 @@
 
 // Utiliser un objet pour encapsuler toutes les variables et fonctions
 const ShootingTimer = {
-  SHOOTING_TIME: 2,
-  shootingTimer: null,
+  // Durée d'une session de tir (en secondes)
   timeLeft: 15,
+  shootingTimer: null,
   startTime: null,
   animationFrameId: null,
 
@@ -217,7 +217,7 @@ const ShootingTimer = {
   updateTimer() {
     const currentTime = Date.now();
     const elapsedTime = Math.floor((currentTime - this.startTime) / 1000);
-    const remainingTime = Math.max(0, this.SHOOTING_TIME - elapsedTime);
+    const remainingTime = Math.max(0, this.timeLeft - elapsedTime);
     
     this.displayTime(remainingTime);
 
@@ -251,7 +251,7 @@ const ShootingTimer = {
       return; 
     }
 
-    this.timeLeft = this.SHOOTING_TIME;
+    // Réinitialiser l'affichage avec la durée configurée
     this.displayTime(this.timeLeft);
     
     // Démarrer le timer avec un délai minimal
@@ -263,7 +263,7 @@ const ShootingTimer = {
 
   init() {
     // Afficher le temps initial immédiatement
-    this.displayTime(this.SHOOTING_TIME);
+    this.displayTime(this.timeLeft);
     
     const shootingSessions = parseInt(localStorage.getItem('shootingSessions') || '0', 10);
     console.log('🔍 DEBUG - ShootingTimer.init() appelé');
