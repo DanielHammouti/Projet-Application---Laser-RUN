@@ -182,7 +182,7 @@ async function loadSessionsHistory() {
       }
       // Trier les sessions par date (plus récentes en premier)
       const sortedSessions = own.sort((a, b) => 
-        new Date(b.dateheure) - new Date(a.dateheure)
+        new Date(a.dateheure) - new Date(b.dateheure)
       );
       let index=1;
       sortedSessions.forEach(async session => {
