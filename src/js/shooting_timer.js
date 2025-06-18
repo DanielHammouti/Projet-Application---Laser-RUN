@@ -4,7 +4,7 @@
 const ShootingTimer = {
   SHOOTING_TIME: 2,
   shootingTimer: null,
-  timeLeft: 2,
+  timeLeft: 15,
   startTime: null,
   animationFrameId: null,
 
