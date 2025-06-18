@@ -229,6 +229,10 @@
   display: inline;
 }
 
+.stats-table td.right-align .stat-item {
+  justify-content: flex-end;
+}
+
 /* Responsive pour le tableau */
 @media (max-width: 768px) {
   .stats-table {
