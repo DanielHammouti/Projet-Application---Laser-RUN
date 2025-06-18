@@ -6,14 +6,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gestion de la course
     const courseSelect = document.getElementById('course');
-    const currentCourse = localStorage.getItem('course') || '400';
-    courseSelect.value = currentCourse;
+    // Déterminer la valeur initiale à partir de « sixmeter »
+    const sixmeterStorage = localStorage.getItem('sixmeter');
+    if (sixmeterStorage === '1') {
+        courseSelect.value = '600m';
+    } else {
+        courseSelect.value = '400';
+    }
 
     // Mettre à jour sixmeter en fonction de la course sélectionnée
     function updateSixmeter() {
         const selectedCourse = courseSelect.value;
         const sixmeter = selectedCourse === '600m' ? '1' : '0';
         localStorage.setItem('sixmeter', sixmeter);
+        localStorage.setItem('course', selectedCourse);
         console.log('🔍 DEBUG - sixmeter:', sixmeter);
     }
 
