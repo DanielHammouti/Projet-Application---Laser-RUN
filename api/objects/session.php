@@ -20,7 +20,7 @@ class Session{
 
     function read(){
         try {
-            $sql = "SELECT * FROM " . $this->table . " WHERE id_user = :id_user ORDER BY id_session DESC";
+            $sql = "SELECT * FROM \"$this->table\" WHERE id_user = :id_user ORDER BY id_session DESC";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id_user', $this->id_user);
             $stmt->execute();

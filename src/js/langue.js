@@ -41,7 +41,8 @@ const translations = {
     tirs: "tirs",
     temps_600m: "Temps 600m:",
     temps_400m: "Temps 400m:",
-    temps_200m: "Temps 200m:"
+    temps_200m: "Temps 200m:",
+    deconnexion : "Déconnexion"
   },
   en: {
     titre_param: "Settings",
@@ -83,7 +84,8 @@ const translations = {
     tirs: "shots",
     temps_600m: "600m time:",
     temps_400m: "400m time:",
-    temps_200m: "200m time:"
+    temps_200m: "200m time:",
+    deconnexion: "Logout"
   }
 };
 
@@ -129,7 +131,8 @@ function setLanguage(lang) {
     tir: "tir",
     temps_moyen: "temps_moyen",
     courbe: "courbe",
-    bouton_fin: "bouton_fin"
+    bouton_fin: "bouton_fin",
+    deconnexion: "bouton_deconnexion"
   };
 
   for (const key in ids) {
