@@ -37,15 +37,21 @@ class User{
         }
 
         $sql = "INSERT INTO \"$this->table\" (id_user, nom, prenom, classe, sexe) VALUES (:id_user, :nom, :prenom, :classe, :sexe)";
+
+        try{
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindParam(':id_user', $this->id);
-        $stmt->bindParam(':nom', $this->nom);
-        $stmt->bindParam(':prenom', $this->prenom);
-        $stmt->bindParam(':classe', $this->classe);
-        $stmt->bindParam(':sexe', $this->sexe);
+            $stmt->bindParam(':id_user', $this->id);
+            $stmt->bindParam(':nom', $this->nom);
+            $stmt->bindParam(':prenom', $this->prenom);
+            $stmt->bindParam(':classe', $this->classe);
+            $stmt->bindParam(':sexe', $this->sexe);
 
-        return $stmt->execute();
+            return $stmt->execute();
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+
     }
 
     function isAlreadyExist(){
