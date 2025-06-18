@@ -39,14 +39,20 @@ async function fetchSessionsData() {
         const lastFiveSessions = reversedSessions.slice(-5);
         console.log("5 dernières sessions:", lastFiveSessions);
 
+        // Afficher les données brutes de chaque session
+        lastFiveSessions.forEach((session, index) => {
+            console.log(`Session ${index + 1} - Données brutes:`, JSON.stringify(session, null, 2));
+        });
+
         sessionsData = lastFiveSessions.map((session, index) => {
+            console.log(`Session ${index + 1} - Valeur de meneur avant mapping:`, session.meneur);
             const mappedSession = {
                 session: index + 1,
                 "200": parseFloat(session.deux) || 0,
                 "400": parseFloat(session.quatre) || 0,
                 "600": parseFloat(session.six) || 0,
                 nb_tirs: parseInt(session.nb_tirs) || 0,
-                meneur: session.meneur === "1"
+                meneur: Boolean(session.meneur)
             };
             console.log(`Session ${index + 1} mappée:`, mappedSession);
             return mappedSession;
