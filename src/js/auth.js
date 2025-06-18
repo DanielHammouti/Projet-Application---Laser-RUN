@@ -78,13 +78,16 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
     }
 
         try {
-            const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            console.log('Inscription réussie:', userCredential.user.email);
-            console.log(userCredential.user.uid);
+            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+            console.log('Connexion réussie:', userCredential.user.email);
             setupLocalStorage(userCredential);
-            createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
 
-            window.location.href = 'index.html';
+            // Redirection spécifique
+            if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
+                window.location.href = 'php/note.php';
+            } else {
+                window.location.href = 'index.html';
+}
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
             alert('Erreur d\'inscription : ' + error.message);
