@@ -1,5 +1,5 @@
 firebase.auth().onAuthStateChanged((user) => {
-    const isAuthPage = window.location.pathname.includes('auth.html');
+    const isAuthPage = window.location.pathname.includes('../html/auth.html');
     const isNotePage = window.location.pathname.includes('note.php');
 
     if (user) {
@@ -11,6 +11,6 @@ firebase.auth().onAuthStateChanged((user) => {
         }
     } else if (!isAuthPage) {
         // 🔹 Ne pas entrer dans une boucle si on n'est pas connecté
-        window.location.href = 'auth.html';
+        window.location.href = '../html/auth.html';
     }
 });
