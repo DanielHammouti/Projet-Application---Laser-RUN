@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des utilisateurs</title>
     <link rel="stylesheet" href="../css/style_admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoHkM0DkA6U6O2y9E+IoVx1l5KkN4B+0I4MaV8KmV6E5bgc"
+            crossorigin="anonymous"></script>
 </head>
 <body>
     <h1>Liste des utilisateurs</h1>
@@ -87,10 +90,6 @@
             
 
 </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ENjdO4Dr2bkBIFxQpeoHkM0DkA6U6O2y9E+IoVx1l5KkN4B+0I4MaV8KmV6E5bgc"
-            crossorigin="anonymous"></script>
 
     <!-- Ajouter le modal Bootstrap en bas du body si absent -->
     <div class="modal fade" id="detailsModal" tabindex="-1">
