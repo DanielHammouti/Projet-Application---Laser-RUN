@@ -184,8 +184,9 @@ async function loadSessionsHistory() {
         // Calcul du temps total pour la note
         const tempsTotal = (session.six || 0) + (session.quatre || 0) + (session.deux || 0);
         // Calcul de la note avec la fonction getNote
-        const sexe = session.sexe || 'homme'; 
-        console.log(session);
+        const user = fetch(`https://172.16.100.3/api/users/read_single.php?id=${currentUser.uid}`);
+        const userData = user.json();
+        const sexe = userData.user[0].sexe || 'homme';
         console.log(sexe);
         const noteObj = getBestNote(sexe, tempsTotal, nbTirs);
         const card = document.createElement('div');
