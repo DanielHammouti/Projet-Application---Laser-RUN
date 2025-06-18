@@ -139,9 +139,9 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 18px;
-    text-align: center;     /* Centrer le texte */
-    display: inline-block;  /* Nécessaire pour un centrage propre */
-}
+    text-align: center;    
+    display: inline-block;
+    margin-top: 20px; 
 
 .deconnexion-button:hover {
     background-color: #c82333;
