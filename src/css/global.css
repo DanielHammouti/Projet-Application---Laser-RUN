@@ -67,7 +67,7 @@ a {
 .home-page .historique-wrapper {
   position: fixed;
   width: 33.333%;
-  height: 48px;
+  height: 78px;
   background-color: #608969;
   bottom: 0;
   bottom: env(safe-area-inset-bottom); /* Pour les appareils avec une barre de navigation système */
