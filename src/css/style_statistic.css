@@ -61,12 +61,6 @@
     overflow-y: auto;
 }
 
-.div {
-    position: relative;
-    min-height: 100vh;
-    overflow-y: auto;
-    padding-bottom: 80px; /* Espace pour les boutons de navigation */
-}
 
 #vitesseCourbe {
   display: block;
@@ -180,5 +174,4 @@ canvas {
     canvas {
         aspect-ratio: 3/2;
     }
-
 }
