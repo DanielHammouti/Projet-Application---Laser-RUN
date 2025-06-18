@@ -30,7 +30,7 @@
                 <th>Note</th>
                 <th>Date</th>
                 <th>Détails</th>
-                <th>Notes</th>
+                <th>Historique des notes</th>
             </tr>
         </table>
 
