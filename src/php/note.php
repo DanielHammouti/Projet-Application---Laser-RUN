@@ -57,8 +57,7 @@
 
                 window.utilisateurs.forEach(user => {
                     if ((formation === "all" && (user.classe.toLowerCase() === "sti" || user.classe.toLowerCase() === "mri") &&
-                        user.id !== "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") ||
-                        user.classe.toLowerCase() === formation.toLowerCase()) {
+                        user.id !== "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") || user.classe.toLowerCase() === formation.toLowerCase()) {
                         let row = `<tr id="row-${user.id}">
                                     <td>${user.nom}</td>
                                     <td>${user.prenom}</td>
@@ -66,22 +65,23 @@
                                     <td id="date-${user.id}"></td>
                                 </tr>`;
                         tableau.innerHTML += row;
-                    }
+                    
                     // Récupérer la session de l'utilisateur et calculer la note
-                    fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${user.id}`)
-                        .then(response => response.json())
-                        .then(sessionData => {
-                            if (sessionData.sessions.length > 0) {
-                                let session = sessionData.sessions[0]; // Prendre la première session trouvée
-                                let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs); // Calculer la note
-                                document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
-                                document.getElementById(`date-${user.id}`).innerText = session.dateheure;
-                            } else {
-                                document.getElementById(`note-${user.id}`).innerText = "Pas de note";
-                            }
-                        })
-                });
-            }
+                        fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${user.id}`)
+                            .then(response => response.json())
+                            .then(sessionData => {
+                                if (sessionData.sessions.length > 0) {
+                                    let session = sessionData.sessions[0]; // Prendre la première session trouvée
+                                    let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs); // Calculer la note
+                                    document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
+                                    document.getElementById(`date-${user.id}`).innerText = session.dateheure;
+                                } else {
+                                    document.getElementById(`note-${user.id}`).innerText = "Pas de note";
+                                }
+                            })
+                    }});
+                }
+            
 
 </script>
 </body>
