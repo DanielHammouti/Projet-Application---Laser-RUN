@@ -133,7 +133,7 @@ a {
 
 .button_settings {
   position: absolute;
-  top : 40px;
+  top : 35px;
   right: 5vw;
   width:  45px;               /* S'adapte à la taille de l'écran */
   max-width: 60px;
