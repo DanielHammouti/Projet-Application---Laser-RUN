@@ -160,9 +160,13 @@
                     if(!data.sessions || data.sessions.length===0){alert('Aucune session');return;}
                     // construire tableau des notes
                     let html = '<table style="width:100%;border-collapse:collapse"><tr><th>Date</th><th>Note</th></tr>';
+                    const seen=new Set();
                     data.sessions.forEach(s=>{
+                        const dStr=new Date(s.dateheure).toLocaleDateString('fr-FR');
+                        if(seen.has(dStr)) return;
+                        seen.add(dStr);
                         const noteInfo=getBestNote(sexe, s.six, s.nb_tirs);
-                        html+=`<tr><td>${new Date(s.dateheure).toLocaleDateString('fr-FR')}</td><td>${noteInfo.total}</td></tr>`;
+                        html+=`<tr><td>${dStr}</td><td>${noteInfo.total}</td></tr>`;
                     });
                     html+='</table>';
                     document.getElementById('notesBody').innerHTML=html;
