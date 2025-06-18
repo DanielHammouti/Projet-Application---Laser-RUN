@@ -151,11 +151,9 @@
       function sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs) {
         const idUser = localStorage.getItem('userId');
         const meneur = localStorage.getItem('meneur') === 'true' ? 1 : 0;
-        const sixmeter = localStorage.getItem('sixmeter') || '0';
+        const sixmeter = localStorage.getItem('sixmeter') === '1';
 
-        console.log('🔍 DEBUG - sixmeter:', sixmeter);
-
-        if (sixmeter == '0') {
+        if (sixmeter) {
           let tmp = fourTime;
           fourTime = sixTime;
           sixTime = tmp;
