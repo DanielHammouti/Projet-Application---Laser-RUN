@@ -23,13 +23,12 @@ body {
 }
 
 @media (max-width: 768px) {
-    .statistique-wrapper,
-    .accueil-wrapper,
-    .historique-wrapper {
-        width: 35px;              /* Taille fixe pour les boutons de navigation */
-        height: 35px;
-        margin-bottom: 48px;      /* Espace pour la barre de navigation Samsung */
-    }
+  .statistique-wrapper,
+  .accueil-wrapper,
+  .historique-wrapper {
+      width: 35px;              /* Taille fixe pour les boutons de navigation */
+      height: 35px;
+  }
 }
 
 button:focus-visible {
