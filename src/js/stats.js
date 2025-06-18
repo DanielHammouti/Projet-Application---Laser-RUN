@@ -1,5 +1,12 @@
 // Variable globale pour stocker les données des sessions
 let sessionsData = [];
+// Variables pour stocker les instances des graphiques
+let charts = {
+    '200': null,
+    '400': null,
+    '600': null,
+    'shots': null
+};
 
 // Fonction pour récupérer les données depuis l'API
 async function fetchSessionsData() {
@@ -38,12 +45,18 @@ async function fetchSessionsData() {
 
 function createDistanceGraph(distance) {
     const ctx = document.getElementById(`graph${distance}`).getContext('2d');
+    
+    // Détruire l'ancien graphique s'il existe
+    if (charts[distance]) {
+        charts[distance].destroy();
+    }
+    
     const data = sessionsData.map(session => ({
         x: session.session,
         y: session[distance]
     }));
 
-    new Chart(ctx, {
+    charts[distance] = new Chart(ctx, {
         type: 'line',
         data: {
             datasets: [{
@@ -85,7 +98,7 @@ function createDistanceGraph(distance) {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: Math.max(...sessionsData.map(s => s.session)),
+                    max: Math.max(5, ...sessionsData.map(s => s.session)),
                     ticks: {
                         stepSize: 1
                     }
@@ -101,12 +114,18 @@ function createDistanceGraph(distance) {
 
 function createShotsGraph() {
     const ctx = document.getElementById('graphShots').getContext('2d');
+    
+    // Détruire l'ancien graphique s'il existe
+    if (charts['shots']) {
+        charts['shots'].destroy();
+    }
+    
     const data = sessionsData.map(session => ({
         x: session.session,
         y: session.nb_tirs
     }));
 
-    new Chart(ctx, {
+    charts['shots'] = new Chart(ctx, {
         type: 'line',
         data: {
             datasets: [{
@@ -139,7 +158,7 @@ function createShotsGraph() {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: Math.max(...sessionsData.map(s => s.session)),
+                    max: Math.max(5, ...sessionsData.map(s => s.session)),
                     ticks: {
                         stepSize: 1
                     }
@@ -159,13 +178,6 @@ function createShotsGraph() {
 
 async function updateGraphs() {
     await fetchSessionsData();
-    // Supprimer les anciens graphiques
-    document.getElementById('graph200').getContext('2d').clearRect(0, 0, document.getElementById('graph200').width, document.getElementById('graph200').height);
-    document.getElementById('graph400').getContext('2d').clearRect(0, 0, document.getElementById('graph400').width, document.getElementById('graph400').height);
-    document.getElementById('graph600').getContext('2d').clearRect(0, 0, document.getElementById('graph600').width, document.getElementById('graph600').height);
-    document.getElementById('graphShots').getContext('2d').clearRect(0, 0, document.getElementById('graphShots').width, document.getElementById('graphShots').height);
-    
-    // Recréer les graphiques avec les nouvelles données
     createDistanceGraph('200');
     createDistanceGraph('400');
     createDistanceGraph('600');
