@@ -83,6 +83,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             setupLocalStorage(userCredential);
 
             // Redirection spécifique
+            console.log(userCredential.user.uid);
             if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
                 window.location.href = 'php/note.php';
             } else {
