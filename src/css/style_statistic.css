@@ -148,8 +148,9 @@ canvas {
 
     /* Ajuster le ratio des graphiques pour mobile */
     canvas {
-        aspect-ratio: 3/2;
         width: 100% !important;
+        min-height: 300px !important;
+        height: 50vh !important;
         margin: 0 auto;     /* Centre le canvas */
     }
 }
