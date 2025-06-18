@@ -12,7 +12,7 @@ body, html {
   font-weight: 700;
   font-size: clamp(16px, 2vw, 20px);
   color: #333;
-  margin: 1vh 0 0 4vw;
+  margin: 3vh 10px 0 4vw;
 }
 
 h1, h2, h3 {
@@ -119,7 +119,7 @@ h1, h2, h3 {
   width: 100%;
   height: 8px;
   background-color: #608969;
-  margin: 30px 0;
+  margin: 20px 0;
   border-radius: 3px;
 }
 
@@ -127,7 +127,7 @@ h1, h2, h3 {
 .settings-content {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .deconnexion-section {
