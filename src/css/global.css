@@ -65,13 +65,11 @@ a {
 .home-page .statistique-wrapper, /* trois rectangles verts en bas de la page*/
 .home-page .accueil-wrapper,
 .home-page .historique-wrapper {
-  position: absolute;
+  position: fixed;
   width: 33.333%;
   height: 78px;
   background-color: #608969;
   bottom: 0;
-  bottom: env(safe-area-inset-bottom); /* Pour les appareils avec une barre de navigation système */
-  bottom: constant(safe-area-inset-bottom); /* Fallback pour les anciens iOS */
 }
 
 .statistique-wrapper { left: 0; } /*on place chaque rectangle à la bonne position 1/3 */
