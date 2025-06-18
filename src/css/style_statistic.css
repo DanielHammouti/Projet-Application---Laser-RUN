@@ -181,8 +181,4 @@ canvas {
         aspect-ratio: 3/2;
     }
 
-    /* Ajuster la navigation pour mobile */
-    .navigation-buttons {
-        padding: 5px;
-    }
 }
