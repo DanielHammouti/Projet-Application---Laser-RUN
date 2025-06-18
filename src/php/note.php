@@ -26,6 +26,7 @@
                 <th>Prénom</th>
                 <th>Note</th>
                 <th>Date</th>
+                <th>Afficher les informations</th>
             </tr>
         </table>
 
@@ -53,6 +54,7 @@
                             <th>Prénom</th>
                             <th>Note</th>
                             <th>Date</th>
+                            <th>Afficher les informations</th>
                         </tr>`;
 
                 window.utilisateurs.forEach(user => {
@@ -63,6 +65,7 @@
                                     <td>${user.prenom}</td>
                                     <td id="note-${user.id}"></td>
                                     <td id="date-${user.id}"></td>
+                                    <td><button class="btn btn-info" onclick="voirDetails('${user.id}')">Voir</button></td>
                                 </tr>`;
                         tableau.innerHTML += row;
                     
@@ -74,7 +77,7 @@
                                     let session = sessionData.sessions[0]; // Prendre la première session trouvée
                                     let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs); // Calculer la note
                                     document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
-                                    document.getElementById(`date-${user.id}`).innerText = session.dateheure;
+                                    document.getElementById(`date-${user.id}`).innerText = new Date(session.dateheure).toLocaleDateString('fr-FR');
                                 } else {
                                     document.getElementById(`note-${user.id}`).innerText = "Pas de note";
                                 }
@@ -84,5 +87,48 @@
             
 
 </script>
+
+    <!-- Ajouter le modal Bootstrap en bas du body si absent -->
+    <div class="modal fade" id="detailsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Détails de la session</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detailsBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ajouter le JavaScript pour gérer le modal
+        window.voirDetails = function(userId) {
+            fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if(!data.sessions || data.sessions.length === 0) {
+                        alert('Aucune session trouvée');
+                        return;
+                    }
+                    const session = data.sessions.sort((a,b) => new Date(b.dateheure) - new Date(a.dateheure))[0];
+                    const body = document.getElementById('detailsBody');
+                    body.innerHTML = `
+                        <p><strong>Date :</strong> ${new Date(session.dateheure).toLocaleString('fr-FR')}</p>
+                        <p><strong>400 m :</strong> ${session.quatre ?? 'N/A'} s</p>
+                        <p><strong>600 m :</strong> ${session.six ?? 'N/A'} s</p>
+                        <p><strong>200 m :</strong> ${session.deux ?? 'N/A'} s</p>
+                        <p><strong>Nombre de tirs réussis :</strong> ${session.nb_tirs}</p>
+                        <p><strong>Meneur :</strong> ${session.meneur ? 'Oui' : 'Non'}</p>`;
+
+                    const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
+                    modal.show();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Erreur lors de la récupération des détails');
+                });
+        }
+    </script>
 </body>
 </html>
