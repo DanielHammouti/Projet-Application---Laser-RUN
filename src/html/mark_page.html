@@ -134,12 +134,13 @@
         `;
         
         // S'assurer qu'on n'ajoute pas de doublons
-        const existingTempsElement = rectangleVert.querySelector('.temps-moyen-100m');
+        const existingTempsElement = document.querySelector('.temps-moyen-100m');
         if (existingTempsElement) {
-          rectangleVert.removeChild(existingTempsElement);
+          existingTempsElement.remove();
         }
         
-        rectangleVert.appendChild(tempsElement);
+        // Insérer juste après le rectangle vert
+        rectangleVert.insertAdjacentElement('afterend', tempsElement);
         
         // Affichage de la note
         const resultatNoteElement = document.getElementById('resultat_note');
