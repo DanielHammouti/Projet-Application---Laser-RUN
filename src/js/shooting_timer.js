@@ -361,25 +361,15 @@ const ShootingTimer = {
     const sessionTime = elapsedTimeSeconds - lastSessionEndTime;
 
     // Stocker le temps de la session courante
-    let sixmeter = localStorage.getItem('sixmeter') || 0;
-    console.log('🔍 DEBUGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa - sixmeter:', sixmeter);
     if (shootingSessions === 1) {
       localStorage.setItem('session1Time', this.formatTime(sessionTime));
-      if (sixmeter === "0") {
-        localStorage.setItem('fourTime', sessionTime.toString());
-      } else {
-        localStorage.setItem('sixTime', sessionTime.toString());
-      }
+      localStorage.setItem('fourTime', sessionTime.toString());
     } else if (shootingSessions === 2) {
       localStorage.setItem('session2Time', this.formatTime(sessionTime));
       localStorage.setItem('twoTime', sessionTime.toString());
     } else if (shootingSessions === 3) {
       localStorage.setItem('session3Time', this.formatTime(sessionTime));
-      if (sixmeter === "0") {
-        localStorage.setItem('sixTime', sessionTime.toString());
-      } else {
-        localStorage.setItem('fourTime', sessionTime.toString());
-      }
+      localStorage.setItem('sixTime', sessionTime.toString());
     }
 
     // Mettre à jour la fin de la session précédente
@@ -389,38 +379,3 @@ const ShootingTimer = {
 
 // Exécuter l'initialisation immédiatement
 ShootingTimer.init();
-
-function sendSessionDataToAPI() {
-  const sixmeter = parseInt(localStorage.getItem('sixmeter') || '0');
-  const fourmeter = parseInt(localStorage.getItem('fourmeter') || '0');
-  const twometer = parseInt(localStorage.getItem('twometer') || '0');
-  const nombreTirs = parseInt(localStorage.getItem('nombreTirs') || '0');
-  const idUser = localStorage.getItem('userId');
-  const meneur = localStorage.getItem('meneur') === 'true' ? 1 : 0;
-  
-  const url = 'https://172.16.100.3/api/sessions/create.php';
-  $.ajax({
-    type: 'GET',
-    url: url,
-    dataType: 'json',
-    data: { 
-      id_user: idUser,
-      six: sixmeter,
-      quatre: fourmeter,
-      deux: twometer,
-      nb_tirs: nombreTirs,
-      meneur: meneur
-    },
-    success: function(response) {
-      console.log('Réponse de l\'API:', response);
-      if (response.message) {
-        console.log('Message:', response.message);
-      }
-    },
-    error: function(xhr, status, error) {
-      console.error('Erreur lors de la création de la session de tir:');
-      console.error('Status:', status);
-      console.error('Error:', error);
-    }
-  });
-}

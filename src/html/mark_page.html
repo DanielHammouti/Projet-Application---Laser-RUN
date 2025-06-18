@@ -151,7 +151,14 @@
       function sendSessionDataToAPI(fourTime, twoTime, sixTime, nombreTirs) {
         const idUser = localStorage.getItem('userId');
         const meneur = localStorage.getItem('meneur') === 'true' ? 1 : 0;
-        
+        const sixmeter = localStorage.getItem('sixmeter') || '0';
+
+        if (sixmeter === '0') {
+          let tmp = fourTime;
+          fourTime = sixTime;
+          sixTime = tmp;
+        }
+
         const url = 'https://172.16.100.3/api/sessions/create.php';
         $.ajax({
           type: 'GET',
