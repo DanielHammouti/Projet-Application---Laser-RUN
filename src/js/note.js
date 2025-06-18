@@ -52,7 +52,7 @@ function getNote(sexe, tempsSec, nb_tirs, dominante) {
   
     const index = dominanteToIndex[dominante.toLowerCase()] ?? 0;
   
-    const courseTable = (sexe.toLowerCase() === "fille") ? courseBaremeFille : courseBaremeGarcon;
+    const courseTable = (sexe.toLowerCase() === "femme") ? courseBaremeFille : courseBaremeGarcon;
   
     const courseNote = courseTable.find(e => tempsSec <= e.max)?.notes[index] ?? 0;
 
@@ -98,7 +98,7 @@ function getBestNote(sexe, tempsSec, nb_tirs) {
       { max: Infinity, notes: [0, 0, 0] }
     ];
 
-    const courseTable = (sexe.toLowerCase() === "fille") ? courseBaremeFille : courseBaremeGarcon;
+    const courseTable = (sexe.toLowerCase() === "femme") ? courseBaremeFille : courseBaremeGarcon;
     
     // Calcul du pourcentage de tirs réussis sur 15
     const pourcentageTirs = Math.max(0, Math.min(1, nb_tirs / 15));
