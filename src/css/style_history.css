@@ -210,6 +210,10 @@
   color: #608969;
 }
 
+.stats-table .right-align {
+  text-align: right;
+}
+
 /* Responsive pour le tableau */
 @media (max-width: 768px) {
   .stats-table {

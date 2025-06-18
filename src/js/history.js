@@ -56,7 +56,7 @@ function createSessionCard(session) {
           <thead>
             <tr>
               <th>${window.getTranslation ? window.getTranslation('statistiques') : 'Statistiques'}</th>
-              <th>${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen / 100m'}</th>
+              <th class="right-align">${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen au 100m'}</th>
             </tr>
           </thead>
           <tbody>
@@ -67,7 +67,7 @@ function createSessionCard(session) {
                   <span class="stat-value">${formatTime(session.six)}</span>
                 </div>
               </td>
-              <td>
+              <td class="right-align">
                 <div class="stat-item">
                   <span class="stat-value">${formatTime(session.six / 6)}</span>
                 </div>
@@ -80,7 +80,7 @@ function createSessionCard(session) {
                   <span class="stat-value">${formatTime(session.quatre)}</span>
                 </div>
               </td>
-              <td>
+              <td class="right-align">
                 <div class="stat-item">
                   <span class="stat-value">${formatTime(session.quatre / 4)}</span>
                 </div>
@@ -93,7 +93,7 @@ function createSessionCard(session) {
                   <span class="stat-value">${formatTime(session.deux)}</span>
                 </div>
               </td>
-              <td>
+              <td class="right-align">
                 <div class="stat-item">
                   <span class="stat-value">${formatTime(session.deux / 2)}</span>
                 </div>
@@ -191,7 +191,7 @@ async function loadSessionsHistory() {
                 <thead>
                   <tr>
                     <th>${window.getTranslation ? window.getTranslation('statistiques') : 'Statistiques'}</th>
-                    <th>${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen / 100m'}</th>
+                    <th class="right-align">${window.getTranslation ? window.getTranslation('temps_moyen_100m') : 'Temps moyen au 100m'}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -202,7 +202,7 @@ async function loadSessionsHistory() {
                         <span class="stat-value">${formatTime(session.six)}</span>
                       </div>
                     </td>
-                    <td>
+                    <td class="right-align">
                       <div class="stat-item">
                         <span class="stat-value">${formatTime(session.six / 6)}</span>
                       </div>
@@ -215,7 +215,7 @@ async function loadSessionsHistory() {
                         <span class="stat-value">${formatTime(session.quatre)}</span>
                       </div>
                     </td>
-                    <td>
+                    <td class="right-align">
                       <div class="stat-item">
                         <span class="stat-value">${formatTime(session.quatre / 4)}</span>
                       </div>
@@ -228,7 +228,7 @@ async function loadSessionsHistory() {
                         <span class="stat-value">${formatTime(session.deux)}</span>
                       </div>
                     </td>
-                    <td>
+                    <td class="right-align">
                       <div class="stat-item">
                         <span class="stat-value">${formatTime(session.deux / 2)}</span>
                       </div>
