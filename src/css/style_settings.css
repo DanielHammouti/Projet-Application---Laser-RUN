@@ -23,7 +23,7 @@ h1, h2, h3 {
 .ligne-select {
   display: flex;
   flex-direction: column;
-  margin: 20px 4vw;
+  margin: 10px 4vw;
 }
 
 .ligne-select select {
@@ -47,7 +47,7 @@ h1, h2, h3 {
   justify-content: center;
   align-items: center;
   gap: 40px;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .check {
