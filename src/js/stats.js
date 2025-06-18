@@ -1,54 +1,81 @@
 // Variable globale pour stocker les données des sessions
 let sessionsData = [];
+// Variables pour stocker les instances des graphiques
+let charts = {
+    '200': null,
+    '400': null,
+    '600': null,
+    'shots': null
+};
 
 // Fonction pour récupérer les données depuis l'API
 async function fetchSessionsData() {
     try {
         // Récupérer l'ID de l'utilisateur depuis Firebase
-        const user = firebase.auth().currentUser;
-        if (!user) {
+        if (!currentUser) {
             throw new Error("Utilisateur non connecté");
         }
+        console.log("ID utilisateur:", currentUser.uid);
 
         // Appeler l'API pour récupérer les sessions
-        const response = await fetch(`/api/sessions/read.php?id_user=${user.uid}`);
+        const response = await fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${currentUser.uid}`);
+        console.log("Status de la réponse:", response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log("Données parsées:", data);
 
         if (!data.sessions) {
             throw new Error("Aucune session trouvée");
         }
 
         // Transformer les données pour les graphiques
-        // On inverse l'ordre des sessions pour avoir la plus ancienne en premier
-        sessionsData = data.sessions.reverse().map((session, index) => ({
-            session: index + 1,
-            "200": parseFloat(session.deux) || 0,
-            "400": parseFloat(session.quatre) || 0,
-            "600": parseFloat(session.six) || 0,
-            nb_tirs: parseInt(session.nb_tirs) || 0,
-            meneur: session.meneur === "1" // Convertir en booléen
-        }));
+        const reversedSessions = data.sessions.reverse();
+        console.log("Sessions inversées:", reversedSessions);
+        
+        const lastFiveSessions = reversedSessions.slice(-5);
+        console.log("5 dernières sessions:", lastFiveSessions);
+
+        sessionsData = lastFiveSessions.map((session, index) => {
+            const mappedSession = {
+                session: index + 1,
+                "200": parseFloat(session.deux) || 0,
+                "400": parseFloat(session.quatre) || 0,
+                "600": parseFloat(session.six) || 0,
+                nb_tirs: parseInt(session.nb_tirs) || 0,
+                meneur: session.meneur === "1"
+            };
+            console.log(`Session ${index + 1} mappée:`, mappedSession);
+            return mappedSession;
+        });
+        console.log("Données finales pour les graphiques:", sessionsData);
 
     } catch (error) {
-        // En cas d'erreur, utiliser des données de test
-        sessionsData = [
-            { session: 1, "200": 10, "400": 20, "600": 30, nb_tirs: 12, meneur: false },
-            { session: 2, "200": 12, "400": 22, "600": 32, nb_tirs: 10, meneur: true },
-            { session: 3, "200": 50, "400": 25, "600": 35, nb_tirs: 8, meneur: false },
-            { session: 4, "200": 35, "400": 28, "600": 38, nb_tirs: 13, meneur: true },
-            { session: 5, "200": 25, "400": 30, "600": 40, nb_tirs: 15, meneur: false }
-        ];
+        console.error("Erreur détaillée lors de la récupération des sessions:", error);
+        if (error.stack) {
+            console.error("Stack trace:", error.stack);
+        }
+        sessionsData = [];
     }
 }
 
 function createDistanceGraph(distance) {
     const ctx = document.getElementById(`graph${distance}`).getContext('2d');
+    
+    // Détruire l'ancien graphique s'il existe
+    if (charts[distance]) {
+        charts[distance].destroy();
+    }
+    
     const data = sessionsData.map(session => ({
         x: session.session,
         y: session[distance]
     }));
 
-    new Chart(ctx, {
+    charts[distance] = new Chart(ctx, {
         type: 'line',
         data: {
             datasets: [{
@@ -90,7 +117,7 @@ function createDistanceGraph(distance) {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: Math.max(...sessionsData.map(s => s.session)),
+                    max: sessionsData.length > 0 ? sessionsData.length : 1,
                     ticks: {
                         stepSize: 1
                     }
@@ -106,12 +133,18 @@ function createDistanceGraph(distance) {
 
 function createShotsGraph() {
     const ctx = document.getElementById('graphShots').getContext('2d');
+    
+    // Détruire l'ancien graphique s'il existe
+    if (charts['shots']) {
+        charts['shots'].destroy();
+    }
+    
     const data = sessionsData.map(session => ({
         x: session.session,
         y: session.nb_tirs
     }));
 
-    new Chart(ctx, {
+    charts['shots'] = new Chart(ctx, {
         type: 'line',
         data: {
             datasets: [{
@@ -144,7 +177,7 @@ function createShotsGraph() {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: Math.max(...sessionsData.map(s => s.session)),
+                    max: sessionsData.length > 0 ? sessionsData.length : 1,
                     ticks: {
                         stepSize: 1
                     }
@@ -160,6 +193,14 @@ function createShotsGraph() {
             }
         }
     });
+}
+
+async function updateGraphs() {
+    await fetchSessionsData();
+    createDistanceGraph('200');
+    createDistanceGraph('400');
+    createDistanceGraph('600');
+    createShotsGraph();
 }
 
 async function stats() {
@@ -179,18 +220,19 @@ async function stats() {
             await new Promise(resolve => {
                 const unsubscribe = firebase.auth().onAuthStateChanged(user => {
                     if (user) {
+                        currentUser = user;  // Stocker l'utilisateur dans la variable globale
                         unsubscribe();
                         resolve();
                     }
                 });
             });
 
-            // Récupérer les données et créer les graphiques
-            await fetchSessionsData();
-            createDistanceGraph('200');
-            createDistanceGraph('400');
-            createDistanceGraph('600');
-            createShotsGraph();
+            // Première création des graphiques
+            await updateGraphs();
+
+            // Mettre à jour les graphiques toutes les 30 secondes
+            setInterval(updateGraphs, 30000);
+
         } catch (error) {
             console.error('Erreur lors de l\'initialisation des statistiques:', error);
         }

@@ -136,5 +136,5 @@ function createUserAPI(uid, nom, prenom, classe, sexe){
 
 function setupLocalStorage(userCredential){
     localStorage.setItem('userId', userCredential.user.uid);
-    localStorage.setItem('sixmeter', '0');
+    localStorage.setItem('sixmeter', 0);
 }

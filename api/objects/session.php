@@ -19,11 +19,15 @@ class Session{
     }
 
     function read(){
-        $sql = "SELECT * FROM \"$this->table\" WHERE id_user = :id_user ORDER BY id_session DESC";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id_user', $this->id_user);
-        $stmt->execute();
-        return $stmt;
+        try {
+            $sql = "SELECT * FROM " . $this->table . " WHERE id_user = :id_user ORDER BY id_session DESC";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id_user', $this->id_user);
+            $stmt->execute();
+            return $stmt;
+        } catch(PDOException $e) {
+            throw new Exception("Erreur lors de la lecture des sessions: " . $e->getMessage());
+        }
     }
 
     function read_single(){
