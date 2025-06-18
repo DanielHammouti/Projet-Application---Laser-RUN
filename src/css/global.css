@@ -16,6 +16,21 @@ body {
   overflow: hidden; /* Pour ne pas avoir l'ascenseur*/
 }
 
+/* Permettre le scroll sur la page paramètres */
+.settings-page {
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .statistique-wrapper,
+    .accueil-wrapper,
+    .historique-wrapper {
+        width: 35px;              /* Taille fixe pour les boutons de navigation */
+        height: 35px;
+        margin-bottom: 48px;      /* Espace pour la barre de navigation Samsung */
+    }
+}
+
 button:focus-visible {
   outline: 2px solid #4a90e2 !important;
   outline: -webkit-focus-ring-color auto 5px !important;
@@ -226,19 +241,4 @@ a {
 
 .admin-link:hover {
     background-color: #45a049;
-}
-
-@media (max-width: 768px) {
-    .statistique-wrapper,
-    .accueil-wrapper,
-    .historique-wrapper {
-        width: 35px;              /* Taille fixe pour les boutons de navigation */
-        height: 35px;
-        margin-bottom: 48px;      /* Espace pour la barre de navigation Samsung */
-    }
-
-    .home-page .img {
-        width: 25px;              /* Réduire légèrement la taille des icônes */
-        max-width: 25px;
-    }
 }

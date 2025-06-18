@@ -185,11 +185,4 @@ canvas {
     .navigation-buttons {
         padding: 5px;
     }
-
-    .statistique-wrapper,
-    .accueil-wrapper,
-    .historique-wrapper {
-        width: 35px;
-        height: 35px;
-    }
 }
