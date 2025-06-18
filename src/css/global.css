@@ -82,7 +82,7 @@ a {
   width: 15vw;               
   max-width: 60px;
   height: auto;
-  top: 5px;
+  top: 2px;
   left: 50%;
   transform: translateX(-50%);
   object-fit: contain; /* Garde l'image entière visible sans déformation */
