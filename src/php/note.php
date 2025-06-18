@@ -125,10 +125,12 @@
                         <p><strong>Meneur :</strong> ${session.meneur ? 'Oui' : 'Non'}</p>`;
 
                     const modalEl = document.getElementById('detailsModal');
+                    modalEl.classList.add('show');
                     modalEl.style.display = 'block';
                     const closeBtn = modalEl.querySelector('.btn-close');
-                    closeBtn.onclick = () => modalEl.style.display = 'none';
-                    window.onclick = (e) => { if (e.target === modalEl) modalEl.style.display = 'none'; };
+                    const hideModal = () => { modalEl.classList.remove('show'); modalEl.style.display = 'none'; };
+                    closeBtn.onclick = hideModal;
+                    window.onclick = (e) => { if (e.target === modalEl) hideModal(); };
                 })
                 .catch(err => {
                     console.error(err);
