@@ -124,8 +124,10 @@
                         <p><strong>Nombre de tirs réussis :</strong> ${session.nb_tirs}</p>
                         <p><strong>Meneur :</strong> ${session.meneur ? 'Oui' : 'Non'}</p>`;
 
-                    const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
-                    modal.show();
+                    const modalEl = document.getElementById('modal');
+                    modalEl.style.display = 'block';
+                    document.getElementById('closeModal').onclick = () => modalEl.style.display = 'none';
+                    window.onclick = (e) => { if (e.target === modalEl) modalEl.style.display = 'none'; };
                 })
                 .catch(err => {
                     console.error(err);
