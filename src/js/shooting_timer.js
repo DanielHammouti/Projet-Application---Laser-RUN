@@ -361,10 +361,10 @@ const ShootingTimer = {
     const sessionTime = elapsedTimeSeconds - lastSessionEndTime;
 
     // Stocker le temps de la session courante
-    let sixmeter = localStorage.getItem('sixmeter') || '0';
+    let sixmeter = localStorage.getItem('sixmeter') || 0;
     if (shootingSessions === 1) {
       localStorage.setItem('session1Time', this.formatTime(sessionTime));
-      if (sixmeter === '0') {
+      if (sixmeter === 0) {
         localStorage.setItem('fourTime', sessionTime.toString());
       } else {
         localStorage.setItem('sixTime', sessionTime.toString());
@@ -374,7 +374,7 @@ const ShootingTimer = {
       localStorage.setItem('twoTime', sessionTime.toString());
     } else if (shootingSessions === 3) {
       localStorage.setItem('session3Time', this.formatTime(sessionTime));
-      if (sixmeter === '0') {
+      if (sixmeter === 0) {
         localStorage.setItem('sixTime', sessionTime.toString());
       } else {
         localStorage.setItem('fourTime', sessionTime.toString());
