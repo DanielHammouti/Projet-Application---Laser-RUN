@@ -98,6 +98,50 @@
           resultatTirElement.textContent = `Résultat tirs ${pourcentageTirs}%`;
         }
         
+        // Calcul et affichage des temps moyens au 100m
+        const twoTime = parseInt(localStorage.getItem('twoTime') || '0');
+        const fourTime = parseInt(localStorage.getItem('fourTime') || '0');
+        const sixTime = parseInt(localStorage.getItem('sixTime') || '0');
+        
+        // Calcul des temps moyens au 100m
+        const moyenneTemp200m = twoTime > 0 ? twoTime / 2 : 0;
+        const moyenneTemp400m = fourTime > 0 ? fourTime / 4 : 0;
+        const moyenneTemp600m = sixTime > 0 ? sixTime / 6 : 0;
+        
+        // Formatage des temps moyens au format MM:SS
+        function formatTemps(seconds) {
+          const min = Math.floor(seconds / 60);
+          const sec = Math.floor(seconds % 60);
+          return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+        
+        // Mise à jour du texte pour inclure les temps moyens au 100m
+        const resultatTirComplet = `Résultat tirs ${pourcentageTirs}%`;
+        
+        if (resultatTirElement) {
+          resultatTirElement.innerHTML = resultatTirComplet;
+        }
+        
+        // Affichage des temps moyens au 100m dans un élément dédié
+        const rectangleVert = document.querySelector('.rectangle-vert');
+        const tempsElement = document.createElement('div');
+        tempsElement.className = 'temps-moyen-100m';
+        tempsElement.innerHTML = `
+          <p>Temps moyen au 100m :</p>
+          <p><strong>200m:</strong> ${formatTemps(moyenneTemp200m)}</p>
+          <p><strong>400m:</strong> ${formatTemps(moyenneTemp400m)}</p>
+          <p><strong>600m:</strong> ${formatTemps(moyenneTemp600m)}</p>
+        `;
+        
+        // S'assurer qu'on n'ajoute pas de doublons
+        const existingTempsElement = document.querySelector('.temps-moyen-100m');
+        if (existingTempsElement) {
+          existingTempsElement.remove();
+        }
+        
+        // Insérer juste après le rectangle vert
+        rectangleVert.insertAdjacentElement('afterend', tempsElement);
+        
         // Affichage de la note
         const resultatNoteElement = document.getElementById('resultat_note');
         if (resultatNoteElement) {
