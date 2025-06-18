@@ -86,13 +86,13 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
 
         try {
             const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            console.log('Connexion réussie:', userCredential.user.email);
+            console.log('Inscription réussie:', userCredential.user.email);
 
             // Redirection spécifique
             console.log(userCredential.user.uid);
             setupLocalStorage(userCredential);
             createUserAPI(userCredential.user.uid, name, firstName, formation, sexe);
-            window.location.href = 'index.html';
+            //window.location.href = 'index.html';
         } catch (error) {
             console.error('Erreur d\'inscription:', error);
             alert('Erreur d\'inscription : ' + error.message);
