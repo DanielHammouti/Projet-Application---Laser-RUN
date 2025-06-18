@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCourse = courseSelect.value;
         const sixmeter = selectedCourse === '600m' ? '1' : '0';
         localStorage.setItem('sixmeter', sixmeter);
+        localStorage.setItem('course', selectedCourse);
         console.log('🔍 DEBUG - sixmeter:', sixmeter);
     }
 
