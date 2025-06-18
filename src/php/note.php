@@ -38,8 +38,7 @@
                     .then(data => {
                         window.utilisateurs = data.users; // Stocker tous les utilisateurs
                         afficherUtilisateurs("all"); // Afficher tous les élèves par défaut
-                    })
-                    .catch(error => console.error("Erreur de chargement des utilisateurs :", error));
+                    });
 
                 document.getElementById("choix_formation").addEventListener("change", function () {
                     afficherUtilisateurs(this.value); // Filtrer selon la sélection
@@ -81,7 +80,6 @@
                             }
                         })
                         .catch(error => {
-                            console.error(`Erreur de chargement de la session pour ${user.nom} :`, error);
                             document.getElementById(`note-${user.id}`).innerText = "Erreur";
                         });
                 });
