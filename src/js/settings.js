@@ -36,26 +36,25 @@ document.addEventListener('DOMContentLoaded', function() {
         meneurNo.checked = true;
     }
 
-    // Mettre à jour le localStorage lorsque l'utilisateur change le meneur
-    meneurYes.addEventListener('change', () => {
-        if (meneurYes.checked) {
-            localStorage.setItem('meneur', 'yes');
-        }
-    });
-
-    meneurNo.addEventListener('change', () => {
-        if (meneurNo.checked) {
-            localStorage.setItem('meneur', 'no');
-        }
-    });
+    // Fonction de mise à jour du localStorage pour le meneur
+    function updateMeneur() {
+        const value = meneurYes.checked ? 'yes' : 'no';
+        localStorage.setItem('meneur', value);
+        console.log('🔍 DEBUG - meneur:', value);
+    }
 
     // Écouter les changements de la sélection de course
     courseSelect.addEventListener('change', updateSixmeter);
+
+    // Mettre à jour le localStorage lorsque l'utilisateur change le meneur
+    meneurYes.addEventListener('change', updateMeneur);
+    meneurNo.addEventListener('change', updateMeneur);
 
     // Gestion du bouton valider
     document.getElementById('bouton_valide').addEventListener('click', function() {
         const selectedLang = document.getElementById('langue').value;
         setLanguage(selectedLang);
         updateSixmeter();
+        updateMeneur();
     });
 });

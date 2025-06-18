@@ -46,7 +46,7 @@ async function fetchSessionsData() {
                 "400": parseFloat(session.quatre) || 0,
                 "600": parseFloat(session.six) || 0,
                 nb_tirs: parseInt(session.nb_tirs) || 0,
-                meneur: session.meneur === 1 || session.meneur === "1" || session.meneur === true
+                meneur: session.meneur === 1 || session.meneur === "1" || session.meneur === 'yes' || session.meneur === true
             };
             console.log(`Session ${index + 1} mappée:`, mappedSession);
             return mappedSession;

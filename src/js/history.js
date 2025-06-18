@@ -47,7 +47,7 @@ function calculateGrade(nbTirs) {
 }
 
 // Fonction pour créer une carte de session
-function createSessionCard(session, displayIndex) {
+function createSessionCard(session, sessionNumber) {
   const shootingPercentage = calculateShootingPercentage(session.nb_tirs);
   const grade = calculateGrade(session.nb_tirs);
   
@@ -56,7 +56,7 @@ function createSessionCard(session, displayIndex) {
   card.innerHTML = `
     <div class="session-header">
       <div class="session-date">${formatDate(session.dateheure)}</div>
-      <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${displayIndex}</div>
+      <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${sessionNumber}</div>
     </div>
     <div class="session-content">
       <div class="session-stats">
@@ -174,17 +174,14 @@ async function loadSessionsHistory() {
     container.innerHTML = '';
     
     if (data.sessions && data.sessions.length > 0) {
-      // Conserver uniquement les sessions de l'utilisateur courant (sécurité au cas où l'API renverrait plus)
-      const own = data.sessions.filter(s=> s.id_user === currentUser.uid);
-      if(own.length===0){
-        container.innerHTML = `<div class="no-sessions"><p>Aucune session trouvée</p></div>`;
-        return;
-      }
       // Trier les sessions par date (plus récentes en premier)
-      const sortedSessions = own.sort((a, b) => 
+      const sortedSessions = data.sessions.sort((a, b) => 
         new Date(b.dateheure) - new Date(a.dateheure)
       );
-      let index=1;
+      
+      // Compteur de sessions pour cet utilisateur (numérotation continue 1,2,3,...)
+      let sessionCounter = sortedSessions.length;
+      
       sortedSessions.forEach(async session => {
         const totalTirs = 15;
         const nbTirs = session.nb_tirs || 0;
@@ -203,9 +200,100 @@ async function loadSessionsHistory() {
           const sexe = 'homme'; // Valeur par défaut en cas d'erreur
           noteObj = getBestNote(sexe, tempsTotal, nbTirs);
         }
-        const sessionCard = createSessionCard(session,index);
-        container.appendChild(sessionCard);
-        index++;
+        const card = document.createElement('div');
+        card.className = 'session-card';
+        card.innerHTML = `
+          <div class="session-header">
+            <div class="session-date">${formatDate(session.dateheure)}</div>
+            <div class="session-id">${window.getTranslation ? window.getTranslation('session') : 'Session'} #${sessionCounter--}</div>
+          </div>
+          <div class="session-content">
+            <div class="session-stats">
+              <table class="stats-table">
+                <thead>
+                  <tr>
+                    <th>${window.getTranslation ? window.getTranslation('statistiques') : 'Statistiques'}</th>
+                    <th class="right-align">Temps moyen au 100m</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_600m') : 'Temps 600m:'}</span>
+                        <span class="stat-value">${formatTime(session.six)}</span>
+                      </div>
+                    </td>
+                    <td class="right-align">
+                      <div class="stat-item">
+                        <span class="stat-value right-align">${formatTimeMMSS(session.six / 6)}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_400m') : 'Temps 400m:'}</span>
+                        <span class="stat-value">${formatTime(session.quatre)}</span>
+                      </div>
+                    </td>
+                    <td class="right-align">
+                      <div class="stat-item">
+                        <span class="stat-value right-align">${formatTimeMMSS(session.quatre / 4)}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('temps_200m') : 'Temps 200m:'}</span>
+                        <span class="stat-value">${formatTime(session.deux)}</span>
+                      </div>
+                    </td>
+                    <td class="right-align">
+                      <div class="stat-item">
+                        <span class="stat-value right-align">${formatTimeMMSS(session.deux / 2)}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('tirs_reussis') : 'Tirs réussis:'}</span>
+                        <span class="stat-value">${Math.round((nbTirs / 15) * 100)}% (${nbTirs}/15)</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('note') : 'Note:'}</span>
+                        <span class="stat-value">${noteObj.total}/12 (${noteObj.courseNote} + ${noteObj.tirNote})</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">Répartition optimale:</span>
+                        <span class="stat-value">${noteObj.repartition}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <div class="stat-item">
+                        <span class="stat-label">${window.getTranslation ? window.getTranslation('meneur_allure') : 'Meneur d\'allure:'}</span>
+                        <span class="stat-value">${session.meneur ? (window.getTranslation ? window.getTranslation('oui') : 'Oui') : (window.getTranslation ? window.getTranslation('non') : 'Non')}</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
       });
     } else {
       container.innerHTML = `
