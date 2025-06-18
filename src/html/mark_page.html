@@ -128,18 +128,19 @@
         tempsElement.className = 'temps-moyen-100m';
         tempsElement.innerHTML = `
           <p>Temps moyen au 100m :</p>
-          <p>200m: ${formatTemps(moyenneTemp200m)}</p>
-          <p>400m: ${formatTemps(moyenneTemp400m)}</p>
-          <p>600m: ${formatTemps(moyenneTemp600m)}</p>
+          <p><strong>200m:</strong> ${formatTemps(moyenneTemp200m)}</p>
+          <p><strong>400m:</strong> ${formatTemps(moyenneTemp400m)}</p>
+          <p><strong>600m:</strong> ${formatTemps(moyenneTemp600m)}</p>
         `;
         
         // S'assurer qu'on n'ajoute pas de doublons
-        const existingTempsElement = rectangleVert.querySelector('.temps-moyen-100m');
+        const existingTempsElement = document.querySelector('.temps-moyen-100m');
         if (existingTempsElement) {
-          rectangleVert.removeChild(existingTempsElement);
+          existingTempsElement.remove();
         }
         
-        rectangleVert.appendChild(tempsElement);
+        // Insérer juste après le rectangle vert
+        rectangleVert.insertAdjacentElement('afterend', tempsElement);
         
         // Affichage de la note
         const resultatNoteElement = document.getElementById('resultat_note');
