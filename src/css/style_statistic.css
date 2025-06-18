@@ -116,21 +116,21 @@ canvas {
 @media (max-width: 768px) {
     .graphs-container {
         grid-template-columns: 1fr;
-        padding: 5px;
+        padding: 0;
         gap: 15px;
-        margin-bottom: 70px; /* Espace pour la navigation fixe */
-        width: 95%;         /* Utilise presque toute la largeur disponible */
+        margin-bottom: 70px;
+        width: 100%;
     }
 
     .graph-section {
-        padding: 5px;       /* Réduit le padding pour donner plus d'espace au graphique */
-        margin: 0 auto;     /* Centre la section */
-        width: 100%;        /* Utilise toute la largeur disponible */
+        padding: 2px;
+        margin: 0;
+        width: 100%;
     }
 
     .graph-section .text {
         font-size: 1em;
-        padding: 5px 0;     /* Ajoute un peu d'espace vertical au texte */
+        padding: 5px 0;
     }
 
     /* Ajuster la barre noire du haut */
@@ -148,9 +148,8 @@ canvas {
 
     /* Ajuster le ratio des graphiques pour mobile */
     canvas {
+        aspect-ratio: 3/2;
         width: 100% !important;
-        min-height: 300px !important;
-        height: 50vh !important;
-        margin: 0 auto;     /* Centre le canvas */
+        margin: 0 auto;
     }
 }
