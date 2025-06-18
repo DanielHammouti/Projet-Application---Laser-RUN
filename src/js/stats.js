@@ -98,7 +98,7 @@ function createDistanceGraph(distance) {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: Math.max(5, ...sessionsData.map(s => s.session)),
+                    max: sessionsData.length > 0 ? sessionsData.length : 1,
                     ticks: {
                         stepSize: 1
                     }
@@ -158,7 +158,7 @@ function createShotsGraph() {
                     type: 'linear',
                     title: { display: true, text: 'Session' },
                     min: 1,
-                    max: Math.max(5, ...sessionsData.map(s => s.session)),
+                    max: sessionsData.length > 0 ? sessionsData.length : 1,
                     ticks: {
                         stepSize: 1
                     }
