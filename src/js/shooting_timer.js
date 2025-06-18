@@ -362,6 +362,7 @@ const ShootingTimer = {
 
     // Stocker le temps de la session courante
     let sixmeter = localStorage.getItem('sixmeter') || 0;
+    console.log('🔍 DEBUG - sixmeter:', sixmeter);
     if (shootingSessions === 1) {
       localStorage.setItem('session1Time', this.formatTime(sessionTime));
       if (sixmeter === 0) {
