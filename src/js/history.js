@@ -189,7 +189,7 @@ async function loadSessionsHistory() {
           const userResponse = await fetch(`https://172.16.100.3/api/users/read_single.php?id=${currentUser.uid}`);
           const userData = await userResponse.json();
           const sexe = userData.user[0].sexe || 'homme';
-          console.log(sexe);
+          
           noteObj = getBestNote(sexe, tempsTotal, nbTirs);
         } catch (error) {
           console.error('Erreur lors de la récupération des données utilisateur:', error);
