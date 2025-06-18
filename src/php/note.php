@@ -33,7 +33,7 @@
 
     <script >
             document.addEventListener("DOMContentLoaded", function () {
-                fetch("/api/users/read.php")
+                fetch("https://172.16.100.3/api/users/read.php")
                     .then(response => response.json())
                     .then(data => {
                         window.utilisateurs = data.users; // Stocker tous les utilisateurs
@@ -68,7 +68,7 @@
                         tableau.innerHTML += row;
                     }
                     // Récupérer la session de l'utilisateur et calculer la note
-                    fetch(`/api/sessions/read.php?id_user=${user.id}`)
+                    fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${user.id}`)
                         .then(response => response.json())
                         .then(sessionData => {
                             if (sessionData.sessions.length > 0) {
