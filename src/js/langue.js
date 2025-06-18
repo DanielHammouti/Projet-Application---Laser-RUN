@@ -130,7 +130,7 @@ function setLanguage(lang) {
     temps_moyen: "temps_moyen",
     courbe: "courbe",
     bouton_fin: "bouton_fin",
-    bouton_deconnexion: "bouton_deconnexion"
+    deconnexion: "bouton_deconnexion"
   };
 
   for (const key in ids) {
