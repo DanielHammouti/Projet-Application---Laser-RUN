@@ -81,7 +81,8 @@
                             .then(sessionData => {
                                 if (sessionData.sessions.length > 0) {
                                     let session = sessionData.sessions[0]; // Prendre la première session trouvée
-                                    let noteInfo = getBestNote(user.sexe, session.six, session.nb_tirs); // Calculer la note
+                                    let tempsTotal = (session.six ?? 0) + (session.quatre ?? 0) + (session.deux ?? 0);
+                                    let noteInfo = getBestNote(user.sexe, tempsTotal, session.nb_tirs); // Calculer la note
                                     document.getElementById(`note-${user.id}`).innerText = noteInfo.total;
                                     document.getElementById(`date-${user.id}`).innerText = new Date(session.dateheure).toLocaleDateString('fr-FR');
                                 } else {
@@ -162,7 +163,8 @@
                     let html = '<table style="width:100%;border-collapse:collapse"><tr><th>Date</th><th>Note</th></tr>';
                     data.sessions.forEach(s=>{
                         const dStr=new Date(s.dateheure).toLocaleDateString('fr-FR');
-                        const noteInfo=getBestNote(sexe, s.six, s.nb_tirs);
+                        const tempsTotal = (s.six ?? 0) + (s.quatre ?? 0) + (s.deux ?? 0);
+                        const noteInfo = getBestNote(sexe, tempsTotal, s.nb_tirs);
                         html+=`<tr><td>${dStr}</td><td>${noteInfo.total}</td></tr>`;
                     });
                     html+='</table>';
