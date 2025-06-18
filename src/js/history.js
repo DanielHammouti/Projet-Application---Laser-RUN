@@ -184,7 +184,9 @@ async function loadSessionsHistory() {
         // Calcul du temps total pour la note
         const tempsTotal = (session.six || 0) + (session.quatre || 0) + (session.deux || 0);
         // Calcul de la note avec la fonction getNote
-        const sexe = session.sexe || 'garcon'; 
+        const sexe = session.sexe || 'homme'; 
+        console.log(session);
+        console.log(sexe);
         const noteObj = getBestNote(sexe, tempsTotal, nbTirs);
         const card = document.createElement('div');
         card.className = 'session-card';
