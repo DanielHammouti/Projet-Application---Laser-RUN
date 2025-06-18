@@ -210,8 +210,10 @@
   color: #608969;
 }
 
-.stats-table .right-align {
-  text-align: right;
+.stats-table .right-align, .stats-table .right-align .stat-value {
+  text-align: right !important;
+  justify-content: flex-end;
+  display: block;
 }
 
 /* Responsive pour le tableau */
