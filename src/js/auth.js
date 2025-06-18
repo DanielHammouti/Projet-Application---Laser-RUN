@@ -55,7 +55,14 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
             console.log('Connexion réussie:', userCredential.user.email);
             setupLocalStorage(userCredential);
-            window.location.href = 'index.html';
+
+            // Redirection spécifique
+            if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
+                window.location.href = '../php/note.php';
+} else {
+    window.location.href = 'index.html';
+}
+
         } catch (error) {
             console.error('Erreur de connexion:', error);
             alert('Erreur de connexion : ' + error.message);
