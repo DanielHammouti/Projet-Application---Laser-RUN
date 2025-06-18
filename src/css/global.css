@@ -152,13 +152,13 @@ a {
 
 .compte-wrapper {
     position: relative;
-    width: 24px;
-    height: 24px;
+    width: 15px;
+    height: 15px;
 }
 
 .compte-wrapper .img {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     position: absolute;
     left: 0;
     top: 0;
