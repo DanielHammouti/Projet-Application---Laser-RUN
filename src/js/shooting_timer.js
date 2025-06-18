@@ -3,7 +3,7 @@
 // Utiliser un objet pour encapsuler toutes les variables et fonctions
 const ShootingTimer = {
   // Durée d'une session de tir (en secondes)
-  timeLeft: 2,
+  timeLeft: 7,
   shootingTimer: null,
   startTime: null,
   animationFrameId: null,
