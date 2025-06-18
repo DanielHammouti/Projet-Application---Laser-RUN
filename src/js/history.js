@@ -182,10 +182,11 @@ async function loadSessionsHistory() {
       }
       // Trier les sessions par date (plus récentes en premier)
       const sortedSessions = own.sort((a, b) => 
-        new Date(a.dateheure) - new Date(b.dateheure)
+        new Date(b.dateheure) - new Date(a.dateheure)
       );
-      let index=1;
-      sortedSessions.forEach(async session => {
+      const total=sortedSessions.length;
+      sortedSessions.forEach(async (session, idx) => {
+        const displayIndex = total - idx; // plus récente reçoit le numéro total
         const totalTirs = 15;
         const nbTirs = session.nb_tirs || 0;
         // Calcul du temps total pour la note
@@ -203,9 +204,8 @@ async function loadSessionsHistory() {
           const sexe = 'homme'; // Valeur par défaut en cas d'erreur
           noteObj = getBestNote(sexe, tempsTotal, nbTirs);
         }
-        const sessionCard = createSessionCard(session,index);
+        const sessionCard = createSessionCard(session, displayIndex);
         container.appendChild(sessionCard);
-        index++;
       });
     } else {
       container.innerHTML = `
