@@ -39,11 +39,6 @@ async function fetchSessionsData() {
         const lastFiveSessions = reversedSessions.slice(-5);
         console.log("5 dernières sessions:", lastFiveSessions);
 
-        // Afficher les données brutes de la session 4
-        console.log("Session 4 brute:", lastFiveSessions[3]);
-        console.log("Type de meneur:", typeof lastFiveSessions[3].meneur);
-        console.log("Valeur de meneur:", lastFiveSessions[3].meneur);
-
         sessionsData = lastFiveSessions.map((session, index) => {
             const mappedSession = {
                 session: index + 1,
