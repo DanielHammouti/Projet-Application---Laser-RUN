@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Gestion de la course
     const courseSelect = document.getElementById('course');
-    const currentCourse = localStorage.getItem('course') || '400';
+    const currentCourse = localStorage.getItem('course');
+    const sixmeter = localStorage.getItem('sixmeter') === '1' ? '600m' : '400m';
     courseSelect.value = currentCourse;
 
     // Mettre à jour sixmeter en fonction de la course sélectionnée
