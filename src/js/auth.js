@@ -184,4 +184,41 @@ function setupLocalStorage(userCredential){
     localStorage.setItem('userId', userCredential.user.uid);
     localStorage.setItem('sixmeter', 0);
     localStorage.setItem('meneur', 'no');
+    localStorage.setItem('dateheure', new Date().toISOString());
+}
+
+/**
+ * Vérifie les champs saisis lors de la connexion ou de l'inscription.
+ * @param {Object} data – Champs à valider.
+ * @param {string} data.email
+ * @param {string} data.password
+ * @param {string} [data.confirmPassword] – Requis uniquement à l'inscription.
+ * @param {Object.<string,string>} [data.obligatoires] – Autres champs obligatoires { nom: '', prenom: '', ... }.
+ * @returns {{estValide: boolean, message: string}} – Résultat de la validation.
+ */
+function verifierAuthInput({ email, password, confirmPassword = null, obligatoires = {} }) {
+  // Expression régulière pour un e-mail basique.
+  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!email || !regexEmail.test(email)) {
+    return { estValide: false, message: 'Adresse e-mail invalide.' };
+  }
+
+  if (!password || password.length < 6) {
+    return { estValide: false, message: 'Le mot de passe doit contenir au moins 6 caractères.' };
+  }
+
+  // Si confirmPassword est fourni, nous sommes sur l'inscription : vérifier la cohérence.
+  if (confirmPassword !== null && password !== confirmPassword) {
+    return { estValide: false, message: 'Les mots de passe ne correspondent pas.' };
+  }
+
+  // Vérifier les autres champs obligatoires (nom, prénom, etc.).
+  for (const [cle, valeur] of Object.entries(obligatoires)) {
+    if (!valeur || valeur.trim() === '') {
+      return { estValide: false, message: `Le champ « ${cle} » est requis.` };
+    }
+  }
+
+  return { estValide: true, message: 'Validation réussie.' };
 }
