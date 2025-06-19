@@ -99,11 +99,42 @@ DB_PASS=motdepasse
 composer install
 ```
 
-### 7. Lancement du front-end
+### 6. Lancement du front-end
 
 Méthode simple (Node requis) :
 ```bash
 systemctl start apache2
+```
+
+### 7. Configuration des serveurs de développement
+
+```bash
+cp /etc/apache2/sites-available/default--ssl.conf /etc/apache2/site-available/dev1.conf
+```
+
+Changer le port d'écoute
+```bash
+nano etc/apache2/site-available/dev1.conf
+```
+
+Changer le port dans le virtual host
+```bash
+<VirtualHost *:8081>
+```
+
+Changer le répertoire source
+```bash
+DocumentRoot /var/www/html/dev1.conf
+```
+
+Activer le site web
+```bash
+a2ensite dev1.conf
+```
+
+Relancer le serveur Apache
+```bash
+systemctl restart apache2
 ```
 
 Ou ouvrez directement `https://172.16.100.3` dans votre navigateur (certaines fonctionnalités CORS ou requêtes fetch peuvent alors être limitées).
