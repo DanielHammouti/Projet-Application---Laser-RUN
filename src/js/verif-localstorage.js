@@ -11,8 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('dateheure');
     return;
   }
-
-  const deuxHeuresEnMs = 2 * 60 * 60 * 1000; // 2 heures en millisecondes
+  
+  //const deuxHeuresEnMs = 2 * 60 * 60 * 1000; // 2 heures en millisecondes
+  const deuxHeuresEnMs = 60 * 1000; // 1 minute en millisecondes
   const maintenant = Date.now();
 
   if ((maintenant - dateHeure.getTime()) > deuxHeuresEnMs) {
