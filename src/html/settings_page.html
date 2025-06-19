@@ -22,15 +22,7 @@
           </div>
         </div>
         <div class="separation-line"></div>
-        <div class="ligne-select">
-            <div class="text" id="sexe_type">Sexe</div>
-                <select name="sexe" id="sexe">
-                    <option value="Homme" id="homme">Homme</option>
-                    <option value="Femme" id="femme">Femme</option>
-                </select>
-        </div>
 
-        <div class="separation-line-settings"></div>
         <div class="text" id="meneur_label">Meneur d'allure</div>
         <div class="ligne-meneur">
                 <input type="radio" name="meneur" id="meneur-yes" class="check check-vert">
@@ -41,9 +33,9 @@
         </div>
 
         <div class="separation-line-settings"></div>
-
+        <div class="text" id="course_label">Course</div>
         <div class="ligne-select">
-            <div class="text" id="course_label">Course</div>
+            
                 <select name="course" id="course">
                     <option value="400">400m</option>
                     <option value="600m">600m</option>
@@ -51,9 +43,9 @@
         </div>
 
         <div class="separation-line-settings"></div>
-
+        <div class="text" id="langue_label">Langue</div>
         <div class="ligne-select">
-            <div class="text" id="langue_label">Langue</div>
+            
                 <select name="langue" id="langue">
                     <option value="fr" id="fr">Français</option>
                     <option value="en" id="en">English</option>
@@ -85,28 +77,21 @@
         </div>
         </a>
 
-        <div class="compte-wrapper">
-          
-          <div class="compte-menu">
-            <button onclick="firebase.auth().signOut()">Se déconnecter</button>
-          </div>
-        </div>
-
         <div class="settings-content">
-            
-            
-            
-            <div class="deconnexion-section">
-                <button onclick="firebase.auth().signOut()" class="deconnexion-button">Se déconnecter</button>
-            </div>
-        </div>
+          <div class="deconnexion-section">
+              <button onclick="firebase.auth().signOut()" class="deconnexion-button" id="bouton_deconnexion">Déconnexion</button>
+          </div>
+      </div>
+
       </div>
     </div>
     <!-- Firebase SDK -->
+    
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/auth-check.js"></script>
+    <script src="../js/langue.js"></script>
   </body>
-  <script src="../js/langue.js"></script>
+    
 </html>

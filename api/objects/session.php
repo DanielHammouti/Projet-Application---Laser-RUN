@@ -19,11 +19,15 @@ class Session{
     }
 
     function read(){
-        $sql = "SELECT * FROM \"$this->table\" WHERE id_user = :id_user ORDER BY id_session DESC";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id_user', $this->id_user);
-        $stmt->execute();
-        return $stmt;
+        try {
+            $sql = "SELECT * FROM \"$this->table\" WHERE id_user = :id_user ORDER BY id_session DESC";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id_user', $this->id_user);
+            $stmt->execute();
+            return $stmt;
+        } catch(PDOException $e) {
+            throw new Exception("Erreur lors de la lecture des sessions: " . $e->getMessage());
+        }
     }
 
     function read_single(){
@@ -36,20 +40,17 @@ class Session{
     }
 
     function create(){
-        try {
-            $sql = "INSERT INTO \"$this->table\" (six, quatre, deux, nb_tirs, meneur, dateheure, id_user) VALUES (:six, :quatre, :deux, :nb_tirs, :meneur, :dateheure, :id_user)";
+        $sql = "INSERT INTO \"$this->table\" (six, quatre, deux, nb_tirs, meneur, id_user) VALUES (:six, :quatre, :deux, :nb_tirs, :meneur, :id_user)";
         $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':six', $this->six);
-            $stmt->bindParam(':quatre', $this->quatre);
-            $stmt->bindParam(':deux', $this->deux);
-            $stmt->bindParam(':nb_tirs', $this->nb_tirs);
-            $stmt->bindParam(':meneur', $this->meneur);
-            $stmt->bindParam(':dateheure', $this->dateheure);
+        
+        $stmt->bindParam(':six', $this->six);
+        $stmt->bindParam(':quatre', $this->quatre);
+        $stmt->bindParam(':deux', $this->deux);
+        $stmt->bindParam(':nb_tirs', $this->nb_tirs);
+        $stmt->bindParam(':meneur', $this->meneur);
         $stmt->bindParam(':id_user', $this->id_user);
-            return $stmt->execute();
-        } catch(PDOException $e) {
-            throw new Exception("Erreur lors de la création de la session: " . $e->getMessage());
-        }
+        
+        return $stmt->execute();
     }
 
     function getLastSession(){

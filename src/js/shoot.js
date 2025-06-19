@@ -36,14 +36,6 @@ for (let i = 1; i <= 5; i++) {
     }
   });
 
-  noInput.addEventListener('change', function() {
-    if (this.checked) {
-      nombreTirs++;
-      localStorage.setItem('nombreTirs', nombreTirs.toString());
-      console.log(`Nombre de tirs: ${nombreTirs}`);
-    }
-  });
-
   tirsContainer.appendChild(clone);
 }
 

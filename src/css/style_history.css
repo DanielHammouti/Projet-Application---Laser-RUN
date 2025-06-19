@@ -62,12 +62,12 @@
 
 .sessions-container {
   padding: 20px;
-  max-height: 70vh;
+  /* On laisse la hauteur se calculer automatiquement pour éviter l'espace blanc */
   overflow-y: auto;
-  margin-bottom: 100px;
+  padding-bottom: 70px;
   background: #f9f9f9;
   border-radius: 8px;
-  margin: 20px;
+  margin: 20px 20px 0 20px;
 }
 
 .session-card {
@@ -144,13 +144,113 @@
 .stat-value {
   color: #2c3e50;
   font-size: 15px;
-  text-align: right;
   font-weight: 500;
   font-family: "Inter-Regular", Helvetica;
   background: #f8f9fa;
   padding: 4px 8px;
   border-radius: 6px;
-  min-width: 80px;
+}
+
+.stat-value.right-align {
+  text-align: right;
+  display: block;
+}
+
+/* Styles pour le tableau des statistiques */
+.stats-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.stats-table thead {
+  background: linear-gradient(135deg, #608969, #4a6b4f);
+  color: white;
+  border-radius: 0;
+}
+
+.stats-table th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: "Inter-Bold", Helvetica;
+  border-bottom: 2px solid #4a6b4f;
+}
+
+.stats-table th.right-align {
+  text-align: right !important;
+}
+
+.stats-table td.right-align {
+  text-align: right !important;
+}
+
+.stats-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  vertical-align: middle;
+  background: #fff;
+}
+
+.stats-table tbody tr:nth-child(even) td {
+  background: #f8f9fa;
+}
+
+.stats-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.stats-table tbody tr:hover td {
+  background-color: #f0f4f0;
+}
+
+.stats-table .stat-item {
+  border-bottom: none;
+  padding: 0;
+}
+
+.stats-table .stat-label {
+  font-size: 14px;
+}
+
+.stats-table .stat-value {
+  background: none;
+  padding: 0;
+  min-width: auto;
+  text-align: inherit;
+  font-weight: bold;
+  color: #608969;
+  display: inline;
+}
+
+.stats-table td.right-align .stat-item {
+  justify-content: flex-end;
+}
+
+/* Responsive pour le tableau */
+@media (max-width: 768px) {
+  .stats-table {
+    font-size: 12px;
+  }
+  
+  .stats-table th,
+  .stats-table td {
+    padding: 8px 10px;
+  }
+  
+  .stats-table .stat-label {
+    font-size: 12px;
+  }
+  
+  .stats-table .stat-value {
+    font-size: 12px;
+  }
 }
 
 .no-sessions {
@@ -205,7 +305,7 @@
   }
   
   .stat-value {
-    text-align: left;
+    text-align: right;
     width: 100%;
   }
   

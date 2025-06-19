@@ -46,6 +46,7 @@ class User{
         $stmt->bindParam(':sexe', $this->sexe);
 
         return $stmt->execute();
+
     }
 
     function isAlreadyExist(){
