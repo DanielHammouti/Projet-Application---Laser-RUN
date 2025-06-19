@@ -40,7 +40,7 @@ class Session{
     }
 
     function create(){
-        $sql = "INSERT INTO \"$this->table\" (six, quatre, deux, nb_tirs, meneur, dateheure, id_user) VALUES (:six, :quatre, :deux, :nb_tirs, :meneur, :dateheure, :id_user)";
+        $sql = "INSERT INTO \"$this->table\" (six, quatre, deux, nb_tirs, meneur, id_user) VALUES (:six, :quatre, :deux, :nb_tirs, :meneur, :id_user)";
         $stmt = $this->conn->prepare($sql);
         
         $stmt->bindParam(':six', $this->six);
@@ -48,7 +48,6 @@ class Session{
         $stmt->bindParam(':deux', $this->deux);
         $stmt->bindParam(':nb_tirs', $this->nb_tirs);
         $stmt->bindParam(':meneur', $this->meneur);
-        $stmt->bindParam(':dateheure', $this->dateheure);
         $stmt->bindParam(':id_user', $this->id_user);
         
         return $stmt->execute();
