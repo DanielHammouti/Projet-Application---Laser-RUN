@@ -106,6 +106,8 @@ Méthode simple (Node requis) :
 systemctl start apache2
 ```
 
+Ouvrez directement `https://172.16.100.3` dans votre navigateur (certaines fonctionnalités CORS ou requêtes fetch peuvent alors être limitées).
+
 ### 7. Configuration des serveurs de développement
 
 ```bash
@@ -137,7 +139,7 @@ Relancer le serveur Apache
 systemctl restart apache2
 ```
 
-Ou ouvrez directement `https://172.16.100.3` dans votre navigateur (certaines fonctionnalités CORS ou requêtes fetch peuvent alors être limitées).
+Ouvrez directement `https://172.16.100.3:8081` dans votre navigateur
 
 ## 📄 Licence
 
