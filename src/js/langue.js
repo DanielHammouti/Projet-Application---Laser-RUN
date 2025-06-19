@@ -42,7 +42,15 @@ const translations = {
     temps_600m: "Temps 600m:",
     temps_400m: "Temps 400m:",
     temps_200m: "Temps 200m:",
-    deconnexion : "Déconnexion"
+    deconnexion : "Déconnexion",
+    title_settings: "Paramètres",
+    title_statistic: "Statistiques",
+    title_history: "Historique",
+    title_home: "Accueil",
+    title_run: "Course",
+    title_shots: "Tirs",
+    title_mark: "Note",
+    title_auth: "Authentification"
   },
   en: {
     titre_param: "Settings",
@@ -85,7 +93,15 @@ const translations = {
     temps_600m: "600m time:",
     temps_400m: "400m time:",
     temps_200m: "200m time:",
-    deconnexion: "Logout"
+    deconnexion: "Logout",
+    title_settings: "Settings",
+    title_statistic: "Statistics",
+    title_history: "History",
+    title_home: "Home",
+    title_run: "Run",
+    title_shots: "Shots",
+    title_mark: "Mark",
+    title_auth: "Authentication"
   }
 };
 
@@ -132,13 +148,16 @@ function setLanguage(lang) {
     temps_moyen: "temps_moyen",
     courbe: "courbe",
     bouton_fin: "bouton_fin",
-    deconnexion: "bouton_deconnexion"
+    deconnexion: "bouton_deconnexion",
+    titre_historique: "titre_historique"
   };
 
   for (const key in ids) {
     const el = document.getElementById(ids[key]);
     if (el) el.innerHTML = t[key];
   }
+
+  updatePageTitle(t);
 }
 
 window.setLanguage = setLanguage;
@@ -147,3 +166,22 @@ window.setLanguage = setLanguage;
 window.addEventListener('DOMContentLoaded', () => {
   setLanguage(window.currentLang);
 });
+
+// AJOUT : fonction utilitaire pour mettre à jour le titre selon la page courante
+function updatePageTitle(t) {
+  const page = window.location.pathname.split('/').pop();
+  const map = {
+    'settings_page.html': 'title_settings',
+    'statistic_page.html': 'title_statistic',
+    'history_page.html': 'title_history',
+    'index.html': 'title_home',
+    'run_page.html': 'title_run',
+    'shots_page.html': 'title_shots',
+    'mark_page.html': 'title_mark',
+    'auth.html': 'title_auth'
+  };
+  const key = map[page];
+  if (key && t[key]) {
+    document.title = `${t[key]} - LaserTrack`;
+  }
+}
