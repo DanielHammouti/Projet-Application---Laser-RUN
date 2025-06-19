@@ -8,6 +8,11 @@ let charts = {
     'shots': null
 };
 
+// Fonction utilitaire de traduction
+function t(key) {
+    return window.getTranslation ? window.getTranslation(key) : key;
+}
+
 // Fonction pour récupérer les données depuis l'API
 async function fetchSessionsData() {
     try {
@@ -84,7 +89,7 @@ function createDistanceGraph(distance) {
         type: 'line',
         data: {
             datasets: [{
-                label: `Temps ${distance}m`,
+                label: `${t('time_distance_prefix')} ${distance}m`,
                 data: data,
                 borderColor: '#608969',
                 backgroundColor: 'rgba(96,137,105,0.08)',
@@ -103,14 +108,14 @@ function createDistanceGraph(distance) {
             responsive: true,
             plugins: {
                 legend: { display: false },
-                title: { display: true, text: `Évolution du temps sur ${distance}m` },
+                title: { display: true, text: `${t('evolution_time_title')} ${distance}m` },
                 tooltip: {
                     callbacks: {
                         label: function(context) {
                             const session = sessionsData[context.dataIndex];
-                            let label = `Temps: ${context.parsed.y}s`;
+                            let label = `${t('time_distance_prefix')}: ${context.parsed.y}s`;
                             if (session.meneur) {
-                                label += ' (avec meneur)';
+                                label += ` ${t('with_pacer')}`;
                             }
                             return label;
                         }
@@ -120,7 +125,7 @@ function createDistanceGraph(distance) {
             scales: {
                 x: {
                     type: 'linear',
-                    title: { display: true, text: 'Session' },
+                    title: { display: true, text: t('session') },
                     min: 1,
                     max: Math.max(2, sessionsData.length), // Au moins 2 pour avoir une échelle visible
                     ticks: {
@@ -128,13 +133,19 @@ function createDistanceGraph(distance) {
                     }
                 },
                 y: {
-                    title: { display: true, text: 'Temps (s)' },
+                    title: { display: true, text: t('time_axis') },
                     min: 0,
                     max: Math.max(60, Math.max(...data.map(d => d.y)) * 1.2) // Au moins 60 secondes ou 20% plus que le max
                 }
             }
         }
     });
+
+    // Mettre à jour le titre affiché au-dessus du graphique (élément .text)
+    const heading = ctx.canvas.parentElement.querySelector('.text');
+    if (heading) {
+        heading.textContent = `${t('evolution_time_title')} ${distance}m`;
+    }
 }
 
 function createShotsGraph() {
@@ -159,7 +170,7 @@ function createShotsGraph() {
         type: 'line',
         data: {
             datasets: [{
-                label: 'Tirs réussis',
+                label: t('tirs_reussis_graph'),
                 data: data,
                 borderColor: '#608969',
                 backgroundColor: 'rgba(96,137,105,0.08)',
@@ -174,11 +185,11 @@ function createShotsGraph() {
             responsive: true,
             plugins: {
                 legend: { display: false },
-                title: { display: true, text: 'Évolution des tirs réussis' },
+                title: { display: true, text: t('evolution_shots_title') },
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return `Tirs réussis: ${context.parsed.y}`;
+                            return `${t('tirs_reussis_graph')}: ${context.parsed.y}`;
                         }
                     }
                 }
@@ -186,7 +197,7 @@ function createShotsGraph() {
             scales: {
                 x: {
                     type: 'linear',
-                    title: { display: true, text: 'Session' },
+                    title: { display: true, text: t('session') },
                     min: 1,
                     max: Math.max(2, sessionsData.length), // Au moins 2 pour avoir une échelle visible
                     ticks: {
@@ -194,7 +205,7 @@ function createShotsGraph() {
                     }
                 },
                 y: {
-                    title: { display: true, text: 'Nombre de tirs réussis' },
+                    title: { display: true, text: t('shots_axis') },
                     min: 0,
                     max: Math.max(15, Math.max(...data.map(d => d.y)) * 1.2), // Au moins 15 ou 20% plus que le max
                     ticks: {
@@ -204,6 +215,12 @@ function createShotsGraph() {
             }
         }
     });
+
+    // Mettre à jour le titre affiché au-dessus du graphique des tirs
+    const heading = ctx.canvas.parentElement.querySelector('.text');
+    if (heading) {
+        heading.textContent = t('evolution_shots_title');
+    }
 }
 
 async function updateGraphs() {
@@ -325,7 +342,7 @@ function calculerTempsMoyen100m(tableau) {
       data: {
         labels: points.map(p => p.temps.toFixed(1)),
         datasets: [{
-          label: 'Vitesse moyenne (km/h)',
+          label: t('avg_speed_label'),
           data: points.map(p => p.vitesse),
           borderColor: '#608969',
           backgroundColor: 'rgba(96,137,105,0.08)',
@@ -339,15 +356,15 @@ function calculerTempsMoyen100m(tableau) {
         responsive: true,
         plugins: {
           legend: { display: false },
-          title: { display: true, text: 'Vitesse moyenne en fonction du temps (km/h)'}
+          title: { display: true, text: t('avg_speed_graph_title') }
         },
         scales: {
           x: {
-            title: { display: true, text: 'Temps cumulé (s)' },
+            title: { display: true, text: t('cumulative_time_axis') },
             min: 0
           },
           y: {
-            title: { display: true, text: 'Vitesse (km/h)' },
+            title: { display: true, text: t('speed_axis') },
             min: 0,
             max: 30
           }
@@ -355,3 +372,9 @@ function calculerTempsMoyen100m(tableau) {
       }
     });
   } 
+
+// Mettre à jour les graphiques lorsqu'on change de langue
+document.addEventListener('languageChanged', () => {
+    // Reconstruire les graphiques avec les nouveaux libellés
+    updateGraphs();
+}); 

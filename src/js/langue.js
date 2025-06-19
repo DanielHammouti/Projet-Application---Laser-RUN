@@ -50,7 +50,19 @@ const translations = {
     title_run: "Course",
     title_shots: "Tirs",
     title_mark: "Note",
-    title_auth: "Authentification"
+    title_auth: "Authentification",
+    // Clés pour les graphiques
+    evolution_time_title: "Évolution du temps",
+    time_distance_prefix: "Temps",
+    evolution_shots_title: "Évolution des tirs réussis",
+    time_axis: "Temps (s)",
+    shots_axis: "Nombre de tirs réussis",
+    avg_speed_label: "Vitesse moyenne (km/h)",
+    avg_speed_graph_title: "Vitesse moyenne en fonction du temps (km/h)",
+    speed_axis: "Vitesse (km/h)",
+    cumulative_time_axis: "Temps cumulé (s)",
+    tirs_reussis_graph: "Tirs réussis",
+    with_pacer: "(avec meneur)"
   },
   en: {
     titre_param: "Settings",
@@ -101,7 +113,19 @@ const translations = {
     title_run: "Run",
     title_shots: "Shots",
     title_mark: "Mark",
-    title_auth: "Authentication"
+    title_auth: "Authentication",
+    // Keys for charts
+    evolution_time_title: "Evolution of time",
+    time_distance_prefix: "Time",
+    evolution_shots_title: "Evolution of successful shots",
+    time_axis: "Time (s)",
+    shots_axis: "Number of successful shots",
+    avg_speed_label: "Average speed (km/h)",
+    avg_speed_graph_title: "Average speed over time (km/h)",
+    speed_axis: "Speed (km/h)",
+    cumulative_time_axis: "Cumulative time (s)",
+    tirs_reussis_graph: "Successful shots",
+    with_pacer: "(with pacer)"
   }
 };
 
@@ -158,6 +182,9 @@ function setLanguage(lang) {
   }
 
   updatePageTitle(t);
+
+  // Notifier les autres scripts du changement de langue
+  document.dispatchEvent(new Event('languageChanged'));
 }
 
 window.setLanguage = setLanguage;
