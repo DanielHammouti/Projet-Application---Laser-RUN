@@ -7,7 +7,7 @@
  */
 
 if (!function_exists('verifyApiKey')) {
-    function verifyApiKey(PDO $conn, ?string $expectedUserId = null): void
+    function verifyApiKey(PDO $conn, ?string $expectedUserId = null): bool
     {
         // Le cookie doit être présent
         if (!isset($_COOKIE['api_key']) || empty($_COOKIE['api_key'])) {
