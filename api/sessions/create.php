@@ -3,9 +3,11 @@
 include_once '../config/database.php';
 include_once '../objects/session.php';
 include_once '../objects/user.php';
+include_once '../middleware/auth.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Credentials: true");
 
 try {
     if(!$database->isAlreadyConnected()){
@@ -17,6 +19,9 @@ try {
     if(!isset($_GET['id_user']) || !isset($_GET['six']) || !isset($_GET['quatre']) || !isset($_GET['deux']) || !isset($_GET['nb_tirs']) || !isset($_GET['meneur'])){
         throw new Exception("L'identifiant de l'utilisateur est requis");
     }
+
+    // Vérifier la clé API et l'existence de l'utilisateur
+    verifyApiKey($database->conn, $_GET['id_user']);
 
     // Vérifier si l'utilisateur existe
     $user = new User($database->conn);
