@@ -151,7 +151,10 @@ function createSessionCard(session, sessionNumber) {
 // Fonction pour charger l'historique des sessions
 async function loadSessionsHistory() {
   try {
-    const response = await fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${currentUser.uid}`);
+    const response = await fetch(
+        `https://172.16.100.3/api/sessions/read.php?id_user=${currentUser.uid}`,
+        { credentials: 'include' }
+    );
     
     // Si la réponse est 404, cela signifie qu'il n'y a pas de sessions pour cet utilisateur
     if (response.status === 404) {
@@ -190,7 +193,10 @@ async function loadSessionsHistory() {
         // Calcul de la note avec la fonction getNote
         let noteObj;
         try {
-          const userResponse = await fetch(`https://172.16.100.3/api/users/read_single.php?id=${currentUser.uid}`);
+          const userResponse = await fetch(
+              `https://172.16.100.3/api/users/read_single.php?id=${currentUser.uid}`,
+              { credentials: 'include' }
+          );
           const userData = await userResponse.json();
           const sexe = userData.user[0].sexe || 'homme';
           

@@ -47,7 +47,7 @@ try{
         'api_key',
         $api_key,
         [
-            'expires'  => time() + 60 * 60 * 24 * 30,
+            'expires'  => time() + 60 * 60 * 24,
             'path'     => '/',
             'secure'   => true,
             'httponly' => true,

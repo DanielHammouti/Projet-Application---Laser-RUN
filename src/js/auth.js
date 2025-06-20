@@ -167,7 +167,8 @@ function createUserAPI(uid, nom, prenom, classe, sexe){
         type: "POST",
         url: url,
         dataType: "json",
-        credentials: "include",
+        xhrFields: { withCredentials: true },
+        crossDomain: true,
         data: {
             id: uid,
             nom: nom,

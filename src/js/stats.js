@@ -23,7 +23,10 @@ async function fetchSessionsData() {
         console.log("ID utilisateur:", currentUser.uid);
 
         // Appeler l'API pour récupérer les sessions
-        const response = await fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${currentUser.uid}`);
+        const response = await fetch(
+            `https://172.16.100.3/api/sessions/read.php?id_user=${currentUser.uid}`,
+            { credentials: 'include' }
+        );
         console.log("Status de la réponse:", response.status);
         
         if (!response.ok) {
