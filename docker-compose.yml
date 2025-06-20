@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: lasertrack_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: lasertrack
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  apache:
+    build: .
+    container_name: apache_debian
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./apache/conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./apache/conf/default-ssl.conf:/etc/apache2/sites-available/default-ssl.conf
+      - ./apache/certs:/etc/apache2/ssl
+      - ../Projet-Application---Laser-RUN/:/var/www/html/
+volumes:
+  postgres_data:
