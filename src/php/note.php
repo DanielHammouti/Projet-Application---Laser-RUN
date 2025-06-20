@@ -38,7 +38,9 @@
 
     <script >
             document.addEventListener("DOMContentLoaded", function () {
-                fetch("https://172.16.100.3/api/users/read.php")
+                fetch("https://172.16.100.3/api/users/read.php", {
+                    credentials: "include"
+                })
                     .then(response => response.json())
                     .then(data => {
                         window.utilisateurs = data.users; // Stocker tous les utilisateurs

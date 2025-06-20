@@ -35,7 +35,7 @@ try{
     
     if(!$verify){
         http_response_code(401);
-        echo json_encode(array("message" => "Clé API invalide"));
+        echo json_encode(array("message" => "invalid api key"));
         return;
     }
 

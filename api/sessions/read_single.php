@@ -24,12 +24,12 @@ try{
     if(isset($_GET['id_user'])){
         $verify = verifyApiKey($database->conn, $_GET['id_user']);
     } else {
-        $verify = verifyApiKey($database->conn, null);
+        throw new Exception("L'identifiant de l'utilisateur est requis");
     }
 
     if(!$verify){
         http_response_code(401);
-        echo json_encode(array("message" => "Clé API invalide"));
+        echo json_encode(array("message" => "invalid api key"));
         return;
     }
 
