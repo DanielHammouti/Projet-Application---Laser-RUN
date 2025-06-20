@@ -2,9 +2,11 @@
 
 include_once '../config/database.php';
 include_once '../objects/session.php';
+include_once '../verify_api_key.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Credentials: true");
 
 try{
     if(!$database->isAlreadyConnected()){
@@ -18,6 +20,18 @@ try{
 
     $session->setIdUser($_GET['id_user']);
     $session->setIdSession($_GET['id_session']);
+
+    if(isset($_GET['id_user'])){
+        $verify = verifyApiKey($database->conn, $_GET['id_user']);
+    } else {
+        $verify = verifyApiKey($database->conn, null);
+    }
+
+    if(!$verify){
+        http_response_code(401);
+        echo json_encode(array("message" => "Clé API invalide"));
+        return;
+    }
 
     $stmt = $session->read_single();
     $num = $stmt->rowCount();

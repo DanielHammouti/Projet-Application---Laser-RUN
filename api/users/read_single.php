@@ -2,9 +2,11 @@
 
 include_once '../config/database.php';
 include_once '../objects/user.php';
+include_once '../verify_api_key.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Credentials: true");
 
 
 try{
@@ -17,6 +19,18 @@ try{
         throw new Exception("L'identifiant de l'utilisateur est requis");
     }
     $user->setId($_GET['id']);
+
+    if(isset($_GET['id'])){
+        $verify = verifyApiKey($database->conn, $_GET['id']);
+    } else {
+        $verify = verifyApiKey($database->conn, null);
+    }
+
+    if(!$verify){
+        http_response_code(401);
+        echo json_encode(array("message" => "Clé API invalide"));
+        return;
+    }
 
     $stmt = $user->read_single();
     $num = $stmt->rowCount();

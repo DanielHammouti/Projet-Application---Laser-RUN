@@ -3,9 +3,16 @@
 include_once '../config/database.php';
 include_once '../objects/session.php';
 include_once '../objects/user.php';
+include_once '../verify_api_key.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 try{
     if(!$database->isAlreadyConnected()){
@@ -16,6 +23,19 @@ try{
 
     if(!isset($_GET['id_user'])){
         throw new Exception("L'identifiant de l'utilisateur est requis");
+    }
+
+    // Vérification de l'API key (doit correspondre à l'utilisateur demandé)
+    if(isset($_GET['id_user'])){
+        $verify = verifyApiKey($database->conn, $_GET['id_user']);
+    } else {
+        $verify = verifyApiKey($database->conn, null);
+    }
+
+    if(!$verify){
+        http_response_code(401);
+        echo json_encode(array("message" => "Clé API invalide"));
+        return;
     }
 
     $session->setIdUser($_GET['id_user']);

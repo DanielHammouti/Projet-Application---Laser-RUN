@@ -2,9 +2,16 @@
 
 include_once '../config/database.php';
 include_once '../objects/user.php';
+include_once '../verify_api_key.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 try {
     if(!$database->isAlreadyConnected()){
