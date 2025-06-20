@@ -164,6 +164,7 @@ function createUserAPI(uid, nom, prenom, classe, sexe){
         type: "POST",
         url: url,
         dataType: "json",
+        credentials: "include",
         data: {
             id: uid,
             nom: nom,

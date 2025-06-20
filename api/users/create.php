@@ -8,6 +8,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Credentials: true");
 
 // Gestion des requêtes OPTIONS (pre-flight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -39,6 +40,19 @@ try{
     $user->generateApiKey();
 
     if($user->create()){
+        // Stockage de la clé API dans un cookie sécurisé et HTTP-Only (expiration 30 jours)
+        setcookie(
+            'api_key',
+            $user->getApiKey(),
+            [
+                'expires'  => time() + 60 * 60 * 24, // 1 jour
+                'path'     => '/',
+                'secure'   => true,   // transmis uniquement via HTTPS
+                'httponly' => true,   // inaccessible via JavaScript
+                'samesite' => 'Lax'
+            ]
+        );
+
         http_response_code(201);
         echo json_encode(array(
             "message" => "Utilisateur créé avec succès",
