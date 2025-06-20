@@ -11,8 +11,6 @@ if (!function_exists('verifyApiKey')) {
     {
         // Le cookie doit être présent
         if (!isset($_COOKIE['api_key']) || empty($_COOKIE['api_key'])) {
-            http_response_code(401);
-            echo json_encode(["message" => "Clé API manquante"]);
             return false;
         }
 
@@ -26,14 +24,10 @@ if (!function_exists('verifyApiKey')) {
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(["message" => "Erreur serveur", "error" => $e->getMessage()]);
             return false;
         }
 
         if ($stmt->rowCount() === 0) {
-            http_response_code(401);
-            echo json_encode(["message" => "Clé API invalide"]);
             return false;
         }
 
@@ -43,8 +37,6 @@ if (!function_exists('verifyApiKey')) {
 
         // Si un id utilisateur spécifique est attendu, vérifier la correspondance
         if ($expectedUserId !== null && $userIdDb !== $expectedUserId) {
-            http_response_code(403);
-            echo json_encode(["message" => "La clé API ne correspond pas à l'utilisateur"]);
             return false;
         }
         // Succès : on ne retourne rien, le script peut continuer
