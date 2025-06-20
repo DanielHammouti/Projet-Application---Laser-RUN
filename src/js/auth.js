@@ -81,12 +81,15 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             console.log('Connexion réussie:', userCredential.user.email);
             setupLocalStorage(userCredential);
 
-            // Redirection spécifique
-            if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
-                window.location.href = '../php/note.php';
-            } else {
-                window.location.href = 'index.html';
-            }
+            // Récupération de la clé API et définition du cookie côté serveur
+            fetchApiKey(userCredential.user.uid).always(() => {
+                // Redirection spécifique une fois le cookie envoyé
+                if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
+                    window.location.href = '../php/note.php';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            });
 
         } catch (error) {
             console.error('Erreur de connexion:', error);
@@ -185,4 +188,22 @@ function setupLocalStorage(userCredential){
     localStorage.setItem('userId', userCredential.user.uid);
     localStorage.setItem('sixmeter', 0);
     localStorage.setItem('meneur', 'no');
+}
+
+// Appel API pour récupérer la clé API et la laisser être stockée en cookie (HttpOnly)
+function fetchApiKey(uid){
+    const url = 'https://172.16.100.3/api/users/api_key.php';
+    return $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "json",
+        xhrFields: { withCredentials: true }, // essentiel pour accepter le cookie
+        data: { id: uid },
+        success: function(response){
+            console.log('Clé API récupérée');
+        },
+        error: function(error){
+            console.error('Erreur lors de la récupération de la clé API:', error);
+        }
+    });
 }
