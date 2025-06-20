@@ -24,6 +24,6 @@ services:
       - ./apache/conf/000-default.conf:/etc/apache2/sites-available/000-default.conf
       - ./apache/conf/default-ssl.conf:/etc/apache2/sites-available/default-ssl.conf
       - ./apache/certs:/etc/apache2/ssl
-      - ../Projet-Application---Laser-RUN/:/var/www/html/
+      - ./Projet-Application---Laser-RUN/:/var/www/html/
 volumes:
   postgres_data:
