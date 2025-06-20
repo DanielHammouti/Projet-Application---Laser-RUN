@@ -2,11 +2,9 @@
 
 include_once '../config/database.php';
 include_once '../objects/session.php';
-include_once '../middleware/auth.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Credentials: true");
 
 try{
     if(!$database->isAlreadyConnected()){
@@ -17,9 +15,6 @@ try{
     if(!isset($_GET['id_user']) || !isset($_GET['id_session'])){
         throw new Exception("L'identifiant de l'utilisateur et de la session sont requis");
     }
-
-    // Vérification de la clé API
-    verifyApiKey($database->conn, $_GET['id_user']);
 
     $session->setIdUser($_GET['id_user']);
     $session->setIdSession($_GET['id_session']);
