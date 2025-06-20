@@ -11,6 +11,8 @@ class User{
     private $prenom;
     private $classe;
     private $sexe;
+    // Clé API unique attribuée à l'utilisateur lors de sa création
+    private $api_key;
 
     public function __construct($db){
         $this->conn = $db;
@@ -36,7 +38,8 @@ class User{
             return false;
         }
 
-        $sql = "INSERT INTO \"$this->table\" (id_user, nom, prenom, classe, sexe) VALUES (:id_user, :nom, :prenom, :classe, :sexe)";
+        // Insertion incluant la clé API
+        $sql = "INSERT INTO \"$this->table\" (id_user, nom, prenom, classe, sexe, api_key) VALUES (:id_user, :nom, :prenom, :classe, :sexe, :api_key)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':id_user', $this->id);
@@ -44,6 +47,7 @@ class User{
         $stmt->bindParam(':prenom', $this->prenom);
         $stmt->bindParam(':classe', $this->classe);
         $stmt->bindParam(':sexe', $this->sexe);
+        $stmt->bindParam(':api_key', $this->api_key);
 
         return $stmt->execute();
 
@@ -76,5 +80,16 @@ class User{
 
     function setSexe($sexe){
         $this->sexe = $sexe;
+    }
+
+    /*
+     * Génère une clé API aléatoire et l'assigne à l'utilisateur
+     */
+    function generateApiKey(){
+        $this->api_key = bin2hex(random_bytes(16)); // 32 caractères hexadécimaux
+    }
+
+    function getApiKey(){
+        return $this->api_key;
     }
 }

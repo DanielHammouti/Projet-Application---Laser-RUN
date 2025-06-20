@@ -35,9 +35,15 @@ try{
     $user->setClasse($data['classe']);
     $user->setSexe($data['sexe']);
 
+    // Génération d'une clé API unique pour l'utilisateur
+    $user->generateApiKey();
+
     if($user->create()){
         http_response_code(201);
-        echo json_encode(array("message" => "Utilisateur créé avec succès"));
+        echo json_encode(array(
+            "message" => "Utilisateur créé avec succès",
+            "api_key" => $user->getApiKey()
+        ));
     }else{
         http_response_code(503);
         echo json_encode(array("message" => "Erreur lors de la création de l'utilisateur"));
