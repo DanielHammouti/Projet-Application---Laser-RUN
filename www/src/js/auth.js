@@ -84,7 +84,7 @@ if (loginForm && registerForm && showRegisterLink && showLoginLink) {
             // Récupération de la clé API et définition du cookie côté serveur
             fetchApiKey(userCredential.user.uid).always(() => {
                 // Redirection spécifique une fois le cookie envoyé
-                if (userCredential.user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2") {
+                if (userCredential.user.uid === "L4iXbUG6eKPdn14mO8ObMqKM8jp1") {
                     window.location.href = '../php/note.php';
                 } else {
                     window.location.href = 'index.html';
