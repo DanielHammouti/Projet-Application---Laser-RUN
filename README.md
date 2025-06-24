@@ -11,6 +11,7 @@ L’application a pour objectif de suivre et d’analyser les performances d’e
 * Tableau de bord d’historique et de statistiques : temps moyens, pourcentages de réussite, notation sur 12, etc.
 * Page de paramètres (langue FR/EN, distance de course par défaut, meneur).
 * Multilingue (français / anglais) et interface responsive.
+* Interface Professeur - Visualisation des notes
 
 ## 🗺️ Architecture du dépôt
 
@@ -71,7 +72,6 @@ Cette commande :
 
 ### 5. Accéder à l’application
 
-* Front-end & API :  <http://localhost>  (HTTP)
 * Front-end & API :  <https://localhost> (HTTPS, certificat auto-signé ➜ acceptez l’exception de sécurité)
 
 ### 6. Gestion des conteneurs
