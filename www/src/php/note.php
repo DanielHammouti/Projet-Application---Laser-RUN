@@ -43,7 +43,7 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        window.utilisateurs = data.users; // Stocker tous les utilisateurs
+                        window.utilisateurs = data.users.filter(user => user.id !== "L4iXbUG6eKPdn14mO8ObMqKM8jp1"); // Stocker tous les utilisateurs
                         afficherUtilisateurs("all"); // Afficher tous les élèves par défaut
                     });
 
