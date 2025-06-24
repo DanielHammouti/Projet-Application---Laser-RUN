@@ -32,5 +32,6 @@ INSERT INTO "User" (id_user, nom, prenom, classe, sexe, api_key) VALUES
 
 -- Insertion des sessions pour Julien Martageix
 INSERT INTO "Session" (six, quatre, deux, nb_tirs, meneur, dateheure, id_user) VALUES
-(120, 80, 30, 13, false, '2025-06-08 15:30:00', 'kk2qenwE1EaMmV85Y0ItqcE4I3r1');
+(180, 120, 60, 15, true,  '2025-06-01 10:00:00', 'kk2qenwE1EaMmV85Y0ItqcE4I3r1'),
+(120, 80, 30, 13, false, '2025-06-08 15:30:00', 'kk2qenwE1EaMmV85Y0ItqcE4I3r1'),
 (150, 100, 50, 7, true,  '2025-06-15 09:45:00', 'kk2qenwE1EaMmV85Y0ItqcE4I3r1');
