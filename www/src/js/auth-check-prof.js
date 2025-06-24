@@ -3,7 +3,7 @@ firebase.auth().onAuthStateChanged((user) => {
     const isNotePage = window.location.pathname.includes('note.php');
 
     if (user) {
-        if (user.uid === "IZKsWOMvDtZcCpL0rYgHSxnL7oc2" && !isNotePage) {
+        if (user.uid === "L4iXbUG6eKPdn14mO8ObMqKM8jp1" && !isNotePage) {
             // 🔹 Redirige UNIQUEMENT si on n'est PAS déjà sur note.php
             window.location.href = '../php/note.php';
         } 
