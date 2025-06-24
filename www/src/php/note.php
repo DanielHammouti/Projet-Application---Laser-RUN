@@ -81,7 +81,7 @@
                         fetch(`https://172.16.100.3/api/sessions/read.php?id_user=${user.id}`)
                             .then(response => response.json())
                             .then(sessionData => {
-                                if (sessionData.sessions.length > 0) {
+                                if (sessionData.sessions.length > 0 && user.id !== "L4iXbUG6eKPdn14mO8ObMqKM8jp1") {
                                     let session = sessionData.sessions[0]; // Prendre la première session trouvée
                                     let tempsTotal = (session.six ?? 0) + (session.quatre ?? 0) + (session.deux ?? 0);
                                     let noteInfo = getBestNote(user.sexe, tempsTotal, session.nb_tirs); // Calculer la note
