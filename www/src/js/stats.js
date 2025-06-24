@@ -13,6 +13,8 @@ function t(key) {
     return window.getTranslation ? window.getTranslation(key) : key;
 }
 
+let currentUser = null;
+
 // Fonction pour récupérer les données depuis l'API
 async function fetchSessionsData() {
     try {
