@@ -20,7 +20,7 @@ async function fetchSessionsData() {
     try {
         // Récupérer l'ID de l'utilisateur depuis Firebase
         if (!currentUser) {
-            throw new Error("Utilisateur non connecté");
+            return;
         }
         console.log("ID utilisateur:", currentUser.uid);
 
