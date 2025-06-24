@@ -9,141 +9,88 @@ L’application a pour objectif de suivre et d’analyser les performances d’e
 * Chronomètre & timers pour les distances 200 m / 400 m / 600 m.
 * Sauvegarde automatique des sessions : temps au tour, nombre de tirs réussis, présence d’un meneur d’allure, date/heure, …
 * Tableau de bord d’historique et de statistiques : temps moyens, pourcentages de réussite, notation sur 12, etc.
-* Page de paramètres (langue FR/EN, distance de course par défaut, meneur ✔/✘).
+* Page de paramètres (langue FR/EN, distance de course par défaut, meneur).
 * Multilingue (français / anglais) et interface responsive.
 
 ## 🗺️ Architecture du dépôt
 
 ```
-├── api/                 # Backend PHP (REST)
-│   ├── config/          # Connexion BD, variables d’environnement
-│   ├── objects/         # Modèles métier (User, Session…)
-│   └── sessions/ users/ # End-points REST CRUD
-├── src/
-│   ├── html/            # Pages HTML (index, settings, history…)
-│   ├── js/              # Scripts front-end (auth, timers, settings…)
-│   ├── css/             # Feuilles de style
-│   └── img/             # Ressources graphiques
-├── vendor/              # Dépendances PHP installées par Composer
-├── .env                 # Exemple de configuration (à copier en .env)
+├── apache/              # Configuration Apache & certificats SSL
+│   ├── conf/            # VirtualHosts HTTP/HTTPS
+│   └── certs/           # Certificats auto-signés (développement)
+├── www/                 # Racine exposée par Apache (front + back)
+│   ├── api/             # Backend PHP (REST)
+│   └── src/             # Front-end (HTML, CSS, JS, images…)
+├── docker-compose.yml   # Orchestration Postgres + Apache/PHP
+├── Dockerfile           # Image Apache + PHP + Composer
 └── README.md            # Vous êtes ici
 ```
 
 ## 🛠️ Technologies utilisées
 
 * **Front-end** : HTML5, CSS3, JavaScript (ES6), jQuery
-* **Back-end** : PHP 8.x, **PostgreSQL**, Composer, Dotenv
+* **Back-end** : PHP 8.x, **PostgreSQL** 16, Composer, Dotenv
+* **Conteneurisation** : Docker, Docker Compose, Apache 2.4 sous Debian
 * **Services** : Firebase Authentication
 
-## 🚀 Mise en route
+## 🚀 Mise en route avec Docker
 
 ### 1. Prérequis
 
-* PHP ≥ 8 avec l’extension `pdo_pgsql`
-* PostgreSQL ≥ 12
-* Node.js (facultatif, seulement pour servir le front plus simplement)
-* Composer
+* Docker ≥ 20.10 et l’extension **Docker Compose** (commande `docker compose`).
 
-### 2. Clonage
+### 2. Clonage du dépôt
 
 ```bash
 git clone https://github.com/DanielHammouti/Projet-Application---Laser-RUN.git
-cd laser-run
+cd Projet-Application---Laser-RUN
 ```
 
-### 3. Configuration de la base PostgreSQL
+### 3. Configuration facultative
 
-```sql
--- Exemple minimal (à adapter)
-CREATE TABLE "User" (
-  id_user   VARCHAR(64) PRIMARY KEY,
-  nom       TEXT NOT NULL,
-  prenom    TEXT NOT NULL,
-  classe    TEXT,
-  sexe      TEXT
-);
-
-CREATE TABLE "Session" (
-  id_session SERIAL PRIMARY KEY,
-  dateheure  TIMESTAMP NOT NULL,
-  id_user    VARCHAR(64) REFERENCES "User"(id_user) ON DELETE CASCADE,
-  six        INTEGER,
-  quatre     INTEGER,
-  deux       INTEGER,
-  nb_tirs    INTEGER,
-  meneur     BOOLEAN
-);
-```
-
-### 4. Variables d’environnement
-
-Copiez le modèle et renseignez vos valeurs :
+Un fichier `.env` d’exemple est fourni si vous souhaitez surcharger la configuration par défaut (identifiants PostgreSQL, clés Firebase, etc.) :
 
 ```bash
-nano .env
+cp .env.example .env    # puis éditez à votre convenance
 ```
 
-Contenu minimal :
+Les variables déclarées dans ce fichier sont automatiquement prises en compte par le conteneur Apache/PHP via **php-dotenv**.
 
-```ini
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=laser_run
-DB_USER=postgres
-DB_PASS=motdepasse
-```
-
-### 5. Installation des dépendances PHP
+### 4. Lancement des services
 
 ```bash
-composer install
+docker compose up --build -d
 ```
 
-### 6. Lancement du front-end
+Cette commande :
 
-Méthode simple (Node requis) :
+1. construit l’image `apache_debian` (Apache 2.4 + PHP + Composer),
+2. démarre les conteneurs :
+   * `lasertrack_postgres` (PostgreSQL 16, port 5432),
+   * `apache_debian` (Apache + PHP, ports 80/443).
+
+### 5. Accéder à l’application
+
+* Front-end & API :  <http://localhost>  (HTTP)
+* Front-end & API :  <https://localhost> (HTTPS, certificat auto-signé ➜ acceptez l’exception de sécurité)
+
+### 6. Gestion des conteneurs
+
 ```bash
-systemctl start apache2
+# Arrêter et supprimer les conteneurs
+docker compose down
+
+# Consulter les logs en direct
+docker compose logs -f apache
 ```
 
-Ouvrez directement `https://172.16.100.3` dans votre navigateur (certaines fonctionnalités CORS ou requêtes fetch peuvent alors être limitées).
+---
 
-### 7. Configuration des serveurs de développement
-
-```bash
-cp /etc/apache2/sites-available/default--ssl.conf /etc/apache2/site-available/dev1.conf
-```
-
-Changer le port d'écoute
-```bash
-nano etc/apache2/site-available/dev1.conf
-```
-
-Changer le port dans le virtual host
-```bash
-<VirtualHost *:8081>
-```
-
-Changer le répertoire source
-```bash
-DocumentRoot /var/www/html/dev1.conf
-```
-
-Activer le site web
-```bash
-a2ensite dev1.conf
-```
-
-Relancer le serveur Apache
-```bash
-systemctl restart apache2
-```
-
-Ouvrez directement `https://172.16.100.3:8081` dans votre navigateur
+> **Astuce :** Les fichiers des dossiers `apache/` et `www/` sont montés dans les conteneurs en mode _bind-mount_. Toute modification locale est donc immédiatement reflétée sans reconstruction d’image.
 
 ## 📄 Licence
 
-Projet réalisé à des fins pédagogiques – licence libre au choix de l’équipe (ex. MIT). N’hésitez pas à adapter ce fichier selon vos besoins.
+Projet réalisé à des fins pédagogiques – Ce projet est sous la licence [MIT Licence](LICENCE.TXT)
 
 ---
 
