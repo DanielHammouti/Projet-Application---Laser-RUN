@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoHkM0DkA6U6O2y9E+IoVx1l5KkN4B+0I4MaV8KmV6E5bgc"
             crossorigin="anonymous"></script>
+    <script src="../js/verify_user.js"></script>
 </head>
 <body>
     <h1>Liste des utilisateurs</h1>
@@ -38,12 +39,6 @@
 
     <script >
             document.addEventListener("DOMContentLoaded", function () {
-
-                let verifauthuser = localStorage.getItem("userId");
-
-                if (verifauthuser !== "L4iXbUG6eKPdn14mO8ObMqKM8jp1") {
-                    window.location.href = "https://172.16.100.3/src/html/index.html";
-                }
 
                 fetch("https://172.16.100.3/api/users/read.php", {
                     credentials: "include"
