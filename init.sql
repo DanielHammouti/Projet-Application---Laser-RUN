@@ -23,3 +23,14 @@ CREATE TABLE IF NOT EXISTS "Session" (
     dateheure TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_user VARCHAR(50) REFERENCES "User"(id_user)
 );
+
+-- Insertion des utilisateurs
+INSERT INTO "User" (id_user, nom, prenom, classe, sexe, api_key) VALUES
+('L4iXbUG6eKPdn14mO8ObMqKM8jp1', 'VAUKAN', 'Sylvain', 'Administrateur', 'Non spécifié', 'e263986828ae1868396da6ab8a556625'),
+('kk2qenwE1EaMmV85Y0ItqcE4I3r1', 'STADLER', 'Valentin', 'STI', 'Homme', 'cd5f9c4fcbcd0d531c0a6a3be2328173');
+
+
+-- Insertion des sessions pour Julien Martageix
+INSERT INTO "Session" (six, quatre, deux, nb_tirs, meneur, dateheure, id_user) VALUES
+(120, 80, 30, 13, false, '2025-06-08 15:30:00', 'kk2qenwE1EaMmV85Y0ItqcE4I3r1');
+(150, 100, 50, 7, true,  '2025-06-15 09:45:00', 'kk2qenwE1EaMmV85Y0ItqcE4I3r1');
